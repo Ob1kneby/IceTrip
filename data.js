@@ -1,533 +1,816 @@
-// Iceland Ring Road 2026 — Full Trip Data
-// Excursions kept: Glacier Xtreme, Katla cave, Canyoning, Whale watching, Earth Lagoon, Þórsmörk bus
-// Removed: Sky Lagoon, Jökulsárlón kayak
-// Puffins added: Dyrhólaey (Day 4), Borgarfjörður Eystri (Day 9), Ingólfshöfði (Day 8)
-// F-road opening data from vegagerdin.is official historical records
+// Iceland Ring Road 2026 — Complete Trip Data
 
 const FROAD_DATA = {
   F206_Laki: {
-    name: "F206 — Lakagígar (Laki Craters)",
-    liveUrl: "https://umferdin.is/en/road/91381",
-    historical: { 2021:"25 Jun", 2022:"1 Jul", 2023:"12 Jun", 2024:"18 Jun", 2025:"12 Jun" },
-    earliest: "12 June", latest: "1 July", average: "20 June",
-    risk: "medium", // opens Jun 30 some years, Jul 1 others — tight for Jul 4
-    tripDay: 5, tripDate: "Jul 4",
-    note: "Average opening is Jun 20 — likely open for your Jul 4 date but always verify at umferdin.is/en/road/91381 morning of departure. In 2022 it didn't open until July 1 so it's not guaranteed."
+    name:"F206 — Lakagígar (Laki Craters)",
+    liveUrl:"https://umferdin.is/en/road/91381",
+    historical:{2021:"25 Jun",2022:"1 Jul",2023:"12 Jun",2024:"18 Jun",2025:"12 Jun"},
+    earliest:"12 June", latest:"1 July", average:"20 June",
+    risk:"medium", tripDay:5, tripDate:"Jul 4",
+    note:"Average opening Jun 20 — likely open for Jul 4 but not guaranteed. In 2022 it didn't open until July 1. Verify at umferdin.is/en/road/91381 the morning you plan to enter. If closed, proceed directly to Skaftafell — Day 6 is unaffected."
   },
   F208_Landmannalaugar: {
-    name: "F208 north — Sigalda to Landmannalaugar",
-    liveUrl: "https://umferdin.is/en",
-    historical: { 2021:"12 Jun", 2022:"23 Jun", 2023:"1 Jun", 2024:"12 Jun", 2025:"23 May" },
-    earliest: "23 May", latest: "23 June", average: "2 June",
-    risk: "low", // reliably open well before Jul 1
-    tripDay: 2, tripDate: "Jul 1",
-    note: "Average opening Jun 2 — almost certainly open for your Jul 1 visit. Lowest risk F-road on the trip."
+    name:"F208 north — Sigalda to Landmannalaugar",
+    liveUrl:"https://umferdin.is/en",
+    historical:{2021:"12 Jun",2022:"23 Jun",2023:"1 Jun",2024:"12 Jun",2025:"23 May"},
+    earliest:"23 May", latest:"23 June", average:"2 June",
+    risk:"low", tripDay:2, tripDate:"Jul 1",
+    note:"Average opening June 2. Almost certainly open for Jul 1. Lowest risk F-road on the trip. No river crossings on the northern approach from Hrauneyjar."
   },
   F88_Askja: {
-    name: "F88 — Öskjuvegur (Askja / Dreki)",
-    liveUrl: "https://umferdin.is/en",
-    historical: { note: "No official table entry — typically opens late June to early July" },
-    earliest: "late June", latest: "early July", average: "late June",
-    risk: "low",
-    tripDay: 11, tripDate: "Jul 10",
-    note: "F88 opens late June on average. By Jul 10 it has been open for ~2 weeks in most years. Still check safetravel.is and road.is morning of departure for river crossing conditions."
+    name:"F88 — Öskjuvegur (Askja / Dreki hut)",
+    liveUrl:"https://umferdin.is/en",
+    historical:{note:"Not in official IRCA table — typically opens late June to early July."},
+    earliest:"late June", latest:"early July", average:"late June",
+    risk:"low", tripDay:11, tripDate:"Jul 10",
+    note:"F88 typically opens late June. By Jul 10 it has been open roughly 2 weeks in most years. Still check road.is and register at safetravel.is the morning of departure."
   }
 };
 
 const TRIP_DATA = {
   days: [
     {
-      num:1, date:"Jun 30", title:"Arrive Reykjavík",
+      num:1, date:"Jun 30", dow:"Monday", title:"Arrive Reykjavík",
       sleep:"hostel", accommodation:"Loft HI Hostel, Reykjavík",
       tags:["hostel"], lat:64.1466, lng:-21.9426,
-      summary:"Land 10:30am KEF. Pick up truck. Big Bónus shop. Explore city. Hot dogs at Bæjarins Beztu.",
+      summary:"Land 10:30am KEF. Collect truck — confirm F-road insurance in writing. Big Bónus shop. Explore Reykjavík on foot. Hot dogs at Bæjarins Beztu. Perlan rooftop at sunset.",
+      distance:"60km", drive:"45 min KEF to Reykjavík",
       schedule:[
-        {time:"10:30am", desc:"Land at KEF", note:"Allow 30 min baggage + customs"},
-        {time:"11:15am", desc:"Pick up 4x4 truck", note:"Confirm F-road insurance in writing before driving off"},
-        {time:"12:00pm", desc:"Bónus supermarket — BIG shop", note:"Stock 3–4 days on road. ~$55 for 2 people. Grab camp gas canisters."},
-        {time:"1:30pm", desc:"Check in Loft HI Hostel, Bankastrǣti 7"},
-        {time:"2:30pm", desc:"Hallgrímskirkja tower", note:"~$11pp. Best city panorama."},
-        {time:"3:30pm", desc:"Sun Voyager + Harpa waterfront walk", note:"Free. 20 min."},
-        {time:"5:00pm", desc:"Bæjarins Beztu Pylsur hot dogs", note:"Order 'eina með öllu'. ~$4 each."},
-        {time:"7:00pm", desc:"Perlan free rooftop deck + city walk", note:"Free. Panoramic 360° views of Reykjavík. No lagoon today — jet lag day."},
+        {time:"10:30am", desc:"Land at Keflavík International Airport (KEF)", note:"Allow 30–40 min for baggage and customs. Passport control can queue long in summer."},
+        {time:"11:15am", desc:"Pick up 4x4 truck at rental company", note:"CRITICAL: Read the full contract. Confirm in writing that F88, F206, and F207 are covered by your F-road insurance package. Check the spare tyre is full-size, not a space-saver. Practice opening and closing the rooftop tent before leaving the lot. Note any existing damage on the damage form."},
+        {time:"12:00pm", desc:"Drive to Reykjavík. Stop at Bónus for the main trip grocery shop.", note:"Bónus at Laugavegar 59 is most central. Buy: oats, eggs, pasta, rice, bread, hard cheese, cured meats, peanut butter, nuts, dried fruit, Skyr (Iceland's protein yoghurt), instant coffee, tea, cooking oil, salt and pepper. Budget $55–65 for 2 people covering 3–4 days. Also buy camp gas canisters here — you cannot fly with these and they're cheapest at Bónus."},
+        {time:"1:30pm", desc:"Check in to Loft HI Hostel, Bankastræti 7", note:"Drop bags. Kitchen available for cooking. Everything in Reykjavík is walkable from here."},
+        {time:"2:30pm", desc:"Hallgrímskirkja church — climb the tower (~$11pp)", note:"The tower panorama is the best overview of Reykjavík. The building's basalt column architecture was directly inspired by Svartifoss waterfall (which you'll see Day 6). Notice the Leif Erikson statue outside."},
+        {time:"3:30pm", desc:"Sun Voyager → Harpa concert hall waterfront walk", note:"Free. 25 min easy coastal walk. Harpa's reflective facade was designed by Olafur Eliasson and Henning Larsen — walk inside if open. Sun Voyager is Iceland's most photographed sculpture."},
+        {time:"5:00pm", desc:"Bæjarins Beztu Pylsur — the most famous hot dog stand in Iceland", note:"Tryggvagata 1, near the harbour. Order 'eina með öllu' — one with everything: ketchup, sweet mustard, remoulade, raw and crispy fried onions. ~$4. Bill Clinton ate here in 2004. The queue moves fast."},
+        {time:"6:30pm", desc:"Laugavegur street stroll + any last-minute shopping", note:"Kronán on Laugavegur is open late if you missed anything at Bónus."},
+        {time:"8:00pm", desc:"Perlan rooftop viewing deck — free panoramic city views", note:"Free entry to rooftop (the museum inside charges). 360° views over Reykjavík and the ocean. 2km south of centre — drive or take bus 18. Perfect for midnight sun watching."},
+        {time:"10:00pm", desc:"Pack tomorrow's kit in truck cab. Alarm at 7:00am.", note:"Waterproofs, water bottles, snacks, and maps in the cab — not the truck bed. Day 2 is a long one."},
       ],
       hikes:[], excursions:[],
-      tips:["Iceland tap water is safe and delicious. Never buy bottled water — enormous waste of money.", "Midnight sun starts here on Day 1. Bring a sleep mask or blackout liner for the RTT."],
+      tips:[
+        "Iceland tap water is safe, cold, and excellent everywhere. Never buy bottled water — it's wasteful and unnecessary on this trip.",
+        "Midnight sun: the sun barely dips below the horizon in late June. Bring a sleep mask or the RTT blackout liner for tonight — you'll need it.",
+        "Orkan petrol stations are the cheapest in Iceland (about 5% less than N1 and Shell). Download the Orkan app for a further 3–5% discount per litre on top.",
+        "Pay by contactless card everywhere — Iceland is essentially cashless and ATM withdrawal fees add up unnecessarily. Contactless works even at remote campsite payment machines.",
+        "Laugavegur: walk the full length (about 1.5km) to get your bearings before leaving the city for two weeks."
+      ],
       warnings:[],
-      costs:{ accommodation:45, food:36, activities:11 }
+      costs:{accommodation:45, food:65, activities:11}
     },
     {
-      num:2, date:"Jul 1", title:"Háifoss + Landmannalaugar Rainbow Mountains",
-      sleep:"camp", accommodation:"Landmannalaugar campsite",
+      num:2, date:"Jul 1", dow:"Tuesday", title:"Háifoss Gorge + Landmannalaugar Rainbow Mountains",
+      sleep:"camp", accommodation:"Landmannalaugar campsite (fi.is — NOT on Camping Card)",
       tags:["camp","hike","froad"], lat:63.9906, lng:-19.0607,
-      summary:"Route 332 to Háifoss gorge. F208 north (no river crossings) to Landmannalaugar rainbow rhyolite mountains.",
-      froad:{ id:"F208_Landmannalaugar", risk:"low", note:"Average opening Jun 2 — almost certainly open. Verify at road.is." },
+      froad:{id:"F208_Landmannalaugar", risk:"low", note:"Average opening Jun 2. Almost certainly open. No river crossings on F208 north route."},
+      summary:"Route 332 to Háifoss canyon descent (122m waterfall, Stranger Things location). F208 north (zero river crossings) to Landmannalaugar. Three hikes in the rainbow rhyolite mountains. Natural hot spring soak under midnight sun.",
+      distance:"~280km total", drive:"~4.5 hrs total driving",
       schedule:[
-        {time:"7:30am", desc:"Depart Reykjavík on Ring Road east"},
-        {time:"9:00am", desc:"Route 32 → 327/332 to Háifoss", note:"Rough gravel. High clearance essential. Drive slowly."},
-        {time:"9:30am", desc:"Háifoss waterfall — rim viewpoint + gorge descent hike", note:"2 hrs total. Parking via Parka.is ~$8."},
-        {time:"12:00pm", desc:"Drive south, rejoin Ring Road, east to Hrauneyjar"},
-        {time:"2:30pm", desc:"Arrive Landmannalaugar via F208 north", note:"PRE-BOOK parking if arriving 9am–4pm at fi.is. Zero river crossings on this route."},
+        {time:"7:30am", desc:"Depart Reykjavík heading east on Ring Road (Route 1)"},
+        {time:"8:30am", desc:"Turn north on Route 32 at Þjórsárdalur, then Route 327 and 332 to Háifoss", note:"The final km on Road 332 are rough gravel — high clearance essential, drive slowly. Sharp rocks can puncture tyres. GPS sometimes routes via impassable track; use Route 332 from Gjáin farm direction."},
+        {time:"9:00am", desc:"Háifoss — rim viewpoint (15 min, free)", note:"Both Háifoss (122m) and Granni waterfall visible side-by-side from the canyon rim. The scale is staggering — the canyon drops over 100m straight down. Parking ~$8 via Parka.is."},
+        {time:"9:30am", desc:"Háifoss gorge descent hike (see trails below)", note:"Allow 1.5–2 hrs. Start heading left (north) along the rim then scramble into the canyon. Waterproof jacket essential — you'll be soaked at the base."},
+        {time:"11:30am", desc:"Drive back to Ring Road, then east toward Hrauneyjar (Route 26)", note:"F208 north entrance is clearly signed off Route 26 just east of Hrauneyjar Power Station."},
+        {time:"2:00pm", desc:"Enter F208 north — drive to Landmannalaugar (~45 min on F-road)", note:"CONFIRM parking reservation before arrival if arriving 9am–4pm (2026 rule). Book at fi.is/en/mountain-huts."},
+        {time:"2:30pm", desc:"Arrive Landmannalaugar. Pay and set up camp first — pitches fill up.", note:"~3,200 ISK pp (~$25pp). NOT on the Camping Card."},
         {time:"3:00pm", desc:"Brennisteinsalda rainbow volcano loop hike"},
-        {time:"5:00pm", desc:"Bláhnúkur Blue Peak hike — best summit panorama"},
-        {time:"7:30pm", desc:"Free hot spring soak at the hut"},
-        {time:"9:00pm", desc:"Camp Landmannalaugar — ~$25pp, NOT on Camping Card"},
+        {time:"5:00pm", desc:"Bláhnúkur Blue Peak summit hike — best summit view in Landmannalaugar"},
+        {time:"7:30pm", desc:"Free hot spring soak in the geothermal pool by the hut", note:"~38–40°C. Free with campsite. Change in the hut changing rooms."},
+        {time:"9:00pm", desc:"Cook dinner. Download tomorrow's maps — minimal signal here.", note:"The hut café sells overpriced food. Cook your own."},
       ],
       hikes:[
-        {name:"Háifoss Gorge Descent", distance:"4km RT", difficulty:"Moderate", gain:"300m", time:"1.5–2 hrs", desc:"Scramble into the canyon to the base of Iceland's 4th-highest waterfall (122m). Stand in the mist. Stranger Things S8 filming location. Virtually nobody does this trail — bring waterproofs."},
-        {name:"Brennisteinsalda Loop", distance:"4km", difficulty:"Moderate", gain:"200m", time:"90 min", desc:"Circuit around a steam-venting rainbow volcano. Red, green, yellow, white mineral layers. Steam vents hiss from the ground beside the path."},
-        {name:"Bláhnúkur Blue Peak", distance:"6km RT", difficulty:"Moderate–Challenging", gain:"350m", time:"2.5 hrs", desc:"Best single viewpoint in Landmannalaugar. The entire valley of rhyolite mountains in every direction. Push through the final steep section — the summit is worth every step."},
+        {
+          name:"Háifoss Gorge Descent",
+          distance:"4km RT", difficulty:"Moderate", gain:"–300m into canyon", time:"1.5–2 hrs",
+          desc:"The gorge descent is Háifoss's best-kept secret. From the rim viewpoint, follow the canyon edge north until the unmarked scramble path into the gorge appears. The descent via steep grass and scree leads to the stream bed and then to the base of both Háifoss (122m, Iceland's 4th highest) and Granni (90m) waterfalls flowing side-by-side into the same pool. The scale at the base is breathtaking and the mist soaks everything — bring waterproofs. Almost no tourists make this descent. Stranger Things Season 8 finale was filmed on the rim above."
+        },
+        {
+          name:"Brennisteinsalda Loop",
+          distance:"4km", difficulty:"Moderate", gain:"200m", time:"90 min",
+          desc:"Circuit around the extraordinary Brennisteinsalda volcano ('the sulphur wave'). The mountain's flanks are banded in red, green, yellow, blue, and white from different volcanic minerals and rhyolite. Steam vents hiss from fumaroles alongside the trail. The summit gives sweeping views into the Landmannalaugar valley and across the vast lava field. The trail is marked but terrain is rough in places — poles useful."
+        },
+        {
+          name:"Bláhnúkur Blue Peak",
+          distance:"6km RT", difficulty:"Moderate–Challenging", gain:"350m", time:"2.5 hrs",
+          desc:"Bláhnúkur ('Blue Peak') is Landmannalaugar's finest viewpoint. The summit at 943m sits above a valley ringed by rainbow rhyolite. In every direction: red volcanoes, green obsidian lava, white snow patches, and the blue of distant glaciers. The upper section is steep and loose — go slowly. Best in the evening when light turns golden and the crowds thin. One of Iceland's truly great hikes."
+        },
       ],
       excursions:[],
-      tips:["2026: Landmannalaugar parking requires online reservation if arriving 9am–4pm. Book at fi.is before departure.", "The hot spring soak at the hut is free with your campsite — small, low-key, and completely magical under midnight sun."],
-      warnings:["Use F208 NORTH from Hrauneyjar. Do NOT use F225 southern approach — river crossings that void rental insurance."],
-      costs:{ accommodation:25, food:22, parking:10 }
+      tips:[
+        "2026: Landmannalaugar parking reservation required if arriving 9am–4pm. Book at fi.is/en/mountain-huts before you leave home.",
+        "The natural hot spring soak is one of Iceland's great pleasures. Temperature ~38–40°C. After the two summit hikes your legs will thank you.",
+        "Weather changes rapidly in the highlands. Bring all layers even if it looks clear leaving Reykjavík.",
+        "Download Gaia GPS trail for Bláhnúkur before leaving Reykjavík — signal is minimal at Landmannalaugar."
+      ],
+      warnings:[
+        "Use F208 NORTH from Hrauneyjar only. Do NOT take the F225 southern approach — river crossings void rental insurance.",
+        "Road 332 to Háifoss has sharp rocks — drive slowly. Confirm full-size spare tyre with rental company."
+      ],
+      costs:{accommodation:25, food:22, parking:10}
     },
     {
-      num:3, date:"Jul 2", title:"Skógafoss Trail + Þórsmörk + Þakgil Camp",
-      sleep:"camp", accommodation:"Þakgil Canyon Campsite",
+      num:3, date:"Jul 2", dow:"Wednesday", title:"Skógafoss + Þórsmörk Bus + Þakgil Canyon Camp",
+      sleep:"camp", accommodation:"Þakgil Canyon Campsite (+354 893 4889)",
       tags:["camp","hike","excursion"], lat:63.5309, lng:-18.8887,
-      summary:"Skógafoss river trail upstream past 10+ waterfalls. Sterna bus into Þórsmörk valley. Stakkholtsgjá cave canyon. Camp inside Þakgil canyon.",
+      summary:"Exit Landmannalaugar. Skógafoss 370-step staircase and upstream waterfall river trail. Sterna bus into Þórsmörk for Stakkholtsgjá cave canyon and Valahnúkur glacier panorama. Camp inside Þakgil canyon.",
+      distance:"~130km driving + bus",
       schedule:[
-        {time:"7:00am", desc:"Exit Landmannalaugar via F208 south"},
-        {time:"9:00am", desc:"Skógafoss waterfall — river trail hike upstream", note:"Parking ~$8 via Parka.is"},
-        {time:"11:30am", desc:"Drive to Hvolsvöllur. Board Sterna bus to Þórsmörk", note:"PRE-BOOK sterna.is, ~$44pp return. Leave truck at Midgard."},
-        {time:"1:30pm", desc:"Þórsmörk — Stakkholtsgjá cave canyon hike"},
-        {time:"3:30pm", desc:"Valahnúkur summit loop — glacier panorama"},
-        {time:"5:00pm", desc:"Return bus to Hvolsvöllur"},
-        {time:"6:00pm", desc:"Pick up truck. Drive Road 214 to Þakgil (~45 min gravel)", note:"NOT an F-road."},
-        {time:"7:00pm", desc:"Arrive Þakgil canyon campsite", note:"Book: thakgil.is / +354 893 4889"},
+        {time:"7:00am", desc:"Exit Landmannalaugar early via F208 south to Ring Road"},
+        {time:"8:30am", desc:"Skógafoss waterfall — climb the 370 staircase steps", note:"Parking ~$8 via Parka.is. At the top, look right (north) for the path that starts the river trail."},
+        {time:"9:00am", desc:"Skógar River Trail — hike upstream as far as you choose (see trails below)"},
+        {time:"11:30am", desc:"Drive 20 min west to Hvolsvöllur. Leave truck at Midgard Base Camp parking."},
+        {time:"12:00pm", desc:"Board Sterna highland bus to Þórsmörk (~$44pp return)", note:"PRE-BOOK: sterna.is. Confirm departure time when booking — typically midday. The bus safely crosses the F249 river that voids rental car insurance."},
+        {time:"1:30pm", desc:"Arrive Þórsmörk (Volcano Huts area). Begin Stakkholtsgjá canyon hike."},
+        {time:"3:30pm", desc:"Valahnúkur summit hike — best Þórsmörk panorama"},
+        {time:"5:30pm", desc:"Return Sterna bus to Hvolsvöllur. Pick up truck."},
+        {time:"6:30pm", desc:"Drive ~10 min to Road 214 turnoff south of Vík"},
+        {time:"7:15pm", desc:"45-min drive up Road 214 (unpaved mountain road) to Þakgil", note:"NOT an F-road. Steep and unpaved but manageable. The canyon closes in dramatically on approach."},
+        {time:"8:00pm", desc:"Arrive Þakgil. Check in. Set up camp in the canyon.", note:"Hot showers included. Cave dining room (Búar café) carved into the cliff face — eat there tonight."},
       ],
       hikes:[
-        {name:"Skógar River Trail Upstream", distance:"Up to 14km one way", difficulty:"Moderate–Challenging", gain:"1000m to pass", time:"Go as far as legs allow", desc:"Follow the Skóga river past 10+ named waterfalls in succession — each more dramatic and crowd-free than the last. Most visitors turn around at 2–4km. The full route ends at the volcanic ridge between Eyjafjallajökull and Mýrdalsjökull."},
-        {name:"Stakkholtsgjá Cave Canyon", distance:"5km RT", difficulty:"Moderate", gain:"100m", time:"2 hrs", desc:"A narrow slot canyon that opens into a cave at the end — with a waterfall dropping inside it. The canyon walls close in as you walk, light shifts to a narrow strip above. One of Iceland's most extraordinary secret hikes."},
-        {name:"Valahnúkur Summit", distance:"5km", difficulty:"Moderate", gain:"300m", time:"2.5 hrs", desc:"Best single panorama of the Þórsmörk valley. Eyjafjallajökull, Mýrdalsjökull, and Tindfjallajökull glaciers on three sides. Fimmvörðuháls volcanic ridge visible to the north."},
+        {
+          name:"Skógar River Trail Upstream",
+          distance:"Up to 14km one way", difficulty:"Moderate–Challenging", gain:"Up to 1,000m", time:"Go as far as time allows — minimum 1 hr",
+          desc:"One of Iceland's most spectacular and underrated hikes. Follows the Skóga river from the top of Skógafoss through 10+ named waterfalls in succession — wide and thunderous, tall and thin, ones you walk behind, ones that spray upward. Most tourists turn around at the first 2–3 waterfalls. Push to the 7th or 8th for dramatic highland terrain. The full route ends at the Fimmvörðuháls volcanic pass between Eyjafjallajökull and Mýrdalsjökull, where new lava flowed in 2010. Turn around whenever time and legs dictate."
+        },
+        {
+          name:"Stakkholtsgjá Cave Canyon",
+          distance:"5km RT", difficulty:"Moderate", gain:"100m", time:"2 hrs",
+          desc:"From Volcano Huts, a marked path enters the narrow slot canyon of Stakkholtsgjá. The canyon walls progressively close in — towering on both sides, light narrows to a sliver above, the river echoes. It ends at a natural cave with a waterfall dropping from the ceiling into a clear pool inside. Standing inside an Icelandic canyon cave with a waterfall overhead is genuinely extraordinary. Twenty One Pilots filmed 'Jumpsuit' here. Can flood after heavy rain — check conditions."
+        },
+        {
+          name:"Valahnúkur Summit Loop",
+          distance:"5km", difficulty:"Moderate", gain:"300m", time:"2.5 hrs",
+          desc:"Red trail markers from Volcano Huts lead to the Valahnúkur ridge — the best single panorama of the entire Þórsmörk valley. Eyjafjallajökull glacier to the south, Mýrdalsjökull to the east, Tindfjallajökull to the north, Fimmvörðuháls volcanic ridge between them. The valley far below is vivid green birch forest surrounded by glaciers on three sides."
+        },
       ],
       excursions:[
-        {name:"Sterna Highland Bus — Þórsmörk Return", operator:"sterna.is", price:"$44pp", duration:"All-day transport", url:"https://www.sterna.is", desc:"F249 river crossings into Þórsmörk void rental car insurance. The Sterna bus is the only safe access. Book in advance — fills up in July."}
+        {
+          name:"Sterna Highland Bus — Þórsmörk Return",
+          operator:"Sterna (sterna.is)", price:"~$44pp return", duration:"All-day transport",
+          url:"https://www.sterna.is",
+          desc:"The F249 river crossings into Þórsmörk are among Iceland's most dangerous and specifically void rental car insurance on almost all policies. The Sterna highland bus crosses them safely using purpose-modified coaches. Without this bus, Þórsmörk is inaccessible on your policy. Book at least 2 weeks in advance in July. Leave your truck at Midgard Base Camp parking in Hvolsvöllur — free with notification to reception."
+        }
       ],
-      tips:["Þakgil has a cave dining room carved into the canyon cliff face. Eat breakfast there before hiking.", "From the Remundargil loop (Day 4 morning) you see Katla glacier at the ridgeline."],
-      warnings:[],
-      costs:{ accommodation:20, food:18, activities:44 }
+      tips:[
+        "Þakgil's cave dining room (Búar café) is built into the canyon cliff — eat there for breakfast before Day 4 morning hike.",
+        "The canyon at Þakgil turns gold in the midnight sun around 11pm–1am — extraordinary light on the mossy spiky walls.",
+        "Trail maps for Þakgil hikes posted at campsite reception. The Remundargil loop (Day 4 morning) is the best option from camp."
+      ],
+      warnings:[
+        "Do NOT attempt to drive F249 to Þórsmörk in a rental 4x4. The river can be waist-deep and unpredictable. The Sterna bus is the only safe and insured access."
+      ],
+      costs:{accommodation:24, food:20, activities:44}
     },
     {
-      num:4, date:"Jul 3", title:"Þakgil Hike + Katla Ice Cave + Dyrhólaey Puffins + Vík",
-      sleep:"hostel", accommodation:"Vík HI Hostel",
+      num:4, date:"Jul 3", dow:"Thursday", title:"Þakgil Hike + Katla Ice Cave + Dyrhólaey Puffins + Vík",
+      sleep:"hostel", accommodation:"Vík HI Hostel (hostel.is)",
       tags:["hostel","hike","excursion"], lat:63.4190, lng:-19.0055,
-      summary:"Morning Remundargil canyon hike. Katla ice cave super-jeep. Dyrhólaey puffin cliffs. Reynisfjara. Vík.",
+      summary:"Early Remundargil canyon loop from camp with Katla glacier views. Katla super-jeep ice cave tour (black ash layers, active volcano). Dyrhólaey for thousands of puffins on the cliff face. Reynisfjara black sand beach. Vík HI Hostel.",
+      distance:"~80km",
       schedule:[
-        {time:"7:00am", desc:"Morning hike from Þakgil — Remundargil loop", note:"12.5km, 3–4 hrs"},
-        {time:"11:00am", desc:"Pack camp, drive to Vík (~45 min)"},
-        {time:"1:00pm", desc:"Katla ice cave super-jeep tour (pre-booked)", note:"troll.is or katlatrack.is, ~$90pp"},
-        {time:"4:00pm", desc:"Dyrhólaey — puffin cliffs + sea arch", note:"July = peak nesting. Thousands of puffins on the cliffs. Look DOWN from the lighthouse platform. Parking ~$8."},
-        {time:"5:30pm", desc:"Reynisfjara black sand beach", note:"⚠️ NEVER turn back to the ocean — sneaker waves are deadly."},
-        {time:"6:30pm", desc:"Check in Vík HI Hostel. Cook dinner."},
+        {time:"7:00am", desc:"Morning hike from Þakgil — Remundargil canyon loop", note:"Early start while other campers sleep. Canyon in morning light is extraordinary. Trail map at reception."},
+        {time:"10:30am", desc:"Breakfast in Þakgil cave café (Búar)"},
+        {time:"11:30am", desc:"Pack camp, load truck, drive down Road 214 to Ring Road (~45 min)"},
+        {time:"12:30pm", desc:"Drive to Vík. Drop bags at hostel if check-in possible."},
+        {time:"1:00pm", desc:"Katla ice cave super-jeep tour (pre-booked)", note:"Confirm exact meetpoint when booking — troll.is or katlatrack.is, ~$90pp, ~2.5 hrs."},
+        {time:"4:00pm", desc:"Drive west 20 min to Dyrhólaey"},
+        {time:"4:30pm", desc:"Dyrhólaey UPPER viewpoint — puffin cliff face", note:"Go to UPPER parking area (lighthouse level). Stand at the fence and look DOWN at the cliff face — puffins nest in burrows directly below, thousands of them. July is peak nesting season. Bring binoculars. Allow 45 min."},
+        {time:"5:30pm", desc:"Reynisfjara black sand beach", note:"SAFETY: see warnings. Hexagonal basalt cave (Hálsanefshellir) accessible at low tide. Beautiful but requires vigilance."},
+        {time:"6:30pm", desc:"Check in Vík HI Hostel. Cook dinner.", note:"Vík HI is small and fills fast in July. Kitchen available. Krónan supermarket in Vík for top-up supplies."},
       ],
       hikes:[
-        {name:"Remundargil Canyon Loop", distance:"12.5km", difficulty:"Moderate", gain:"250m", time:"3–5 hrs", desc:"From Þakgil camp, this loop follows canyon rims with Katla glacier views at the ridgeline. Parts are unmarked — download on Wikiloc or Gaia GPS before setting off. Bring water and snacks, nothing on route."},
+        {
+          name:"Remundargil Canyon Loop",
+          distance:"12.5km", difficulty:"Moderate", gain:"250m", time:"3–4 hrs",
+          desc:"Starting from Þakgil campsite, the loop follows the canyon rim above the Remundargil gorge before descending into the interior and returning via the valley floor. The ridgeline gives views of Mýrdalsjökull glacier (above Katla volcano) to the north. Trail is marked in places but download Wikiloc/Gaia GPS route before setting off. Bring water and snacks — no facilities on route."
+        },
       ],
       excursions:[
-        {name:"Katla Ice Cave Super-Jeep Tour", operator:"Troll Expeditions / Katla Guide (troll.is)", price:"~$90pp", duration:"2–3 hrs", url:"https://www.troll.is", desc:"A modified super-jeep drives onto Mýrdalsjökull glacier, which sits over the active Katla volcano. Cave walls show distinct black ash layers from past eruptions. Totally different from Skaftafell's blue ice cave — darker, more geological, more raw. Only accessible by super-jeep."}
+        {
+          name:"Katla Ice Cave Super-Jeep Tour",
+          operator:"Troll Expeditions or Katla Guide (troll.is)", price:"~$90pp", duration:"2–3 hrs",
+          url:"https://www.troll.is",
+          desc:"A specially modified super-jeep drives you onto Mýrdalsjökull glacier above Katla — one of Iceland's most powerful and overdue active volcanoes. The ice cave here is unlike anything at Skaftafell. The cave walls show distinct jet-black ash layers from Katla's past eruptions embedded in the glacier ice — you're literally reading the geological record of a living volcano. Cold, dark, raw, and genuinely dramatic. Maximum small group sizes. The access road is only passable by tour super-jeep."
+        }
       ],
-      tips:["Dyrhólaey puffins: look DOWN from the lighthouse platform — thousands nest on the cliff face directly below your feet. Early morning or evening = most active.", "July is peak puffin season — colonies are fully established, adults carrying fish in their beaks are a common sight."],
-      warnings:["Reynisfjara: sneaker waves kill people here every year with zero warning. Never turn your back on the ocean."],
-      costs:{ accommodation:45, food:18, activities:90 }
+      tips:[
+        "Dyrhólaey puffin tip: go to the UPPER parking and lighthouse viewpoint. Look DOWN at the cliff face below you — the burrows are directly below your feet. Sit still 5 minutes and they'll be everywhere.",
+        "Katla ice cave: bring warm layers even on a warm coastal day. Temperature inside the cave is near 0°C.",
+        "Vík's Krónan supermarket is good for top-up supplies. It's the last well-stocked shop before Höfn."
+      ],
+      warnings:[
+        "REYNISFJARA SNEAKER WAVES: People die here every year without warning. NEVER turn your back on the ocean. Stay well above the high tide line. Never stand on the black gravel below the wave mark. The waves arrive fast and silent.",
+        "Dyrhólaey upper road can close in very high wind — check on arrival."
+      ],
+      costs:{accommodation:45, food:20, activities:90}
     },
     {
-      num:5, date:"Jul 4", title:"Fjáðrárgljúfur + Laki Craters F206/F207",
-      sleep:"camp", accommodation:"Blágil Hut Campsite",
+      num:5, date:"Jul 4", dow:"Friday", title:"Fjáðrárgljúfur Canyon + Laki Craters F206/F207",
+      sleep:"camp", accommodation:"Blágil Hut Campsite (F207) — +354 487 4840",
       tags:["camp","hike","froad"], lat:64.0707, lng:-18.2378,
-      froad:{ id:"F206_Laki", risk:"medium", note:"Average opening Jun 20 — likely open Jul 4, but not guaranteed. Check umferdin.is/en/road/91381 that morning." },
-      summary:"Fjáðrárgljúfur canyon. F206/F207 highland loop through 130 Laki craters. Camp at Blágil hut.",
+      froad:{id:"F206_Laki", risk:"medium", note:"Average opening Jun 20 — likely open Jul 4 but check umferdin.is/en/road/91381 every morning this week."},
+      summary:"Fjáðrárgljúfur 100m-deep glacial canyon. F206/F207 Laki crater field loop — 130 volcanic craters from the 1783 catastrophic eruption. Mt. Laki summit. Sleep at Blágil highland hut.",
+      distance:"~200km including F-road loop",
       schedule:[
-        {time:"6:30am", desc:"CHECK umferdin.is/en/road/91381 + road.is before leaving", note:"If F207 closed → drive direct to Skaftafell (Day 5 alternate). Register at safetravel.is either way."},
-        {time:"7:30am", desc:"Fjáðrárgljúfur canyon — quick stop", note:"Free. 30 min rim walk. Game of Thrones filming location. Parking ~$8."},
-        {time:"8:30am", desc:"Turn north on F206 from Ring Road near Kirkjubæjarklaustur", note:"12+ river crossings. Walk each one before driving."},
-        {time:"10:30am", desc:"Fagrifoss waterfall — stop and walk (free)"},
-        {time:"11:00am", desc:"Laki crater trailhead. Mt. Laki summit hike"},
-        {time:"1:00pm", desc:"Visitor Trail through crater interior"},
-        {time:"3:00pm", desc:"F207 loop south back to Ring Road"},
-        {time:"5:00pm", desc:"Blágil hut campsite", note:"+354 487 4840. Kitchen, toilets, showers. Remote highland sleep."},
+        {time:"6:30am", desc:"CHECK umferdin.is/en/road/91381 for F207/F206 status", note:"If CLOSED: skip to Skaftafell directly — Day 6 accommodates easily. If OPEN: proceed as planned."},
+        {time:"6:45am", desc:"Register F-road route at safetravel.is", note:"2 minutes. Vehicle details + planned route + expected return time. Essential before any highland F-road."},
+        {time:"7:00am", desc:"Depart Vík heading east on Ring Road"},
+        {time:"7:45am", desc:"Fjáðrárgljúfur canyon — Route 206 turnoff near Kirkjubæjarklaustur", note:"Park at the signed lot. Short flat walk to the canyon rim. ~$8 parking via Parka.is."},
+        {time:"8:00am", desc:"Fjáðrárgljúfur canyon rim walk (30–60 min)", note:"100m-deep canyon carved by glacial meltwater after the last Ice Age. 2km long. GoT Season 8 opening episode filmed here. Follow rim in both directions for different views."},
+        {time:"8:45am", desc:"Fill fuel to MAXIMUM at Kirkjubæjarklaustur petrol station. Then turn north onto F206 (Lakavegur).", note:"This fuel fill is mandatory — zero fuel inside the F206/F207 loop."},
+        {time:"9:00am", desc:"Drive F206 north — 50km to Laki, ~2 hrs. Multiple river crossings.", note:"Walk EVERY river crossing before driving. Take F206 slowly — maximum 40km/h on rough sections."},
+        {time:"10:30am", desc:"Fagrifoss waterfall — short stop on F206 (free)"},
+        {time:"11:30am", desc:"Arrive Laki crater ranger hut and trailhead"},
+        {time:"12:00pm", desc:"Mt. Laki summit hike"},
+        {time:"2:00pm", desc:"Visitor Trail through crater interior"},
+        {time:"3:30pm", desc:"Drive F207 loop south to complete circuit"},
+        {time:"5:30pm", desc:"Arrive Blágil hut campsite on F207", note:"Call ahead: +354 487 4840. ~$15pp. NOT on Camping Card. Kitchen, showers, toilets."},
+        {time:"Evening", desc:"Walk the highland plateau in the midnight sun — total isolation."},
       ],
       hikes:[
-        {name:"Mt. Laki Summit", distance:"3.5km RT", difficulty:"Moderate", gain:"200m", time:"1–2 hrs", desc:"From the ranger hut, the marked path leads to the summit where you can see the entire 25km row of 130 craters in both directions. The 1783 eruption was one of the most catastrophic in human history — killed 25% of Iceland's population."},
-        {name:"Visitor Trail — Crater Interior", distance:"2km loop", difficulty:"Easy", gain:"50m", time:"1 hr", desc:"Walk into the inside of a volcanic crater and through the eruption fissure. Lava fields reclaimed by vivid green moss. The scale and absolute silence are staggering."},
+        {
+          name:"Mt. Laki Summit",
+          distance:"3.5km RT", difficulty:"Moderate", gain:"200m", time:"1–1.5 hrs",
+          desc:"The marked trail from the ranger hut climbs to the summit of Mt. Laki (818m) at the centre of the 25km volcanic fissure that erupted in 1783–84. From the summit: the entire Lakagígar crater row stretches in both directions — 130 craters in a line. The 1783 eruption killed 25% of Iceland's population through famine, caused famines across Europe, and may have triggered conditions contributing to the French Revolution. The scale of what you're standing on is humbling."
+        },
+        {
+          name:"Visitor Trail — Crater Interior Walk",
+          distance:"2km loop", difficulty:"Easy", gain:"50m", time:"45 min",
+          desc:"A marked trail leads directly into the interior of one of the craters and through the eruption fissure. You walk on 240-year-old lava now covered in vivid bright green moss — one of Iceland's most otherworldly landscapes. The silence inside the crater field is absolute. Pick up the ranger hut trail map on arrival."
+        },
       ],
       excursions:[],
-      tips:["Fill to absolute maximum before entering F206. No fuel for 100+ km.", "F206/F207 historical opening: earliest Jun 12, latest Jul 1, average Jun 20. By Jul 4 it is open in 4 out of 5 recent years — but the 2022 outlier (Jul 1) shows it's not guaranteed."],
-      warnings:["CRITICAL: Check umferdin.is/en/road/91381 morning of departure. If not yet open, drive directly to Skaftafell — Day 6 plan is unaffected.", "Register at safetravel.is before entering F206. Walk every river crossing before driving."],
-      costs:{ accommodation:18, food:20, fuel:70 }
+      tips:[
+        "Read about the 1783 Lakagígar eruption before you arrive — the historical context transforms the landscape from 'impressive' to 'profound'.",
+        "Fagrifoss waterfall on the F206 is a 10-minute stop that most people skip because they're focused on Laki. Don't — it's beautiful.",
+        "Sleeping at Blágil in the highland with midnight sun is one of the great remote camp experiences of the trip."
+      ],
+      warnings:[
+        "CRITICAL: Check umferdin.is/en/road/91381 every morning this week. F207/F206 didn't open until July 1 in 2022. If closed on Jul 4, proceed to Skaftafell.",
+        "Walk every river crossing before driving. Never enter a ford above mid-wheel height.",
+        "Register at safetravel.is before entering F206. Fill fuel completely at Kirkjubæjarklaustur first.",
+        "No mobile signal inside the F-road loop. Download everything needed beforehand."
+      ],
+      costs:{accommodation:15, food:20, fuel:35}
     },
     {
-      num:6, date:"Jul 5", title:"Glacier Xtreme Ice Climbing + Svartifoss",
-      sleep:"camp", accommodation:"Skaftafell campsite",
+      num:6, date:"Jul 5", dow:"Saturday", title:"Glacier Xtreme Ice Climbing + Svartifoss + Skaftafell Camp",
+      sleep:"camp", accommodation:"Skaftafell NP campsite (Camping Card accepted)",
       tags:["camp","hike","excursion"], lat:64.0163, lng:-16.9681,
-      summary:"Arctic Adventures' Glacier Xtreme tour on Falljökull — rappel crevasses, climb frozen walls. Svartifoss trail at sunset.",
+      summary:"Drive from Blágil to Skaftafell. Glacier Xtreme — 7 hours on Falljökull glacier: crevasse exploration, ice axe climbing, rappelling. Svartifoss basalt column waterfall at sunset. Camp at Skaftafell.",
+      distance:"~80km",
       schedule:[
-        {time:"8:00am", desc:"Drive from Blágil east to Skaftafell (~1 hr)"},
-        {time:"9:00am", desc:"Arctic Adventures booking hut — check-in + gear fitting", note:"Allow 1 hr before tour. Book: adventures.is ~$242pp"},
-        {time:"10:00am", desc:"20-min drive to Falljökull base (transport provided)"},
-        {time:"10:30am", desc:"Glacier Xtreme — 7 hrs on Falljökull glacier", note:"8.5 hrs total incl. check-in. Do NOT plan anything else today."},
-        {time:"6:00pm", desc:"Return to Skaftafell. Gear off. Rest + eat."},
-        {time:"7:30pm", desc:"Svartifoss waterfall trail", note:"Easy, 3.5km RT, 2hrs. Free from visitor centre."},
-        {time:"9:30pm", desc:"Set up camp at Skaftafell (Camping Card accepted)"},
+        {time:"8:00am", desc:"Drive Blágil → Ring Road via F207 exit → east to Skaftafell (~1 hr)"},
+        {time:"9:00am", desc:"Arrive Skaftafell. Park in main lot (~$4 via Parka.is). Find Arctic Adventures booking hut.", note:"Wooden hut with Arctic Adventures logo beside the main car park entrance."},
+        {time:"9:00am", desc:"Glacier Xtreme check-in + gear fitting + safety briefing", note:"PRE-BOOKED at adventures.is ~$242pp. Allow 1 full hour: medical declaration, specialized ice-climbing boot fitting (EU 36–50 provided), crampon fitting, harness, helmet, and safety briefing."},
+        {time:"10:00am", desc:"20-minute transport to Falljökull glacier base (12km, transport included)"},
+        {time:"10:30am", desc:"Glacier Xtreme begins — 7 hours on Falljökull glacier"},
+        {time:"5:30pm", desc:"Return transport to Skaftafell. Gear return. Rest and eat."},
+        {time:"7:30pm", desc:"Svartifoss waterfall trail (see trails below)"},
+        {time:"9:30pm", desc:"Set up camp at Skaftafell NP. Hot showers. Laundry.", note:"Camping Card accepted. ~$16pp with card. One of the best-equipped campsites on the Ring Road."},
+        {time:"Evening", desc:"Walk to Skaftafellsjökull glacier lagoon viewpoint (15 min from camp, free)", note:"The glacier calves into a small lagoon — you can hear ice cracking at night."},
       ],
       hikes:[
-        {name:"Glacier Xtreme on Falljökull (Vatnajökull)", distance:"~8km", difficulty:"Challenging", gain:"350–400m", time:"7 hrs (8.5 with check-in)", desc:"Falljökull — the 'Falling Glacier' — is an outlet of Vatnajökull, Europe's largest ice cap. You'll hike through dramatic crevasses and ice formations, then climb a vertical blue ice wall with twin ice axes. Max 6 people per guide. All specialized ice-climbing boots (EU 36–50), crampons, helmet, harness, and axe provided. Transport to glacier base included. No experience needed."},
-        {name:"Svartifoss Trail", distance:"3.5km RT", difficulty:"Easy–Moderate", gain:"120m", time:"2 hrs", desc:"The Black Waterfall drops over dark hexagonal basalt columns — the same architecture that inspired Hallgrímskirkja church. Do it in the evening light after the glacier. Trailhead at the Skaftafell visitor centre."},
+        {
+          name:"Glacier Xtreme on Falljökull — Vatnajökull",
+          distance:"~8km on glacier", difficulty:"Challenging", gain:"350–400m", time:"7 hrs (8.5 with check-in)",
+          desc:"Falljökull ('Falling Glacier') is one of Vatnajökull's outlet glaciers named for the dramatic icefall on its upper section. You hike across the glacier surface past crevasses, moulins, and seracs to the blue ice wall where the climbing begins. Your guide selects the best wall or crevasse for conditions. You learn twin ice axe technique — the swing, the kick, the balance — then climb a vertical face of blue glacial ice. Maximum 6 people per guide. All gear provided: specialized ice-climbing boots, crampons, twin axes, harness, helmet. Bring lunch and water (glacier meltwater is drinkable). This is the most demanding physical day of the trip."
+        },
+        {
+          name:"Svartifoss — The Black Waterfall",
+          distance:"3.5km RT", difficulty:"Easy–Moderate", gain:"120m", time:"1.5–2 hrs",
+          desc:"Svartifoss drops over a curtain of dark hexagonal basalt columns — the same geological formation that inspired the design of Hallgrímskirkja church in Reykjavík. The contrast of white water against black columns is visually striking, especially in evening golden light. The marked trail from the visitor centre passes two smaller viewpoint falls before reaching the main drop. Extend from Svartifoss up to the Sjónarnípa viewpoint ridge for panoramas over the Skaftafell oasis and Vatnajökull ice cap."
+        },
       ],
       excursions:[
-        {name:"Glacier Xtreme — Ice Climbing on Falljökull", operator:"Arctic Adventures (adventures.is)", price:"~$242pp", duration:"7 hrs (8.5 with check-in)", url:"https://adventures.is/iceland/day-tours/glacier-tours/glacier-tours-on-vatnajokull/glacier-xtreme-and-ice-climbing/", desc:"Departs: Arctic Adventures Booking Hut, Skaftafell parking lot. Small group ≤6. All glacier gear included. 20-min transport to glacier base. ~8km, 350–400m elevation. Do NOT book anything else within 8.5 hours of start time. Cancellation: 48 hours notice required."}
+        {
+          name:"Glacier Xtreme Ice Climbing — Falljökull (Vatnajökull)",
+          operator:"Arctic Adventures (adventures.is)", price:"~$242pp", duration:"7 hrs on glacier — 8.5 hrs total",
+          url:"https://adventures.is/iceland/day-tours/glacier-tours/glacier-tours-on-vatnajokull/glacier-xtreme-and-ice-climbing/",
+          desc:"BOOK IMMEDIATELY — max 6 per group, July sells out within days. Meeting point: Arctic Adventures Booking Hut, Skaftafell car park. Medical declaration required (not suitable for back problems, heart conditions, pregnancy). Cancellation: 48-hour notice for refund. Do NOT schedule any other activity within 8.5 hours of start. Bring: warm layers, waterproof jacket and trousers, sunglasses, sunscreen, lunch, and a water bottle. Ice-climbing boots provided — warmer and more rigid than hiking boots."
+        }
       ],
-      tips:["Don't plan anything else today — the tour is 8.5 hours total with check-in.", "Bring lunch, snacks, and water — not provided. Glacier meltwater is the freshest you'll ever taste and can be drunk directly."],
-      warnings:["BOOK IMMEDIATELY — max 6 per group. July slots sell out within days of opening."],
-      costs:{ accommodation:16, food:18, activities:242 }
+      tips:[
+        "The glacier covers ~8km and 350–400m of elevation. Big dinner tonight and sleep well.",
+        "Skaftafell campsite has laundry — use it after 5 days on the road.",
+        "Svartifoss is best in the evening when crowds have left and the light is golden. Perfect timing after the glacier tour.",
+        "The Skaftafellsjökull glacier lagoon at the campsite edge is free, eerie, and beautiful at midnight."
+      ],
+      warnings:[
+        "BOOK GLACIER XTREME NOW — this is the most in-demand guided glacier activity in Iceland.",
+        "Do not plan anything else on this day. The tour is 8.5 hours total."
+      ],
+      costs:{accommodation:16, food:20, activities:242}
     },
     {
-      num:7, date:"Jul 6", title:"Canyoning Under Vatnajökull + Höfn",
-      sleep:"hostel", accommodation:"Höfn HI Hostel",
+      num:7, date:"Jul 6", dow:"Sunday", title:"Canyoning Under Vatnajökull + Diamond Beach + Höfn",
+      sleep:"hostel", accommodation:"Höfn HI Hostel (hostel.is)",
       tags:["hostel","excursion"], lat:64.2621, lng:-15.2124,
-      summary:"Half-day canyoning tour — rappel down waterfalls, jump into glacial pools under Vatnajökull. Drive to Höfn. Langoustine dinner.",
+      summary:"Diamond Beach ice chunk photography. Half-day canyoning — rappel Vatnajökull meltwater waterfalls, jump into crystal pools. Drive to Höfn. Langoustine dinner.",
+      distance:"~110km",
       schedule:[
-        {time:"9:00am", desc:"Drive from Skaftafell to Haukafell Camp (35 min west of Höfn)", note:"ice-guardians.com, +354 898 2277. Meet point is Haukafell Campsite, Hornafjörður."},
-        {time:"9:30am", desc:"Canyoning check-in + wetsuit fitting + safety brief"},
-        {time:"10:00am", desc:"Half-day canyoning under Vatnajökull — 4–5 hrs", note:"5mm wetsuit, helmet, harness provided. Rappel waterfalls, jump and slide into glacial pools."},
-        {time:"3:00pm", desc:"Coffee/hot choc after tour (included). Drive to Höfn (~35 min)"},
-        {time:"4:00pm", desc:"Check in Höfn HI Hostel"},
-        {time:"6:00pm", desc:"Langoustine dinner in Höfn", note:"Iceland's langoustine capital. ~$30pp. Pakkhús or Hafnarbuðin."},
-        {time:"Midnight", desc:"Glacier terrace sunset from hostel — Vatnajökull glows pink"},
+        {time:"9:00am", desc:"Drive east from Skaftafell on Ring Road"},
+        {time:"9:30am", desc:"Diamond Beach (Breiðamerkursandur) — 20–30 min stop", note:"FREE. Pull off Ring Road at the Jökulsárlón signs on the east/seaward side. Walk the beach where ice chunks calve from the glacier lagoon and wash up on black sand. Some blocks are car-sized and glittering. The glacier lagoon itself is just across the road — enormous icebergs visible from the bridge."},
+        {time:"10:30am", desc:"Continue east toward Haukafell Camp (Ice Guardians meetpoint, 35 min west of Höfn)", note:"Haukafell Campsite, Hornafjörður. Ice Guardians signs on the main road. Phone: +354 898 2277."},
+        {time:"11:00am", desc:"Ice Guardians check-in — wetsuit + harness fitting + safety briefing (30–40 min)", note:"Need: swimsuit or synthetic base layer (no cotton), towel, dry change of clothes. Everything else provided."},
+        {time:"11:30am", desc:"Half-Day Canyoning under Vatnajökull — 4–5 hours"},
+        {time:"4:30pm", desc:"End of canyoning. Hot chocolate / coffee included. Change and warm up."},
+        {time:"5:30pm", desc:"Drive east to Höfn (~35 min)"},
+        {time:"6:00pm", desc:"Check in Höfn HI Hostel"},
+        {time:"7:00pm", desc:"Langoustine dinner in Höfn — treat yourselves", note:"Pakkhús at the harbour is best (~$30–35pp). Even the Nettó supermarket sells fresh langoustine tails cheaply if budget-conscious."},
+        {time:"Late", desc:"Vatnajökull glow from hostel terrace in midnight light", note:"Clear evenings: the ice cap turns pale gold. Worth staying up for."},
       ],
       hikes:[],
       excursions:[
-        {name:"Half-Day Canyoning Under Vatnajökull", operator:"Ice Guardians (ice-guardians.com)", price:"~$278pp (34,900 ISK)", duration:"4–5 hrs", url:"https://ice-guardians.com/tour/half-day-canyoning-under-vatnajokull/", desc:"Iceland's only canyoning operator. Rappel down waterfalls, jump and slide into crystal pools in a river canyon directly under the Vatnajökull ice cap. 5mm wetsuit, helmet, harness, neoprene boots and gloves all included. Max 6 guests: 2 guides. Min age 12. Must be able to swim 20m and hike 5km on uneven terrain. Coffee/hot choc provided after. Photo package available as add-on."}
+        {
+          name:"Half-Day Canyoning Under Vatnajökull",
+          operator:"Ice Guardians (ice-guardians.com)", price:"~$278pp (34,900 ISK)", duration:"4–5 hours",
+          url:"https://ice-guardians.com/tour/half-day-canyoning-under-vatnajokull/",
+          desc:"Ice Guardians are Iceland's only canyoning operator — this experience exists nowhere else in the country. Glacial meltwater from Vatnajökull has carved a canyon system directly below the ice cap. You walk through birch forest before descending into the canyon where you abseil down waterfalls, jump into deep crystal pools, and slide down natural rock chutes. The water is cold (5mm wetsuit provided) but crystal clear. Guide ratio: 6 guests to 2 guides. No prior experience needed — only the ability to swim 20m and walk 5km. Photo package available as an add-on at booking."
+        }
       ],
-      tips:["Bring a towel, dry change of clothes, swimsuit or synthetic sports base, and a waterproof phone case.", "Langoustine dinner tonight: Höfn is Iceland's langoustine capital and it would be criminal not to eat here. Pakkhús has the best bisque."],
-      warnings:["Cancellation: 100% fee within 48 hours. 10% fee beyond 48 hours.", "Not recommended for people with back problems or heart conditions."],
-      costs:{ accommodation:45, food:55, activities:278 }
+      tips:[
+        "Bring a dry bag for your phone and valuables during the canyoning — left in a bag on land during the canyon section.",
+        "Move continuously once in the water — the wetsuit keeps you comfortable while active.",
+        "Höfn langoustine: even if self-catering the whole trip, eat here once. It's the local speciality and genuinely exceptional.",
+        "Stock up at Höfn's Nettó supermarket for fresh supplies before the East Fjords stretch."
+      ],
+      warnings:[
+        "Canyoning cancellation: 100% fee within 48 hours notice. Weather dependent.",
+        "Not suitable: back problems, heart conditions, pregnancy. Declare all medical conditions to guides."
+      ],
+      costs:{accommodation:45, food:50, activities:278}
     },
     {
-      num:8, date:"Jul 7", title:"Ingólfshöfði Puffin Reserve + Stafafell Canyon",
-      sleep:"camp", accommodation:"Stafafell Nature Park",
+      num:8, date:"Jul 7", dow:"Monday", title:"Ingólfshöfði Puffin Reserve + Lónsöræfi Canyon + Stafafell",
+      sleep:"camp", accommodation:"Stafafell Nature Park (call: +354 699 6684)",
       tags:["camp","hike"], lat:64.4197, lng:-14.8439,
-      summary:"Ingólfshöfði nature reserve tractor tour — puffins, great skuas, Arctic terns. Stafafell farm camp. Lónsöræfi hike.",
+      summary:"Ingólfshöfði tractor-wagon tour — Iceland's first settler's headland, puffin burrows, dive-bombing Arctic terns. Drive to Stafafell farm camp. Lónsöræfi red rhyolite canyon hike.",
+      distance:"~180km",
       schedule:[
-        {time:"9:00am", desc:"Drive west from Höfn (~45 min) to Ingólfshöfði tractor meetpoint", note:"Route 1, then sandy track. Look for the tractor meetpoint sign. Tours: ~$40pp."},
-        {time:"10:00am", desc:"Ingólfshöfði tractor-wagon tour — puffins + seabirds", note:"The reserve rises from black sands — you cross a tidal flat by tractor-drawn wagon. 2 hrs total."},
-        {time:"12:30pm", desc:"Drive east past Höfn to Stafafell (~1.5 hrs from Ingólfshöfði)"},
-        {time:"2:00pm", desc:"Check in Stafafell Nature Park campsite", note:"Call ahead: +354 699 6684"},
-        {time:"3:00pm", desc:"Lónsöræfi Hvítserkur canyon hike — full afternoon"},
-        {time:"7:00pm", desc:"Return to camp. Cook dinner."},
+        {time:"9:00am", desc:"Drive west from Höfn ~45 min to Ingólfshöfði tractor meetpoint", note:"Look for signs off Ring Road for Ingólfshöfðivegur. Park at the tractor meetpoint on the black sand flats. Tour times: check ingolfshofdi.com or call +354 478 1682."},
+        {time:"10:00am", desc:"Ingólfshöfði tractor-wagon tour — 2 hours (~$40pp)", note:"Tractor wagon crosses tidal black sand flats (impassable on foot at high tide). On the headland: puffin burrows everywhere, Arctic terns nesting at ground level (hold a stick above your head — they dive-bomb the highest point), great skuas overhead. Named after Ingólfr Arnarson, Iceland's first permanent settler, who overwintered here 874 AD."},
+        {time:"12:00pm", desc:"Return tractor wagon. Drive east, past Höfn, continuing to Stafafell."},
+        {time:"2:00pm", desc:"Arrive Stafafell Nature Park (call ahead: +354 699 6684)"},
+        {time:"2:30pm", desc:"Lónsöræfi Hvítserkur canyon hike (see trails below)"},
+        {time:"7:00pm", desc:"Return to camp. Cook dinner. Total silence."},
       ],
       hikes:[
-        {name:"Lónsöræfi Hvítserkur Canyon", distance:"8–15km", difficulty:"Moderate", gain:"400m", time:"4–5 hrs", desc:"Iceland's most overlooked hiking area — jagged peaks in rust red and orange rhyolite rising from a hidden valley. Virtually zero other visitors. Trail unmarked in sections: download on Gaia GPS before setting off. Water from mountain streams only — bring a filter. Access via mild F985 track."},
+        {
+          name:"Lónsöræfi Hvítserkur Red Rhyolite Canyon",
+          distance:"8–15km", difficulty:"Moderate", gain:"400m", time:"4–5 hrs",
+          desc:"Lónsöræfi is Iceland's most overlooked highland area — rugged rust-red and orange rhyolite peaks rising from a hidden valley, with rivers and ridgelines and views to Vatnajökull. Sees a fraction of visitors that go to Landmannalaugar but equally extraordinary. Access via the mild F985 track from Stafafell (manageable in your 4x4 on a dry day). Trail is unmarked in sections: download on Gaia GPS before setting off. Water from mountain streams only — bring your Sawyer Squeeze filter. Best in evening light when the rhyolite colours intensify."
+        },
       ],
       excursions:[
-        {name:"Ingólfshöfði Tractor Tour — Puffin Reserve", operator:"Local family operators", price:"~$40pp", duration:"2 hrs", url:"https://www.ingolfshofdi.com", desc:"Ingólfshöfði rises dramatically from the black sand flats of the southeast coast. Accessible only by tractor-drawn wagon across the tidal flats. Inside the reserve: puffin burrows everywhere, great skuas nesting on the ground, Arctic terns dive-bombing (wear a hat), and extraordinary views of Vatnajökull. Named after Iceland's first settler, Ingólfr Arnarson."}
+        {
+          name:"Ingólfshöfði Nature Reserve Tractor Tour",
+          operator:"Local family (ingolfshofdi.com)", price:"~$40pp", duration:"2 hrs",
+          url:"https://www.ingolfshofdi.com",
+          desc:"The only access to Ingólfshöfði is by tractor-wagon across tidal flats — impassable to vehicles and on foot at high tide. The reserve has puffin burrows covering the grassy headland (birds are completely unbothered by visitors), Arctic terns nesting on the ground (defensive dive-bombing — hold a pole up), and great skuas patrolling. Named after Ingólfr Arnarson who overwintered here in 874 AD before founding Reykjavík. Spectacular 360° views: Vatnajökull north, black sand coast in every direction."
+        }
       ],
-      tips:["Ingólfshöfði Arctic terns will dive-bomb your head to protect their nests — hold a stick or trekking pole above your head as you walk. They aim for the highest point.", "Stafafell is the cheapest and most remote camp of the trip — embrace the silence."],
-      warnings:[],
-      costs:{ accommodation:14, food:18, activities:40 }
+      tips:[
+        "Arctic terns at Ingólfshöfði will draw blood if they hit your head — hold a walking pole above you. This is genuinely necessary, not an exaggeration.",
+        "Stafafell campsite is the most peaceful of the trip. You may be the only guests.",
+        "Lónsöræfi in evening light (8–10pm) is most photogenic — rhyolite colours intensify as the sun drops angle."
+      ],
+      warnings:[
+        "Book Ingólfshöfði in advance — tours are small with set departure times.",
+        "Lónsöræfi trail is partially unmarked. Download Gaia GPS route beforehand. Bring water filter."
+      ],
+      costs:{accommodation:14, food:18, activities:40}
     },
     {
-      num:9, date:"Jul 8", title:"East Fjords + Borgarfjörður Eystri Puffins + Stuðlagil Canyon",
-      sleep:"hostel", accommodation:"East Guesthouse, Egilsstaðir",
+      num:9, date:"Jul 8", dow:"Tuesday", title:"Borgarfjörður Eystri Puffins + Stuðlagil Canyon + Seyðisfjörður",
+      sleep:"hostel", accommodation:"East Guesthouse, Egilsstaðir (eastguesthouse.is)",
       tags:["hostel","hike"], lat:65.2590, lng:-14.3952,
-      summary:"Borgarfjörður Eystri — Iceland's most intimate puffin boardwalk (10,000 pairs). Stuðlagil basalt canyon. Seyðisfjörður rainbow road. Resupply Egilsstaðir.",
+      summary:"East Fjords coastal drive. Borgarfjörður Eystri — Iceland's most intimate puffin boardwalk (10,000 pairs, within arm's reach). Stuðlagil basalt column canyon. Seyðisfjörður rainbow road. Major resupply at Egilsstaðir.",
+      distance:"~320km — long day with detours",
       schedule:[
-        {time:"8:00am", desc:"Drive north from Stafafell on Ring Road — East Fjords coast"},
-        {time:"10:30am", desc:"Turn north on Route 94 to Borgarfjörður Eystri (70km, all paved)", note:"Road fully paved since 2023. Mountain pass with incredible views."},
-        {time:"11:30am", desc:"Borgarfjörður Eystri — Hafnarhólmi puffin boardwalk", note:"FREE. Wooden platforms put you within 1–2m of nesting puffins. 10,000 pairs. Best close-up puffin experience in Iceland."},
-        {time:"1:00pm", desc:"Drive back to Ring Road via Route 94"},
-        {time:"2:30pm", desc:"Stuðlagil Canyon — east side rim hike", note:"Route 923 north. Check upstream weather: rain = opaque river, no turquoise."},
-        {time:"4:30pm", desc:"Drive over mountain pass to Seyðisfjörður"},
-        {time:"5:00pm", desc:"Seyðisfjörður — rainbow road, blue church, café stop"},
-        {time:"6:30pm", desc:"Check in East Guesthouse, Egilsstaðir. MAJOR RESUPPLY: Bónus, fuel, camp gas, laundry."},
+        {time:"7:30am", desc:"Depart Stafafell north on Ring Road — East Fjords coastal drive", note:"Winding road over multiple dramatic fjord passes with sea views. One of Iceland's most beautiful drives. Take your time — frequent photo stops."},
+        {time:"10:30am", desc:"Turn north on Route 94 toward Borgarfjörður Eystri (70km, fully paved)", note:"Mountain pass on Route 94 has extraordinary views on clear days."},
+        {time:"11:45am", desc:"Arrive Borgarfjörður Eystri — Hafnarhólmi puffin boardwalk", note:"FREE. Park at the harbour. Short walk onto the narrow peninsula to the boardwalk."},
+        {time:"12:00pm", desc:"Borgarfjörður Eystri puffin boardwalk — 1–2 hrs", note:"10,000 pairs nesting here. Wooden platforms within 1–2m of birds. Sit still — puffins will walk up to you. Listen for underground growl-purr from burrows beneath your feet. Small café on site."},
+        {time:"2:00pm", desc:"Drive back to Ring Road via Route 94 (~1.5 hrs)"},
+        {time:"3:30pm", desc:"Turn north on Route 923 for Stuðlagil Canyon (~45 min)"},
+        {time:"4:30pm", desc:"Stuðlagil Canyon east side rim hike (see trails below)"},
+        {time:"6:30pm", desc:"Drive over mountain pass to Seyðisfjörður (~45 min)"},
+        {time:"7:30pm", desc:"Seyðisfjörður — rainbow road + blue church (Bláa Kirkjan) + café stop", note:"45–60 min. Rainbow-painted road from the ferry port to the famous blue church. Artists' village, craft shops, Skaftfell Bistro café."},
+        {time:"9:00pm", desc:"Drive back to Egilsstaðir (~45 min). Check in East Guesthouse."},
+        {time:"9:30pm", desc:"MAJOR RESUPPLY — Bónus, Orkan petrol, camp gas, laundry", note:"Bónus check hours before closing. Fill truck fuel fully. Last proper resupply until Akureyri."},
       ],
       hikes:[
-        {name:"Stuðlagil Canyon East Rim", distance:"4–8km RT", difficulty:"Easy–Moderate", gain:"100m", time:"2–4 hrs", desc:"Hexagonal basalt columns rising 30m from a turquoise glacial river — exposed when a dam upstream was built in 2009. One of Iceland's most photogenic spots, still virtually unknown outside Iceland. Go as far as Stuðlafoss waterfall for the best views."},
+        {
+          name:"Stuðlagil Canyon East Rim",
+          distance:"4–8km RT", difficulty:"Easy–Moderate", gain:"100m", time:"2–4 hrs",
+          desc:"One of Iceland's most photogenic spots, still undervisited internationally. The canyon was entirely underwater until 2009 when a hydroelectric dam upstream dropped the river level, revealing hexagonal basalt columns on both canyon walls. The columns rise up to 30m from the turquoise glacial Jökla river. The east side rim hike follows the canyon with views into the gorge, ending at Stuðlafoss waterfall. Go to the EAST car park for the best views. Early morning or evening gives the best turquoise colour — after heavy rain the river turns milky white and the effect is reduced."
+        },
       ],
       excursions:[],
-      tips:["Borgarfjörður Eystri puffins: sit still for a few minutes near the boardwalk edge — the birds will walk up to within arm's length. You can hear their growl-purr from underground burrows beneath your feet.", "Egilsstaðir Bónus is your last cheap supermarket until Akureyri. Fill gas and camp fuel here."],
-      warnings:[],
-      costs:{ accommodation:45, food:25 }
+      tips:[
+        "Borgarfjörður Eystri puffins: sit completely still for at least 5 minutes near the boardwalk. They'll approach within arm's length once they settle. You can hear them growl from underground burrows — like a tiny chainsaw.",
+        "Stuðlagil: go to the EAST side car park. The east rim trail is the iconic viewpoint.",
+        "Seyðisfjörður has a genuinely lovely village atmosphere — the Skaftfell Bistro has excellent food. The ferry to Denmark/Europe departs from here on Thursdays.",
+        "Egilsstaðir resupply is critical — next proper supermarket is Akureyri."
+      ],
+      warnings:[
+        "Long driving day (~320km). Start early and keep moving.",
+        "Stuðlagil: check weather before driving to Route 923 — white river after rain kills the visual."
+      ],
+      costs:{accommodation:45, food:25}
     },
     {
-      num:10, date:"Jul 9", title:"Mývatn — Volcanic Wonderland + Earth Lagoon",
-      sleep:"camp", accommodation:"Hlíð Campsite, Lake Mývatn",
+      num:10, date:"Jul 9", dow:"Wednesday", title:"Mývatn Volcanic Wonderland + Earth Lagoon",
+      sleep:"camp", accommodation:"Hlíð Campsite, Lake Mývatn (Camping Card)",
       tags:["camp","hike"], lat:65.6495, lng:-16.9187,
-      summary:"Goðafoss waterfall. Hverfjall crater rim. Dimmuborgir lava towers. Grjótagjá GoT cave. Earth Lagoon soak.",
+      summary:"Goðafoss Waterfall of the Gods. Hverfjall perfectly circular crater rim hike. Dimmuborgir lava tower formations. Grjótagjá Game of Thrones cave hot spring. Earth Lagoon geothermal soak. Camp with head nets.",
+      distance:"~200km",
       schedule:[
-        {time:"8:30am", desc:"Drive Ring Road west (~2.5 hrs, 175km)"},
-        {time:"10:00am", desc:"Goðafoss waterfall — quick stop", note:"Free. Right off Ring Road. 5 min walk."},
-        {time:"10:30am", desc:"Hverfjall crater rim hike", note:"Parking ~$8. Stay on marked path — tephra surface is permanently damaged by footsteps."},
-        {time:"1:00pm", desc:"Dimmuborgir lava formations", note:"Free. 30–90 min."},
-        {time:"2:30pm", desc:"Grjótagjá lava cave hot spring", note:"FREE. Game of Thrones cave. Blue glow. Too hot to swim but unmissable."},
-        {time:"5:00pm", desc:"Earth Lagoon Mývatn (pre-booked evening slot)", note:"~$64pp. Confirm 2026 reopening at earthlagoon.is."},
-        {time:"8:00pm", desc:"Hlíð campsite. HEAD NETS ON. Zip tent immediately."},
+        {time:"8:00am", desc:"Depart Egilsstaðir west on Ring Road", note:"~175km to Mývatn, 2.5 hrs. Buy head nets HERE if not already — Egilsstaðir is your last reliable shop before Mývatn."},
+        {time:"10:00am", desc:"Goðafoss — Waterfall of the Gods (free, 30–45 min)", note:"Right off the Ring Road. 12m high, 30m wide. In 1000 AD Iceland voted to adopt Christianity and the lawspeaker threw Norse god idols here. Free parking, 5 min walk."},
+        {time:"11:00am", desc:"Hverfjall volcano crater rim hike (see trails below)", note:"Parking ~$8. Stay strictly on marked path."},
+        {time:"1:30pm", desc:"Dimmuborgir lava formations (free, 30–90 min)", note:"Multiple short loops. Choose the 'Church' loop for the most dramatic formations."},
+        {time:"3:00pm", desc:"Grjótagjá lava cave hot spring (free, 30 min)", note:"The Game of Thrones cave (Jon Snow and Ygritte, Season 3). Too hot to swim now (~50°C) but the blue glow is extraordinary. Bring a torch."},
+        {time:"4:30pm", desc:"Check in Hlíð campsite, Lake Mývatn. HEAD NETS ON IMMEDIATELY.", note:"Camping Card accepted. ~$16pp. Head nets on the moment you exit the truck — do not delay."},
+        {time:"5:30pm", desc:"Earth Lagoon Mývatn (pre-booked evening slot)", note:"~$64pp. PRE-BOOK at earthlagoon.is. Confirm 2026 post-renovation reopening first."},
+        {time:"8:00pm", desc:"Return to camp. Cook in tent vestibule — protect from midges."},
       ],
       hikes:[
-        {name:"Hverfjall Crater Rim Loop", distance:"3km", difficulty:"Moderate", gain:"150m", time:"2 hrs", desc:"Climb the outer slope of this perfectly circular tephra cone (1km wide). Views over Lake Mývatn, lava fields, and surrounding volcanic highlands. IMPORTANT: stay on marked path — footsteps permanently damage the tephra surface."},
+        {
+          name:"Hverfjall Crater Rim Loop",
+          distance:"3km loop", difficulty:"Moderate", gain:"150m", time:"1.5–2 hrs",
+          desc:"Hverfjall is a nearly perfect circular tephra cone volcano, 1km in diameter and 150m high, formed in a single explosive eruption 2,700 years ago. The rim hike circles the full crater giving views into the 1km-wide interior bowl and out over Lake Mývatn and surrounding volcanic highlands. The tephra surface is extremely fragile — a single footstep off-path creates permanent damage taking centuries to recover. Stay strictly on marked trail. Best in late-evening light when the lake turns golden."
+        },
       ],
       excursions:[
-        {name:"Earth Lagoon Mývatn", operator:"earthlagoon.is", price:"~$64pp", duration:"2–3 hrs", url:"https://www.earthlagoon.is", desc:"Geothermal lagoon on a hill overlooking Lake Mývatn after 2026 renovation. Milky blue water, steam rooms, multiple pools. Cheaper and less crowded than Blue Lagoon. Book an evening slot to avoid tour-bus rush."}
+        {
+          name:"Earth Lagoon Mývatn",
+          operator:"Earth Lagoon (earthlagoon.is)", price:"~$64pp (8,000 ISK)", duration:"2–3 hrs",
+          url:"https://www.earthlagoon.is",
+          desc:"Formerly Mývatn Nature Baths, now Earth Lagoon after a 2026 renovation. Geothermal lagoon on a hill overlooking Lake Mývatn, fed by a 2,500m deep borehole. Milky blue silica water in multiple outdoor pools at different temperatures (36–40°C), steam bath, lake viewpoint. Far less crowded and expensive than Blue Lagoon. Book an evening slot — best light on the lake at 5:30–7pm. IMPORTANT: Confirm 2026 reopening date at earthlagoon.is before booking."
+        }
       ],
-      tips:["⚠️ Buy head nets in Egilsstaðir before arriving. Mývatn midges in July are legendary — they fly into your eyes, ears and mouth constantly. Head nets are not optional.", "Grjótagjá hot spring: the water is too hot to swim but the blue glow inside the cave is extraordinary. Worth the short walk from the road."],
-      warnings:["MIDGES: Never open the tent without immediately zipping it shut. They will fill the tent in 10 seconds."],
-      costs:{ accommodation:16, food:18, activities:64 }
+      tips:[
+        "Head nets at Mývatn: buy them BEFORE arriving. If you didn't, the Mývatn Service Centre sells them.",
+        "Grjótagjá cave: the electric blue glow from refracted light is the experience. Both chambers accessible — explore both. Temperature near 50°C so don't enter the water.",
+        "Earth Lagoon evening slot: book 5:30–7pm for the best light on the lake. The milky blue water photographs beautifully."
+      ],
+      warnings:[
+        "MIDGES: Open tent zip → they enter in seconds. Head nets required outside at all times near the lake.",
+        "Stay on marked paths at Hverfjall — off-path footsteps permanently damage the tephra."
+      ],
+      costs:{accommodation:16, food:18, activities:64}
     },
     {
-      num:11, date:"Jul 10", title:"Askja Caldera + Viti Crater Swim — F88",
-      sleep:"camp", accommodation:"Dreki Hut",
+      num:11, date:"Jul 10", dow:"Thursday", title:"F88 to Askja Caldera + Viti Crater Swim — Dreki Camp",
+      sleep:"camp", accommodation:"Dreki Hut Campsite (ffa.is — NOT Camping Card)",
       tags:["camp","hike","froad"], lat:65.0421, lng:-16.5952,
-      froad:{ id:"F88_Askja", risk:"low", note:"F88 opens late June on average. By Jul 10 it should have been open for ~2 weeks. Still check road.is morning of." },
-      summary:"F88 through the world's largest lava field to Askja caldera. Swim in Viti geothermal crater. Sleep at Dreki hut under midnight sun.",
+      froad:{id:"F88_Askja", risk:"low", note:"F88 typically opens late June. By Jul 10 should have been open ~2 weeks. Check road.is morning of."},
+      summary:"Fuel to maximum + 20L jerry can. Register safetravel.is. F88 through the world's largest lava field (Ódáðahraun) to Askja caldera. 8km hike to the caldera rim. Swim in Viti geothermal crater. Midnight sun at Dreki.",
+      distance:"~120km each way on F88",
       schedule:[
-        {time:"7:00am", desc:"FILL FUEL TO MAX + 20L jerry can at Mývatn before departure", note:"Zero fuel on F88 route. None."},
-        {time:"7:30am", desc:"Register at safetravel.is. Enter F88 (~20km east of Mývatn)"},
-        {time:"8:00am", desc:"Drive F88 through Ódáðahraun lava desert to Dreki (~2.5 hrs, 60km)"},
-        {time:"10:30am", desc:"Leave truck at Dreki. Begin Askja caldera hike"},
-        {time:"11:00am", desc:"Askja caldera hike — 8km RT, 3–4 hrs"},
-        {time:"2:30pm", desc:"Swim in Viti geothermal crater — FREE. Warm milky blue water."},
-        {time:"4:00pm", desc:"Return to Dreki. Camp. Cook."},
-        {time:"2:00am", desc:"Midnight sun in the highlands — sit outside"},
+        {time:"7:00am", desc:"FILL FUEL TO ABSOLUTE MAXIMUM at Mývatn petrol station + fill 20L jerry can", note:"MANDATORY. F88 is ~120km each way. Your 4x4 burns extra fuel on rough road. Zero fuel available between Mývatn and Ring Road exit."},
+        {time:"7:30am", desc:"Register at safetravel.is (2 min, on your phone)", note:"Vehicle details + planned route (F88 to Askja and return) + expected return time."},
+        {time:"8:00am", desc:"Enter F88 — junction ~20km east of Mývatn on Ring Road", note:"Allow 2.5 hrs to Dreki. Max 40km/h. The landscape transforms immediately into the dark volcanic Ódáðahraun lava desert."},
+        {time:"10:30am", desc:"Arrive Dreki hut. Sign in with rangers. Leave truck.", note:"Rangers track visitors and can advise on trail conditions."},
+        {time:"11:00am", desc:"Begin Askja caldera hike (see trails below)"},
+        {time:"2:30pm", desc:"Viti crater — swim in the geothermal crater lake (25–27°C, free)", note:"Path down into Viti is steep and slippery when wet — poles essential. Change at truck before hiking. Bring towel and dry clothes."},
+        {time:"4:00pm", desc:"Return to Dreki. Set up camp."},
+        {time:"5:00pm", desc:"Cook a proper meal — high calories after a demanding day."},
+        {time:"Late", desc:"Midnight sun in the highland — sit outside with coffee. Extraordinary light at 1–2am.", note:"Set an alarm if you want to catch the best light. Totally worth the broken sleep."},
       ],
       hikes:[
-        {name:"Askja Caldera + Viti Crater", distance:"8km RT", difficulty:"Moderate", gain:"200m", time:"3–4 hrs", desc:"Follow marked trail from Dreki across ancient lava fields to the rim of the Askja caldera — a vast bowl containing deep blue Lake Öskjuvatn. Viti explosion crater (150m wide, 15 min from the rim) is filled with warm milky blue geothermal water. Swimming inside an active volcanic crater in the highland lava desert is genuinely unlike anything else on Earth."},
+        {
+          name:"Askja Caldera Hike + Viti Crater Swim",
+          distance:"8km RT from Dreki", difficulty:"Moderate", gain:"200m", time:"3–4 hrs",
+          desc:"Trail from Dreki crosses ancient lava fields to the Askja caldera rim — Öskjuvatn lake fills the caldera, deep cold blue at 200m+ depth, formed after the catastrophic 1875 eruption. From the rim, continue east 15 minutes to Viti — the 1875 explosion crater, 150m wide, containing warm geothermal water around 25–27°C, milky green-blue from minerals. The path to the water is steep and slippery (poles essential). Swimming inside an active volcanic crater in Iceland's highland lava desert is one of the great experiences of the entire trip."
+        },
       ],
       excursions:[],
-      tips:["The F88 drive takes 2.5 hrs each way. The Ódáðahraun lava desert (world's largest) is as dramatic as the caldera itself.", "Dreki hut has snacks, water, and rangers on-site. Indoor dining room closes at 9pm. Rocky ground — sleep in rooftop tent."],
-      warnings:["CRITICAL: Fill fuel to maximum + 20L jerry can at Mývatn. Zero fuel on this route.", "Walk every river crossing on F88 before driving through.", "Bring warm layers — altitude makes it significantly colder than the Ring Road."],
-      costs:{ accommodation:18, food:20, fuel:98 }
+      tips:[
+        "The F88 drive through Ódáðahraun (world's largest lava field, 3,000 km²) is as remarkable as the caldera. Stop and walk out onto the lava.",
+        "Viti swim: bring a waterproof bag for your phone — the colours inside the crater are extraordinary and worth photographing.",
+        "Dreki hut sells basic snacks and water. Rangers present. Indoor dining room closes 9pm.",
+        "Midnight at Dreki: the lava desert at 1–2am has otherworldly golden light. The silence and isolation are complete."
+      ],
+      warnings:[
+        "CRITICAL: Fill fuel to maximum + 20L jerry can at Mývatn. Zero fuel on F88.",
+        "Walk every river crossing before driving. Bring warm layers — significantly colder than Ring Road.",
+        "No mobile signal from F88 entrance until you exit. Download everything needed beforehand.",
+        "Viti descent path is steep and slippery — use trekking poles."
+      ],
+      costs:{accommodation:18, food:22, fuel:98}
     },
     {
-      num:12, date:"Jul 11", title:"Exit F88 → Akureyri Whale Watching",
+      num:12, date:"Jul 11", dow:"Friday", title:"Exit F88 → Akureyri: Whale Watching + Botanical Garden",
       sleep:"hostel", accommodation:"Akureyri Guesthouse",
       tags:["hostel","excursion"], lat:65.6814, lng:-18.0898,
-      summary:"Drive back out F88. Akureyri: whale watching in Eyjafjörður fjord. Botanical garden. Laundry + resupply.",
+      summary:"Drive F88 back to Ring Road. Akureyri city check-in. Whale watching in Eyjafjörður fjord — humpbacks and minkes. Akureyri botanical garden. Major resupply and laundry.",
+      distance:"~240km",
       schedule:[
-        {time:"8:00am", desc:"Exit F88 (same road back, 2.5 hrs to Ring Road)"},
-        {time:"10:30am", desc:"Top up fuel at first Ring Road station"},
+        {time:"8:00am", desc:"Exit F88 (same road, 2.5 hrs to Ring Road)"},
+        {time:"10:30am", desc:"Fill fuel at first Ring Road station"},
         {time:"12:00pm", desc:"Drive Ring Road west to Akureyri (~90 min)"},
-        {time:"1:30pm", desc:"Check in Akureyri Guesthouse. Laundry + resupply."},
-        {time:"2:00pm", desc:"Whale watching — Akureyri harbour (pre-booked)", note:"~$90pp. 3hrs. whalewatchingakureyri.is"},
-        {time:"5:30pm", desc:"Akureyri botanical garden — free"},
-        {time:"7:00pm", desc:"Dinner — cook in guesthouse or reindeer burger at Backpackers (~$20pp)"},
+        {time:"1:30pm", desc:"Check in Akureyri Guesthouse. Laundry. Long shower."},
+        {time:"2:00pm", desc:"Whale watching — Akureyri harbour (pre-booked)", note:"Walk to harbour (10 min). whalewatchingakureyri.is, ~$90pp, 3 hrs from Glerárgata dock."},
+        {time:"5:30pm", desc:"Walk to Akureyri Botanical Garden (free)", note:"Lystigarðurinn — world's most northerly botanical garden. 5 min from harbour. 30–45 min."},
+        {time:"7:00pm", desc:"Dinner — cook at guesthouse or one restaurant meal", note:"Strikið restaurant has views and fair prices. The reindeer burger at Akureyri Backpackers (~$22pp) is legendary among Ring Road travellers."},
+        {time:"Evening", desc:"Resupply at Bónus (Langholt), fill fuel, check truck for issues."},
       ],
       hikes:[],
       excursions:[
-        {name:"Whale Watching — Eyjafjörður Fjord", operator:"Whale Watching Akureyri (whalewatchingakureyri.is)", price:"~$90pp", duration:"3 hrs", url:"https://www.whalewatchingakureyri.is", desc:"Eyjafjörður is Iceland's longest fjord and one of Europe's most reliable whale-watching spots. July = peak humpback and minke season. ~95% sighting success rate. Departs from the city harbour — no transfer needed. Humpbacks regularly breach and bubble-net feed here."}
+        {
+          name:"Whale Watching — Eyjafjörður Fjord",
+          operator:"Whale Watching Akureyri (whalewatchingakureyri.is)", price:"~$90pp", duration:"3 hrs",
+          url:"https://www.whalewatchingakureyri.is",
+          desc:"Eyjafjörður (Iceland's longest fjord at 60km) is one of Europe's most consistently reliable whale-watching locations. July = peak season: ~95% sighting success for humpbacks and minke whales. Humpbacks here regularly breach, lunge-feed, and show their tails. Purpose-built vessels with heated indoor space and outdoor viewing decks. Binoculars provided."
+        }
       ],
-      tips:["Great rest day after two intensive highland days. Long shower, full laundry, proper resupply.", "The world's most northerly botanical garden blooms beautifully in July — free and surprisingly remarkable."],
+      tips:[
+        "Natural rest day after two demanding highland days. The whale watching is enough — don't overschedule.",
+        "Akureyri Botanical Garden at 65°N blooms remarkably in July. Tropical-looking plants in the subarctic is a genuine surprise.",
+        "Resupply thoroughly here — best supermarkets and fuel prices until Reykjavík."
+      ],
       warnings:[],
-      costs:{ accommodation:55, food:26, activities:90 }
+      costs:{accommodation:55, food:28, activities:90}
     },
     {
-      num:13, date:"Jul 12", title:"Kolugljúfur Canyon + Hólar Forest Camp",
-      sleep:"camp", accommodation:"Hólar Campground",
+      num:13, date:"Jul 12", dow:"Saturday", title:"Kolugljúfur Hidden Canyon + Hólar Cathedral Forest Camp",
+      sleep:"camp", accommodation:"Hólar Campground (+354 899 3231 — CALL FIRST)",
       tags:["camp","hike"], lat:65.7371, lng:-19.1196,
-      summary:"Kolugljúfur hidden gorge waterfall — one of the best free stops of the entire trip. Hólar ancient cathedral. Sheltered birch forest camp.",
+      summary:"Kolugljúfur gorge — upward-spraying waterfalls, unknown to most tourists. Hólar ancient cathedral village, one-time northern diocese seat. Sheltered birch forest camp.",
+      distance:"~100km",
       schedule:[
-        {time:"9:00am", desc:"Depart Akureyri west on Ring Road"},
-        {time:"10:00am", desc:"CALL Hólar campsite from Akureyri: +354 899 3231", note:"Confirm water is operational — May 2026 review flagged disconnection."},
-        {time:"11:30am", desc:"Kolugljúfur canyon — Route 715 south off Ring Road", note:"Free. 30–60 min walk. No guardrails — care near edge."},
-        {time:"1:00pm", desc:"Drive south to Hólar í Hjaltadal (~45 min)"},
-        {time:"2:00pm", desc:"Explore Hólar cathedral grounds — free"},
-        {time:"3:00pm", desc:"Set up camp in birch forest. Cook dinner."},
+        {time:"9:00am", desc:"CALL Hólar campsite from Akureyri: +354 899 3231", note:"Confirm water is operational — a May 2026 review flagged possible disconnection. Backup if down: Hvammstangi municipal campsite (~50 min west)."},
+        {time:"9:30am", desc:"Depart Akureyri west on Ring Road"},
+        {time:"11:00am", desc:"Turn south on Route 715 to Kolugljúfur canyon (free)"},
+        {time:"11:30am", desc:"Kolugljúfur canyon walk (see trails below)", note:"30–60 min. No guardrails — care near edge."},
+        {time:"1:00pm", desc:"Continue south via Route 752 to Hólar í Hjaltadal (~45 min)"},
+        {time:"2:00pm", desc:"Arrive Hólar. Check in campsite."},
+        {time:"2:30pm", desc:"Walk around Hólar cathedral and farm buildings (free)", note:"Red sandstone cathedral (Hóladómkirkja) from 1763. Hólar was the northern diocese seat 1106–1798. Small museum if open."},
+        {time:"4:00pm", desc:"Set up camp in birch forest. Cook dinner. Rest."},
+        {time:"Evening", desc:"Walk in the birch forest. Listen to redwings. Total quiet."},
       ],
       hikes:[
-        {name:"Kolugljúfur Canyon Walk", distance:"1–2km", difficulty:"Easy", gain:"50m", time:"30–60 min", desc:"A hidden gorge carved deep into red-orange rock with multiple waterfalls — one shoots water upward in strong wind creating a natural mist wall. Known to almost no tourists outside Iceland. Free parking."},
+        {
+          name:"Kolugljúfur Canyon Waterfall Walk",
+          distance:"1.5km", difficulty:"Easy", gain:"50m", time:"30–60 min",
+          desc:"Kolugljúfur ('Kola's Gorge') is carved into red-orange basalt by the Víðidalsá river. Multiple waterfalls in the gorge — the most distinctive feature: in strong wind one side waterfall is blown upward by canyon air currents, spraying water skyward into a reverse waterfall. Completely unknown to most international visitors. Free parking. No guardrails on the rim — stay back from the edge."
+        },
       ],
       excursions:[],
-      tips:["Hólar is Iceland's oldest cathedral village, one-time seat of the bishop. The red sandstone cathedral dates from 1763.", "Deliberately slow day between two intense sections — let the legs recover."],
-      warnings:["CALL Hólar campsite (+354 899 3231) before leaving Akureyri. If water still disconnected, backup: Hvammstangi municipal campsite (~50 min west on Ring Road)."],
-      costs:{ accommodation:14, food:18 }
+      tips:[
+        "Kolugljúfur in strong wind: the upward-spraying waterfall is the main spectacle. Even in calm weather the canyon is extraordinary.",
+        "Deliberately restful day. Don't rush it — the legs need recovery before Snæfellsnes.",
+        "If Hólar water is down, Hvammstangi campsite is 50km west — fine but less scenic than Hólar's forest setting."
+      ],
+      warnings:[
+        "CALL Hólar campsite before leaving Akureyri: +354 899 3231."
+      ],
+      costs:{accommodation:14, food:18}
     },
     {
-      num:14, date:"Jul 13", title:"Snæfellsnes — Kirkjufell + The Freezer",
-      sleep:"hostel", accommodation:"The Freezer Hostel, Rif",
+      num:14, date:"Jul 13", dow:"Sunday", title:"Snæfellsnes — Seals + Kirkjufell + The Freezer",
+      sleep:"hostel", accommodation:"The Freezer Hostel, Rif (thefreezerhostel.com)",
       tags:["hostel"], lat:64.9222, lng:-23.8194,
-      summary:"Long drive to Snæfellsnes. Ytri Tunga harbor seals. Kirkjufell mountain + Kirkjufellsfoss. Midnight return for golden light.",
+      summary:"Longest drive day. Ytri Tunga harbour seals completely unbothered by people. Kirkjufell mountain — Iceland's most photographed peak. Check in The Freezer Hostel. Return to Kirkjufell at midnight for golden light.",
+      distance:"~240km",
       schedule:[
-        {time:"8:00am", desc:"Depart Hólar. Drive south then west (~220km, ~3 hrs)"},
-        {time:"1:00pm", desc:"Ytri Tunga seal colony beach", note:"FREE. Harbor seals on rocks completely unbothered. Walk to end of boardwalk."},
-        {time:"2:00pm", desc:"Kirkjufell mountain + Kirkjufellsfoss waterfall viewpoint", note:"FREE. Iceland's most photographed mountain."},
-        {time:"4:30pm", desc:"Check in The Freezer Hostel, Rif", note:"thefreezerhostel.com. Owner Kári plays live guitar evenings."},
-        {time:"6:00pm", desc:"Cook dinner in hostel kitchen"},
-        {time:"11:30pm", desc:"Drive back to Kirkjufell for midnight sun golden light", note:"10 min from hostel. Mountain glows gold. Bring camera."},
+        {time:"8:00am", desc:"Depart Hólar south via Route 752, then south and west on Ring Road toward Borgarnes", note:"~3 hrs to the Snæfellsnes junction at Vegamót."},
+        {time:"11:30am", desc:"Turn west onto Route 54 onto Snæfellsnes peninsula"},
+        {time:"1:00pm", desc:"Ytri Tunga — harbour seal colony (free, 20–30 min)", note:"Follow signs off Route 54 to Ytri Tunga farm. Short walk to the rocky point. Harbour seals haul out in large numbers and are completely accustomed to quiet humans at respectful distances. Some approach within a few metres in the water. Move slowly and stay low."},
+        {time:"2:00pm", desc:"Continue to Grundarfjörður — Kirkjufell mountain + Kirkjufellsfoss"},
+        {time:"2:30pm", desc:"Kirkjufell viewpoint — the most photographed mountain in Iceland (free)", note:"Classic shot: Kirkjufellsfoss three-stream waterfall in foreground, 463m isolated pyramid peak behind. 5 min walk from car park to viewpoint."},
+        {time:"3:30pm", desc:"Drive 10 min west to Rif. Check in The Freezer Hostel.", note:"thefreezerhostel.com, +354 833 8200. Old fish-freezing plant converted into Iceland's most characterful hostel. Art everywhere. Owner Kári plays live guitar most evenings."},
+        {time:"5:00pm", desc:"Cook dinner at hostel. Rest. Walk Rif harbour."},
+        {time:"11:30pm", desc:"Drive back to Kirkjufell for midnight sun golden hour", note:"10 min from hostel. Mountain glows gold 11:30pm–1am. Bring camera. One of Iceland's great images."},
       ],
       hikes:[],
       excursions:[],
-      tips:["The midnight light on Kirkjufell is one of the great photographic moments of Iceland. Don't skip the midnight drive back.", "The Freezer is a converted fish-freezing plant. Art on every wall, acoustic music most evenings."],
+      tips:[
+        "Kirkjufell midnight: set an alarm. The golden light on this mountain is one of Iceland's great photographic opportunities and it requires zero effort beyond a 10-minute drive.",
+        "Ytri Tunga: approach slowly and stay low — seals will watch you but won't flee if you move calmly. Keep 20m distance.",
+        "The Freezer Hostel: talk to people here. The hostel community and the owner create a genuinely warm atmosphere."
+      ],
       warnings:[],
-      costs:{ accommodation:45, food:18, fuel:55 }
+      costs:{accommodation:45, food:18, fuel:55}
     },
     {
-      num:15, date:"Jul 14", title:"Snæfellsjökull + Seltún → KEF — 4pm Flight",
-      sleep:"—", accommodation:"Flight departs 4:00pm",
+      num:15, date:"Jul 14", dow:"Monday", title:"Snæfellsjökull + Arnarstapi + Seltún → KEF — 4pm Departure",
+      sleep:"—", accommodation:"Flight departs KEF 4:00pm",
       tags:["hike"], lat:63.8958, lng:-22.0548,
-      summary:"Arnarstapi coastal trail + Gatklettur arch. Snæfellsjökull glacier tip. Seltún geothermal. Return truck KEF. 4pm departure.",
+      summary:"Arnarstapi coastal trail and Gatklettur circular arch. Snæfellsjökull National Park glacier tip — Jules Verne's Journey to the Centre of the Earth. Optional Vatnshellir lava cave. Seltún geothermal mud pots en route to KEF. Return truck. 4pm departure.",
+      distance:"~250km",
       schedule:[
-        {time:"7:30am", desc:"Arnarstapi — coastal trail + Gatklettur arch hike"},
-        {time:"9:30am", desc:"Hellnar viewpoint + basalt shore walk"},
-        {time:"10:30am", desc:"Drive to Snæfellsjökull NP glacier tip — free"},
-        {time:"11:45am", desc:"⚠️ LEAVE Snæfellsnes by 11:45am at the latest"},
-        {time:"12:00pm", desc:"Drive south to Reykjanes peninsula (~2hrs)"},
-        {time:"2:00pm", desc:"Seltún geothermal area — 30 min boardwalk", note:"FREE. Bubbling mud pots, steaming vents. En route to KEF — adds only 20 min."},
-        {time:"1:30pm", desc:"Return truck to KEF rental lot", note:"Allow 2.5hrs before 4pm flight. Target KEF by 1:30pm."},
-        {time:"4:00pm", desc:"FLIGHT DEPARTS"},
+        {time:"7:30am", desc:"Arnarstapi village — coastal trail + Gatklettur arch hike (see trails below)"},
+        {time:"9:30am", desc:"Hellnar viewpoint + basalt shore walk (10–15 min)"},
+        {time:"10:00am", desc:"Drive to Snæfellsjökull NP glacier tip — free drive-in", note:"Route 574 takes you along the peninsula tip. Park as high as the road allows and walk toward the glacier. Arctic foxes tracks visible on snow. Jules Verne placed the entrance to Journey to the Centre of the Earth at this crater."},
+        {time:"10:30am", desc:"OPTIONAL: Vatnshellir lava cave guided tour (~$20pp, 45 min)", note:"8,000-year-old lava tube. Tours depart hourly from the cave entrance (signed on Route 574). Cave temperature ~4°C — bring a warm layer. Good headtorch useful."},
+        {time:"11:15am", desc:"⚠ LEAVE SNÆFELLSNES — hard departure deadline for 4pm flight"},
+        {time:"11:15am", desc:"Drive south on Route 54, east on Ring Road, south toward Reykjanes (~2 hrs)"},
+        {time:"1:15pm", desc:"Seltún geothermal area — Reykjanes peninsula (20–25 min stop)", note:"FREE. Exit toward Krýsuvík. Boardwalk through bubbling mudpots, steaming fumaroles, vivid sulphur-stained earth. En route to KEF — adds only 20 min. Parka.is for parking."},
+        {time:"1:45pm", desc:"Drive final 20 min to KEF. Fill fuel at Orkan on Reykjanesbraut.", note:"Fill fuel before rental return — most contracts require full tank."},
+        {time:"2:00pm", desc:"Return truck to rental company", note:"Allow minimum 2 hours before departure. Clean truck bed, fold and latch RTT correctly, remove all personal items. Check thoroughly for damage — note anything found before they do."},
+        {time:"2:30pm", desc:"Terminal check-in + security", note:"KEF security queues can be long in peak summer. Allow 45–60 min minimum."},
+        {time:"3:00pm", desc:"Duty-free at KEF", note:"Brennivín, Icelandic gin, skyr chocolate, Nói Síríus chocolate, lopapeysa wool. VAT refund desk near Arrivals for Tax-Free purchases."},
+        {time:"4:00pm", desc:"FLIGHT DEPARTS — Iceland done."},
       ],
       hikes:[
-        {name:"Arnarstapi–Hellnar Coastal Trail + Gatklettur", distance:"5km RT", difficulty:"Easy", gain:"50m", time:"1.5 hrs", desc:"Coastal path past basalt sea stacks, sea arches, caves, and seabird colonies. Gatklettur — a natural circular arch through solid rock — is the highlight. Fulmars, kittiwakes, and Arctic terns everywhere."},
+        {
+          name:"Arnarstapi–Hellnar Coastal Trail + Gatklettur Arch",
+          distance:"5km RT", difficulty:"Easy", gain:"50m", time:"1.5 hrs",
+          desc:"One of Iceland's best short coastal walks. Path follows the lava coastline between Arnarstapi and Hellnar past basalt sea stacks, sea arches, caves, and seabird colonies. The centrepiece is Gatklettur ('Hole Rock') — a perfect circular arch through a solid basalt promontory, framing ocean beyond. Fulmars, kittiwakes, and Arctic terns nest on every ledge and are vocal and active. From Hellnar, a short detour leads to a sheltered sea cave accessible at low tide."
+        },
       ],
       excursions:[],
-      tips:["Duty-free at KEF is genuinely good value for Icelandic spirits, chocolate, and wool items.", "Return truck fully cleaned — rooftop tent folded and latched, truck bed swept."],
-      warnings:["FLIGHT DEPARTS 4:00pm. Must return truck by 1:30pm. Leave Snæfellsnes tip by 11:45am — not a minute later."],
-      costs:{ food:18 }
+      tips:[
+        "Leave Snæfellsnes by 11:15am — the 4pm flight gives no margin for lingering. This is a hard deadline.",
+        "Vatnshellir cave (optional): one of Iceland's most accessible lava tubes. A 45-minute guided tour into 8,000-year-old formations. On-site booking, no advance needed.",
+        "Seltún is directly on the route to KEF and adds only 20 minutes — don't skip it for time reasons.",
+        "KEF duty-free: Brennivín is the classic Icelandic spirit (caraway aquavit, the 'Black Death'). Genuinely excellent and much cheaper duty-free.",
+        "Return truck: rental companies charge for dirty truck beds. Sweep it out. Fold RTT properly."
+      ],
+      warnings:[
+        "HARD DEADLINE: Flight departs 4:00pm. Leave Snæfellsnes tip by 11:15am. Return truck by 2:00pm. Clear security by 3:00pm.",
+        "Fill truck fuel at Orkan on Reykjanesbraut before rental return — most contracts require a full tank."
+      ],
+      costs:{food:20}
     },
   ],
 
-  regions:{
-    south:[1,2,3,4,5,6,7],
-    east:[7,8,9],
-    north:[10,11,12,13],
-    west:[13,14,15],
-  },
+  regions:{south:[1,2,3,4,5,6,7],east:[7,8,9],north:[10,11,12,13],west:[13,14,15]},
 
   budget:{
     fixed:[
-      {label:"4x4 truck rental — 15 days, F-road insurance", sub:"~$90/day", pp:675, total:1350},
-      {label:"Iceland Camping Card — 2 adults, 28 nights", sub:"campingcard.is", pp:94, total:187},
-      {label:"Travel insurance — adventure activity coverage", sub:"World Nomads or similar", pp:60, total:120},
+      {label:"4x4 truck rental — 15 days with full F-road insurance", sub:"~$90/day. Confirm F88 + F206/F207 covered in writing.", pp:675, total:1350},
+      {label:"Iceland Camping Card — 2 adults, 28 nights", sub:"Buy at campingcard.is. Covers Skaftafell, Hlíð Mývatn, and others.", pp:94, total:187},
+      {label:"Travel insurance — must cover adventure activities", sub:"Confirm glacier ice climbing + canyoning explicitly covered.", pp:60, total:120},
     ],
     accommodation:[
-      {label:"Hostel nights × 7 (avg $47pp)", sub:"Loft HI, Vík HI, Höfn HI, East GH, Akureyri GH, Freezer", pp:329, total:658},
-      {label:"Camp nights × 7 (avg $17pp)", sub:"Landmannalaugar, Þakgil, Blágil, Skaftafell, Stafafell, Hlíð, Dreki", pp:119, total:238},
+      {label:"Hostel nights × 7 (avg $47pp/night)", sub:"Loft HI Reykjavík · Vík HI · Höfn HI · East Guesthouse · Akureyri GH · The Freezer", pp:329, total:658},
+      {label:"Camp nights × 7 (avg $17pp/night)", sub:"Landmannalaugar · Þakgil · Blágil · Skaftafell · Stafafell · Hlíð · Dreki", pp:119, total:238},
     ],
     food:[
-      {label:"15 days self-catering avg $22/day", sub:"Bónus shops, cook from truck stove", pp:330, total:660},
+      {label:"15 days mixed self-catering avg $22/day", sub:"Bónus shops + cook from truck. 2 restaurant meals: Höfn langoustine + Akureyri.", pp:330, total:660},
     ],
     activities:[
-      {label:"Glacier Xtreme ice climbing — Falljökull", sub:"adventures.is — BOOK NOW", pp:242, total:484},
-      {label:"Canyoning under Vatnajökull", sub:"ice-guardians.com — BOOK NOW", pp:278, total:556},
-      {label:"Katla ice cave super-jeep", sub:"troll.is / katlatrack.is", pp:90, total:180},
-      {label:"Whale watching — Akureyri", sub:"whalewatchingakureyri.is", pp:90, total:180},
-      {label:"Earth Lagoon Mývatn", sub:"earthlagoon.is — confirm 2026 reopening", pp:64, total:128},
-      {label:"Ingólfshöfði puffin tractor tour", sub:"ingolfshofdi.com", pp:40, total:80},
-      {label:"Þórsmörk Sterna bus return", sub:"sterna.is — non-optional access", pp:44, total:88},
+      {label:"Glacier Xtreme ice climbing — Falljökull", sub:"adventures.is · BOOK TODAY · Day 6", pp:242, total:484},
+      {label:"Canyoning under Vatnajökull — Ice Guardians", sub:"ice-guardians.com · BOOK TODAY · Day 7", pp:278, total:556},
+      {label:"Katla ice cave super-jeep tour", sub:"troll.is · Day 4", pp:90, total:180},
+      {label:"Whale watching — Akureyri", sub:"whalewatchingakureyri.is · Day 12", pp:90, total:180},
+      {label:"Earth Lagoon Mývatn", sub:"earthlagoon.is — confirm 2026 reopening · Day 10", pp:64, total:128},
+      {label:"Ingólfshöfði puffin tractor tour", sub:"ingolfshofdi.com · Day 8", pp:40, total:80},
+      {label:"Þórsmörk Sterna bus return", sub:"sterna.is · non-optional access · Day 3", pp:44, total:88},
       {label:"Hallgrímskirkja tower", sub:"Day 1", pp:11, total:22},
     ],
     fuel:[
       {leg:"Day 1: KEF → Reykjavík + errands", km:80, cost:10},
-      {leg:"Day 2: Reykjavík → Háifoss → Landmannalaugar F208", km:210, cost:26},
-      {leg:"Day 3: Landmannalaugar → Þórsmörk area → Þakgil", km:60, cost:8},
-      {leg:"Day 4: Þakgil → Vík area (Dyrhólaey, Reynisfjara)", km:70, cost:9},
-      {leg:"Day 5: Vík → Fjáðrárgljúfur → F206/F207 Laki → Blágil", km:200, cost:35},
-      {leg:"Day 6: Blágil → Skaftafell", km:80, cost:10},
-      {leg:"Day 7: Skaftafell → Haukafell canyoning → Höfn", km:100, cost:12},
+      {leg:"Day 2: Reykjavík → Háifoss → Landmannalaugar F208", km:250, cost:31},
+      {leg:"Day 3: Landmannalaugar → Skógafoss → Þórsmörk → Þakgil", km:130, cost:16},
+      {leg:"Day 4: Þakgil → Vík → Dyrhólaey → Reynisfjara", km:80, cost:10},
+      {leg:"Day 5: Vík → Fjáðrárgljúfur → F206/F207 Laki loop → Blágil", km:200, cost:35},
+      {leg:"Day 6: Blágil → Skaftafell (Glacier Xtreme)", km:80, cost:10},
+      {leg:"Day 7: Skaftafell → Diamond Beach → Haukafell canyoning → Höfn", km:110, cost:14},
       {leg:"Day 8: Höfn → Ingólfshöfði → Stafafell", km:130, cost:16},
-      {leg:"Day 9: Stafafell → Borgarfjörður Eystri → Stuðlagil → Seyðisfjörður → Egilsstaðir", km:260, cost:33},
-      {leg:"Day 10: Egilsstaðir → Mývatn", km:175, cost:22},
-      {leg:"Day 11: Mývatn → F88 → Askja → Dreki (highland, slow)", km:260, cost:49},
+      {leg:"Day 9: Stafafell → Borgarfjörður Eystri → Stuðlagil → Seyðisfjörður → Egilsstaðir", km:300, cost:38},
+      {leg:"Day 10: Egilsstaðir → Goðafoss → Mývatn", km:175, cost:22},
+      {leg:"Day 11: Mývatn → F88 → Askja → Dreki and back", km:240, cost:49},
       {leg:"Day 12: Dreki → F88 exit → Akureyri", km:200, cost:25},
       {leg:"Day 13: Akureyri → Kolugljúfur → Hólar", km:100, cost:13},
-      {leg:"Day 14: Hólar → Snæfellsnes (long drive)", km:220, cost:28},
-      {leg:"Day 15: Snæfellsnes → Reykjanes → KEF", km:200, cost:25},
+      {leg:"Day 14: Hólar → Snæfellsnes", km:240, cost:30},
+      {leg:"Day 15: Snæfellsnes → Seltún → KEF", km:210, cost:26},
     ],
     parking:[
-      {site:"Háifoss (Road 332)", cost:8},
-      {site:"Seljalandsfoss + Skógafoss", cost:8},
-      {site:"Skaftafell NP (Day 6)", cost:4},
-      {site:"Dyrhólaey + Reynisfjara", cost:8},
-      {site:"Jökulsárlón (Diamond Beach stop)", cost:4},
-      {site:"Fjáðrárgljúfur canyon", cost:4},
-      {site:"Hverfjall, Mývatn", cost:4},
-      {site:"Stuðlagil Canyon", cost:4},
-      {site:"Snæfellsjökull NP + Arnarstapi", cost:8},
-      {site:"Seltún, Reykjanes", cost:3},
-      {site:"Misc Ring Road pullouts", cost:8},
+      {site:"Háifoss / Road 332", cost:8},{site:"Seljalandsfoss (Day 3 en route)", cost:4},
+      {site:"Skógafoss (Day 3)", cost:4},{site:"Skaftafell NP (Day 6)", cost:4},
+      {site:"Diamond Beach (Day 7)", cost:4},{site:"Fjáðrárgljúfur canyon (Day 5)", cost:4},
+      {site:"Dyrhólaey + Reynisfjara (Day 4)", cost:8},{site:"Hverfjall, Mývatn (Day 10)", cost:4},
+      {site:"Stuðlagil Canyon (Day 9)", cost:4},{site:"Snæfellsjökull NP + Arnarstapi (Day 15)", cost:8},
+      {site:"Seltún, Reykjanes (Day 15)", cost:3},{site:"Goðafoss (Day 10)", cost:3},
+      {site:"Misc Ring Road pullouts", cost:10},
     ],
   },
 
   checklist:[
-    {
-      section:"Book immediately — do today",
-      badge:"urgent",
-      items:[
-        {text:"Glacier Xtreme ice climbing — Falljökull", sub:"Day 6 (Jul 5) · ~$242pp · Max 6 people — sells out in days", url:"https://adventures.is/iceland/day-tours/glacier-tours/glacier-tours-on-vatnajokull/glacier-xtreme-and-ice-climbing/"},
-        {text:"Canyoning under Vatnajökull — Ice Guardians", sub:"Day 7 (Jul 6) · ~$278pp (34,900 ISK) · Only operator in Iceland", url:"https://ice-guardians.com/tour/half-day-canyoning-under-vatnajokull/"},
-        {text:"Katla ice cave super-jeep tour", sub:"Day 4 (Jul 3) · ~$90pp · Departs from Vík", url:"https://www.troll.is"},
-        {text:"Whale watching — Akureyri", sub:"Day 12 (Jul 11) · ~$90pp · 3hrs", url:"https://www.whalewatchingakureyri.is"},
-        {text:"Loft HI Hostel, Reykjavík", sub:"Night 1 (Jun 30)", url:"https://www.hostel.is"},
-        {text:"Þórsmörk Sterna bus return", sub:"Day 3 (Jul 2) · $44pp · Must pre-book", url:"https://www.sterna.is"},
-        {text:"Vík HI Hostel", sub:"Night 4 (Jul 3)", url:"https://www.hostel.is"},
-        {text:"Höfn HI Hostel", sub:"Night 7 (Jul 6)", url:"https://www.hostel.is"},
-        {text:"Þakgil canyon campsite", sub:"Night 3 (Jul 2) · +354 893 4889", url:"https://www.thakgil.is"},
-      ]
-    },
-    {
-      section:"Book within 1–2 weeks",
-      badge:"soon",
-      items:[
-        {text:"Earth Lagoon Mývatn — confirm 2026 reopening first", sub:"Day 10 (Jul 9) · ~$64pp", url:"https://www.earthlagoon.is"},
-        {text:"Ingólfshöfði tractor puffin tour", sub:"Day 8 (Jul 7) · ~$40pp", url:"https://www.ingolfshofdi.com"},
-        {text:"East Guesthouse, Egilsstaðir", sub:"Night 9 (Jul 8)", url:"https://www.eastguesthouse.is"},
-        {text:"Akureyri Guesthouse", sub:"Night 12 (Jul 11) · book via Booking.com"},
-        {text:"The Freezer Hostel, Rif", sub:"Night 14 (Jul 13)", url:"https://www.thefreezerhostel.com"},
-        {text:"Landmannalaugar parking reservation", sub:"Required 9am–4pm arrivals · fi.is", url:"https://www.fi.is/en/mountain-huts/all-mountain-huts/landmannalaugar"},
-      ]
-    },
-    {
-      section:"Purchase before departure",
-      badge:"before",
-      items:[
-        {text:"Iceland Camping Card — 2 adults, 28 nights", sub:"€179 / ~$187", url:"https://www.campingcard.is"},
-        {text:"Travel insurance — adventure activity coverage", sub:"~$60pp"},
-        {text:"Head nets × 2", sub:"Essential for Mývatn — absolutely non-optional"},
-        {text:"Water filter (Sawyer Squeeze)", sub:"For Lónsöræfi and Askja trail days"},
-        {text:"Blackout sleep mask × 2", sub:"Midnight sun never gets dark in July"},
-        {text:"20L fuel jerry can", sub:"For F88 Askja day — fill at Mývatn"},
-      ]
-    },
-    {
-      section:"Bookmark + download before departure",
-      badge:"before",
-      items:[
-        {text:"Parka.is app", sub:"Camera-enforced parking at ALL major Iceland sites", url:"https://parka.is"},
-        {text:"112 Iceland app", sub:"One button sends GPS to emergency services"},
-        {text:"Gaia GPS — download Iceland offline maps", sub:"Covers all F-roads. Download before leaving."},
-        {text:"Bookmark umferdin.is/en/road/91381", sub:"Live F207 Laki road status — check morning of Day 5", url:"https://umferdin.is/en/road/91381"},
-        {text:"Bookmark road.is", sub:"General F-road conditions and closures"},
-        {text:"Bookmark safetravel.is", sub:"Register F88 and F206 routes before entering"},
-        {text:"Bookmark vegagerdin.is mountain road page", sub:"Official IRCA road opening data", url:"https://www.vegagerdin.is/en/the-transportation-system/the-road-system/roads/opening-of-mountain-roads"},
-      ]
-    },
-    {
-      section:"Call / confirm before departure",
-      badge:"before",
-      items:[
-        {text:"Rental company — F-road insurance in writing", sub:"Confirm F88, F206/F207 covered. Full-size spare tire."},
-        {text:"Hólar campsite water status", sub:"Call +354 899 3231 — May 2026 review flagged disconnection"},
-        {text:"Stafafell campsite open Jul 7", sub:"Call +354 699 6684"},
-        {text:"Laki F207 road open for Jul 4", sub:"Check umferdin.is/en/road/91381 week of departure"},
-      ]
-    },
-    {
-      section:"Clothing + gear",
-      badge:"gear",
-      items:[
-        {text:"Waterproof jacket + waterproof trousers × each", sub:"Keep in truck cab at ALL times — not the truck bed"},
-        {text:"Merino wool base layers × 3 sets each"},
-        {text:"Warm mid-layer (fleece or down puffy) × each"},
-        {text:"Warm hat + gloves × each", sub:"Highlands get cold even in July"},
-        {text:"Stiff hiking boots with ankle support × each", sub:"Break them in before you go"},
-        {text:"Dry bags for everything in truck bed"},
-        {text:"Camp stove + gas canisters", sub:"Buy gas in Iceland — cannot fly with canisters"},
-        {text:"Cooking pot, pan, utensils, plates, cups"},
-        {text:"Power banks × 2"},
-        {text:"Tow rope + tire plug kit", sub:"F-road non-negotiable"},
-        {text:"First aid kit"},
-        {text:"Sunscreen", sub:"Midnight sun = real UV even at 11pm"},
-      ]
-    },
+    {section:"Book immediately — do today", badge:"urgent", items:[
+      {text:"Glacier Xtreme ice climbing — Falljökull / Vatnajökull", sub:"Day 6 (Jul 5) · ~$242pp · Max 6 people · July slots sell out within days of opening", url:"https://adventures.is/iceland/day-tours/glacier-tours/glacier-tours-on-vatnajokull/glacier-xtreme-and-ice-climbing/"},
+      {text:"Canyoning under Vatnajökull — Ice Guardians", sub:"Day 7 (Jul 6) · ~$278pp (34,900 ISK) · Only canyoning operator in Iceland", url:"https://ice-guardians.com/tour/half-day-canyoning-under-vatnajokull/"},
+      {text:"Katla ice cave super-jeep tour — from Vík", sub:"Day 4 (Jul 3) · ~$90pp · troll.is or katlatrack.is", url:"https://www.troll.is"},
+      {text:"Whale watching — Akureyri, Eyjafjörður fjord", sub:"Day 12 (Jul 11) · ~$90pp · 3 hours", url:"https://www.whalewatchingakureyri.is"},
+      {text:"Loft HI Hostel, Reykjavík — Bankastræti 7", sub:"Night 1 (Jun 30) · hostel.is", url:"https://www.hostel.is/hostels/reykjavik-loft-hi-hostel"},
+      {text:"Vík HI Hostel", sub:"Night 4 (Jul 3) · small hostel, fills very fast in July", url:"https://www.hostel.is"},
+      {text:"Höfn HI Hostel", sub:"Night 7 (Jul 6) · glacier terrace views", url:"https://www.hostel.is"},
+      {text:"Þakgil canyon campsite", sub:"Night 3 (Jul 2) · thakgil.is or +354 893 4889", url:"https://www.thakgil.is"},
+      {text:"Sterna highland bus — Þórsmörk return", sub:"Day 3 (Jul 2) · $44pp · must pre-book · sterna.is", url:"https://www.sterna.is"},
+    ]},
+    {section:"Book within 1–2 weeks", badge:"soon", items:[
+      {text:"East Guesthouse, Egilsstaðir", sub:"Night 9 (Jul 8) · eastguesthouse.is", url:"https://www.eastguesthouse.is"},
+      {text:"Akureyri Guesthouse (quieter than Backpackers)", sub:"Night 12 (Jul 11) · search Booking.com"},
+      {text:"The Freezer Hostel, Rif, Snæfellsnes", sub:"Night 14 (Jul 13) · thefreezerhostel.com", url:"https://www.thefreezerhostel.com"},
+      {text:"Earth Lagoon Mývatn — confirm 2026 reopening first", sub:"Day 10 (Jul 9) · ~$64pp · earthlagoon.is", url:"https://www.earthlagoon.is"},
+      {text:"Ingólfshöfði tractor puffin tour", sub:"Day 8 (Jul 7) · ~$40pp · confirm tour times", url:"https://www.ingolfshofdi.com"},
+      {text:"Landmannalaugar parking reservation", sub:"Required if arriving 9am–4pm · fi.is", url:"https://www.fi.is/en/mountain-huts/all-mountain-huts/landmannalaugar"},
+    ]},
+    {section:"Accommodation contacts — all 15 nights", badge:"info", items:[
+      {text:"Night 1 — Loft HI Hostel, Bankastræti 7, Reykjavík", sub:"+354 553 8140 · hostel.is · check-in 2pm"},
+      {text:"Night 2 — Landmannalaugar campsite", sub:"+354 860 3335 · fi.is · NOT on Camping Card · pay at hut"},
+      {text:"Night 3 — Þakgil canyon campsite", sub:"+354 893 4889 · thakgil.is · hot showers"},
+      {text:"Night 4 — Vík HI Hostel", sub:"hostel.is · small kitchen · book far in advance"},
+      {text:"Night 5 — Blágil hut campsite (F207 loop)", sub:"+354 487 4840 · NOT on Camping Card · ~$15pp"},
+      {text:"Night 6 — Skaftafell NP campsite", sub:"Camping Card accepted · hot showers + laundry"},
+      {text:"Night 7 — Höfn HI Hostel", sub:"+354 478 1736 · hostel.is · glacier terrace views"},
+      {text:"Night 8 — Stafafell Nature Park", sub:"+354 699 6684 · call to confirm open · ~$14pp"},
+      {text:"Night 9 — East Guesthouse, Egilsstaðir", sub:"+354 857 0804 · eastguesthouse.is"},
+      {text:"Night 10 — Hlíð campsite, Lake Mývatn", sub:"+354 899 6203 · Camping Card · HEAD NETS ESSENTIAL"},
+      {text:"Night 11 — Dreki hut campsite (F88/F910 junction)", sub:"ffa.is · NOT on Camping Card · ~$18pp · rangers on site"},
+      {text:"Night 12 — Akureyri Guesthouse", sub:"Book via Booking.com · quieter than Backpackers"},
+      {text:"Night 13 — Hólar campground, Hólar í Hjaltadal", sub:"+354 899 3231 · CALL FIRST — water issue flagged May 2026"},
+      {text:"Night 14 — The Freezer Hostel, Rif", sub:"+354 833 8200 · thefreezerhostel.com"},
+    ]},
+    {section:"Call / confirm before departure", badge:"before", items:[
+      {text:"Rental company: F-road insurance confirmed in writing", sub:"Confirm F88, F206, F207 all covered. Ask for full-size spare tyre (not space-saver). Confirm RTT height clears campsite barriers."},
+      {text:"Hólar campsite water status — +354 899 3231", sub:"May 2026 review flagged possible disconnection. Backup: Hvammstangi municipal campsite 50km west."},
+      {text:"Stafafell campsite open Jul 7 — +354 699 6684", sub:"Small farm campsite. Confirm open and expecting guests."},
+      {text:"Earth Lagoon Mývatn reopening confirmed", sub:"Major renovation in progress. Check earthlagoon.is — confirm summer 2026 opening before booking."},
+      {text:"Blágil hut available Jul 4 — +354 487 4840", sub:"Basic highland hut. Confirm campsite available for your date."},
+      {text:"Travel insurance: confirm glacier climbing + canyoning covered", sub:"Call your insurer and get written confirmation before departure. Many standard policies exclude these activities."},
+      {text:"Ice Guardians canyoning — confirm meetpoint location", sub:"+354 898 2277 or info@ice-guardians.com. Haukafell Campsite, Hornafjörður. Confirm exact start time for Day 7."},
+    ]},
+    {section:"Purchase before departure", badge:"before", items:[
+      {text:"Iceland Camping Card — 2 adults, 28 nights", sub:"€179 / ~$187 · campingcard.is · saves cash hassle + money", url:"https://www.campingcard.is"},
+      {text:"Head nets × 2 (sealed face type, not loose mesh)", sub:"ABSOLUTELY ESSENTIAL for Mývatn. Midges are brutal in July. Buy before you leave — reliable US options at REI or Amazon."},
+      {text:"Water filter — Sawyer Squeeze, Squeeze 2, or BeFree", sub:"For Lónsöræfi canyon (Day 8) and Askja highland hike (Day 11) where mountain streams are the only water source."},
+      {text:"Blackout sleep mask × 2 (or RTT blackout liner)", sub:"It genuinely never gets dark in late June/July. Essential for sleep from Night 1."},
+      {text:"20-litre fuel jerry can (HDPE plastic, approved type)", sub:"Fill at Mývatn on Day 11 morning before F88. Mandatory safety measure for the Askja day."},
+      {text:"Tow rope — rated to vehicle weight + 50%", sub:"F-road non-negotiable. Buy before leaving — expensive in Iceland. Minimum 5-tonne rated."},
+      {text:"Tyre plug kit + portable 12V inflator (compressor)", sub:"For F-road lava punctures. A set of 5 plugs and a 12V compressor is faster than a full tyre change."},
+      {text:"First aid kit (adventure-rated)", sub:"Include: blister treatment (Compeed), bandages, antiseptic, pain relief, antihistamine, ibuprofen gel for muscles."},
+      {text:"Waterproof phone case or dry bag (for canyoning)", sub:"Required for the Ice Guardians canyoning day. A Loksak dry bag works perfectly."},
+      {text:"Trekking poles × 2 pairs (collapsible)", sub:"Essential for Viti crater descent (steep + slippery), Bláhnúkur, and Lónsöræfi unmarked terrain."},
+    ]},
+    {section:"Download + bookmark before departure", badge:"before", items:[
+      {text:"Parka.is app — set up account + payment method", sub:"Camera-enforced parking at ALL major Iceland sites. Set up before you land — charges applied within minutes of parking.", url:"https://parka.is"},
+      {text:"112 Iceland app", sub:"One button sends GPS to Icelandic SAR. Mandatory for all F-road days.", url:"https://www.112.is"},
+      {text:"Gaia GPS Premium — download Iceland offline maps", sub:"Essential for Lónsöræfi (Day 8, unmarked trail) and Remundargil (Day 4). Download maps at home over wifi."},
+      {text:"Wikiloc — save Remundargil and Lónsöræfi routes offline", sub:"Search 'Remundargil Þakgil' and 'Lónsöræfi Hvítserkur'. Download GPX files and save offline."},
+      {text:"Bookmark umferdin.is/en/road/91381 — F207 Laki live status", sub:"Check every morning the week before Day 5 (Jul 4). The URL goes directly to the F207 Lakagígavegur page.", url:"https://umferdin.is/en/road/91381"},
+      {text:"Bookmark umferdin.is/en — Iceland road conditions", sub:"General Iceland road conditions, F-road openings, and weather alerts. Check daily from arrival.", url:"https://umferdin.is/en"},
+      {text:"Bookmark safetravel.is", sub:"Register F88 (Day 11) and F206 (Day 5) routes before entering each one.", url:"https://safetravel.is"},
+      {text:"Bookmark vegagerdin.is — official IRCA F-road opening dates", sub:"Historical F-road opening data table from the Icelandic Road Authority.", url:"https://www.vegagerdin.is/en/the-transportation-system/the-road-system/roads/opening-of-mountain-roads"},
+      {text:"Google Maps — download Iceland offline map pack", sub:"For Ring Road navigation and finding towns, fuel stations, and supermarkets."},
+      {text:"Weather.is or Vedur.is — bookmark Iceland weather", sub:"Check 48-hour forecast for each F-road day the morning before. River crossings worsen dramatically after rainfall.", url:"https://en.vedur.is"},
+    ]},
+    {section:"Clothing + gear — complete packing list", badge:"gear", items:[
+      {text:"Waterproof jacket (taped seams, breathable) × each", sub:"Keep in the truck cab AT ALL TIMES — not in the truck bed. Iceland weather changes in minutes."},
+      {text:"Waterproof trousers × each", sub:"For rain + river crossing spray on F-roads. Packable versions work well."},
+      {text:"Merino wool base layer top × 3 each", sub:"Wool dries fast and doesn't smell after repeated wear. Critical for camping legs."},
+      {text:"Merino wool base layer bottom × 2 each"},
+      {text:"Warm mid-layer (fleece or down puffy) × each", sub:"Landmannalaugar and Askja/Dreki highlands get near-freezing even in July."},
+      {text:"Warm hat + gloves × each", sub:"Highlands at altitude. Nights at Dreki can be near 0°C."},
+      {text:"Hiking boots (stiff sole, ankle support, waterproof) × each", sub:"Break them in for at LEAST 2 weeks before departure. Blisters on Day 2 ruin everything."},
+      {text:"Camp sandals or light shoes × each", sub:"For campsite evenings, shower blocks, cooking at camp."},
+      {text:"Dry bags (assorted: 5L, 10L, 20L) for truck bed", sub:"Everything in the truck bed must be waterproofed. Iceland rain is often sideways."},
+      {text:"Camp stove (MSR Pocket Rocket or Jetboil)", sub:"Buy gas canisters in Iceland — cannot fly with pressurised gas. Bónus sells them."},
+      {text:"Cooking pot + frying pan + utensils + plates + mugs", sub:"Lightweight titanium or anodised aluminium. Don't overweight the truck bed."},
+      {text:"Washing-up supplies (small soap + sponge + collapsible basin)"},
+      {text:"Power banks × 2 (20,000mAh+)", sub:"No power at Dreki or any F-road camp. Keeps phones + cameras charged 3–4 days."},
+      {text:"Camera + extra memory cards + cleaning cloth", sub:"You will shoot far more than you expect. Extra memory is essential."},
+      {text:"Sunscreen SPF 50+ × 2 tubes", sub:"Midnight sun gives real UV at 11pm. Glacier and lagoon surfaces reflect UV intensely."},
+      {text:"Polarised sunglasses × each", sub:"Essential on the glacier. Polarised cuts ice and water glare."},
+      {text:"Reusable water bottles × 2 each (1L minimum)", sub:"Iceland tap water is safe and free everywhere. Never buy bottled water."},
+      {text:"Quick-dry travel towel × each", sub:"Essential for canyoning (Day 7), Viti swim (Day 11), and campsite showers."},
+      {text:"Personal medications + generous surplus", sub:"No prescription pharmacies in the highlands. Bring more than needed."},
+      {text:"Small padlock for hostel lockers", sub:"Most HI hostels have lockers. A combination padlock secures valuables while hiking."},
+    ]},
+    {section:"Vehicle prep + safety", badge:"gear", items:[
+      {text:"Full-size spare tyre — confirm with rental on collection", sub:"Many rentals only include a space-saver. On F-roads with sharp lava, a full-size spare is essential."},
+      {text:"Check tyre pressure on collection", sub:"F-road driving on rough lava at incorrect pressure increases puncture risk."},
+      {text:"Duct tape (large roll) in truck", sub:"Fixes more on-road problems than any other single item. Always useful."},
+      {text:"Windscreen washer fluid — check level on collection", sub:"Gravel roads coat windscreens with dust and mud. Washer fluid runs out fast."},
+      {text:"Jump cables or compact battery jump starter"},
+      {text:"Emergency bivvy bag × 2 (foil or nylon)", sub:"If stuck in the highland overnight in cold rain. Weighs 100g each."},
+      {text:"Whistle × 2", sub:"International distress signal. Better than shouting in wind."},
+      {text:"Head torch × 2 + spare batteries", sub:"For Grjótagjá cave (Day 10), early camp setups, and emergencies."},
+    ]},
+    {section:"Day-of departure reminders", badge:"urgent", items:[
+      {text:"Day 5 morning: check umferdin.is/en/road/91381 for F207/F206 Laki status", sub:"If CLOSED → drive to Skaftafell directly. Day 6 absorbs this."},
+      {text:"Day 11 morning: fill fuel MAX + 20L jerry can at Mývatn", sub:"Non-negotiable. Zero fuel on F88 route."},
+      {text:"Day 11 morning: register F88 route at safetravel.is before entering", sub:"2 minutes. Essential for Search and Rescue tracking."},
+      {text:"Day 15: leave Snæfellsnes tip by 11:15am", sub:"Hard deadline. 4pm KEF departure. No exceptions."},
+      {text:"Day 15: fill truck fuel at Orkan on Reykjanesbraut before rental return", sub:"Most contracts require full tank return. Fill before the airport, not at airport prices."},
+      {text:"Every F-road day: walk each river crossing before driving", sub:"Never rush a ford. If it looks too deep — turn back."},
+    ]},
+    {section:"Emergency contacts", badge:"info", items:[
+      {text:"Icelandic emergency services — 112", sub:"Or use 112 Iceland app which sends GPS location automatically."},
+      {text:"Icelandic Road Traffic Centre — 1777 (24 hours)", sub:"Road conditions, closures, emergency road assistance. Also: umferdin.is"},
+      {text:"Search and Rescue (Landsbjörg) — safetravel.is", sub:"Register F-road routes before entering. They will know where to look."},
+      {text:"Your rental company emergency number", sub:"Write in your phone AND on paper before departure. Essential for breakdowns."},
+      {text:"Ice Guardians (canyoning) — +354 898 2277", sub:"Day 7 operator. info@ice-guardians.com"},
+      {text:"Arctic Adventures (Glacier Xtreme) — adventures.is contact", sub:"Day 6 operator. Save their booking confirmation contact."},
+      {text:"Travel insurance 24hr emergency helpline", sub:"Write this number in your phone AND on paper before departure."},
+      {text:"KEF Airport information — +354 425 6000", sub:"kefairport.is for live flight and terminal info."},
+    ]},
   ],
 };
