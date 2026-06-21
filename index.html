@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iceland Ring Road — Jun 30 – Jul 14, 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --bg2: #1a1a1a;
+    --bg3: #242424;
+    --border: #2e2e2e;
+    --text: #f0f0f0;
+    --muted: #888;
+    --accent: #4a9eff;
+    --accent2: #2563eb;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --purple: #a78bfa;
+    --teal: #2dd4bf;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-flag { font-size: 22px; }
+
+  .logo-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .logo-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: -2px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 4px;
+  }
+
+  .nav-btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font);
+  }
+
+  .nav-btn:hover { background: var(--bg3); color: var(--text); }
+  .nav-btn.active { background: var(--accent2); color: #fff; }
+
+  /* ── Layout ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    height: calc(100vh - 60px);
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-head {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .sidebar-head h2 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+
+  .route-controls {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .ctrl-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font);
+  }
+
+  .ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .ctrl-btn.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+
+  .day-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+
+  .day-list::-webkit-scrollbar { width: 4px; }
+  .day-list::-webkit-scrollbar-track { background: transparent; }
+  .day-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .day-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.12s;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .day-item:hover { background: var(--bg3); }
+  .day-item.active { background: var(--bg3); border-left-color: var(--accent); }
+
+  .day-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .sleep-camp .day-num { background: #14532d; color: #86efac; }
+  .sleep-hostel .day-num { background: #1e3a5f; color: #93c5fd; }
+
+  .day-info { flex: 1; min-width: 0; }
+
+  .day-date {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+
+  .day-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .day-tags {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .tag-camp { background: #14532d; color: #86efac; }
+  .tag-hostel { background: #1e3a5f; color: #93c5fd; }
+  .tag-froad { background: #451a03; color: #fcd34d; }
+  .tag-hike { background: #1e1b4b; color: #a5b4fc; }
+  .tag-excursion { background: #4a044e; color: #f0abfc; }
+
+  .day-cost {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  /* ── Map ── */
+  #map {
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+  }
+
+  .leaflet-tile-pane { filter: brightness(0.85) saturate(0.7); }
+
+  /* Custom markers */
+  .marker-pin {
+    width: 32px;
+    height: 32px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2px solid rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .marker-pin span {
+    transform: rotate(45deg);
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* ── Detail Panel ── */
+  #detail-panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 400px;
+    height: 100%;
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 500;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+  }
+
+  #detail-panel.open { transform: translateX(0); }
+  #detail-panel::-webkit-scrollbar { width: 4px; }
+  #detail-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .detail-close {
+    position: sticky;
+    top: 0;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+  }
+
+  .detail-close button {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: var(--font);
+  }
+
+  .detail-close button:hover { color: var(--text); }
+
+  .detail-body { padding: 20px; }
+
+  .detail-day-badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .detail-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .detail-meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .detail-section {
+    margin-bottom: 20px;
+  }
+
+  .detail-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .schedule-item {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .schedule-item:last-child { border-bottom: none; }
+
+  .schedule-time {
+    color: var(--accent);
+    font-weight: 500;
+    min-width: 52px;
+    flex-shrink: 0;
+    font-size: 12px;
+    padding-top: 1px;
+  }
+
+  .schedule-desc { color: var(--text); line-height: 1.5; }
+  .schedule-note { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+  .hike-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .hike-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .hike-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+
+  .hike-stat {
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .hike-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .cost-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .cost-item {
+    background: var(--bg3);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+
+  .cost-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .cost-val { font-size: 16px; font-weight: 600; color: var(--text); }
+
+  .cost-breakdown {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .cost-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cost-row:last-child { border-bottom: none; }
+  .cost-row span:last-child { color: var(--text); font-weight: 500; }
+
+  .tip-box {
+    background: #0c2340;
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 13px;
+    color: #93c5fd;
+    line-height: 1.5;
+  }
+
+  .tip-box strong { color: #60a5fa; }
+
+  .warn-box {
+    background: #3b0000;
+    border: 1px solid #7f1d1d;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 13px;
+    color: #fca5a5;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .warn-box strong { color: #f87171; }
+
+  .excursion-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .excursion-block .exc-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--purple);
+    margin-bottom: 4px;
+  }
+
+  .excursion-block .exc-meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .excursion-block .exc-price {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+
+  .excursion-block .exc-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── Itinerary Tab ── */
+  #itinerary-view {
+    display: none;
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+    padding: 32px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  #itinerary-view::-webkit-scrollbar { width: 4px; }
+  #itinerary-view::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .itin-header {
+    margin-bottom: 32px;
+  }
+
+  .itin-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .itin-header p { color: var(--muted); font-size: 15px; }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+
+  .stat-card .s-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .stat-card .s-lbl {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .itin-day {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .itin-day-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+
+  .itin-day-head:hover { background: var(--bg3); }
+
+  .itin-day-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .itin-day-info { flex: 1; }
+
+  .itin-day-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .itin-day-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+
+  .itin-day-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .itin-day-cost {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--amber);
+  }
+
+  .itin-chevron {
+    color: var(--muted);
+    font-size: 18px;
+    transition: transform 0.2s;
+  }
+
+  .itin-day.open .itin-chevron { transform: rotate(90deg); }
+
+  .itin-day-body {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 20px;
+  }
+
+  .itin-day.open .itin-day-body { display: block; }
+
+  .itin-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    margin: 16px 0 8px;
+  }
+
+  .itin-section-label:first-child { margin-top: 0; }
+
+  .itin-schedule { margin-bottom: 16px; }
+
+  .itin-schedule-row {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .itin-schedule-row:last-child { border-bottom: none; }
+
+  .itin-time {
+    color: var(--accent);
+    font-weight: 500;
+    min-width: 54px;
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+
+  .itin-desc { color: var(--text); line-height: 1.5; flex: 1; }
+  .itin-sub-note { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+  .itin-hike {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .itin-hike-name { font-size: 13px; font-weight: 600; color: #a5b4fc; margin-bottom: 4px; }
+
+  .itin-hike-stats {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px;
+  }
+
+  .itin-hike-stat {
+    font-size: 11px; color: var(--teal); font-weight: 500;
+    background: #0d2a2a; padding: 2px 8px; border-radius: 4px;
+  }
+
+  .itin-hike-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .itin-tip {
+    background: #0c1f3a;
+    border-left: 3px solid var(--accent2);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: #93c5fd;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .itin-warn {
+    background: #2d0a0a;
+    border-left: 3px solid var(--red);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: #fca5a5;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .itin-exc {
+    background: var(--bg3);
+    border: 1px solid #3b0764;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .itin-exc-name { font-size: 13px; font-weight: 600; color: var(--purple); margin-bottom: 3px; }
+  .itin-exc-meta { font-size: 11px; color: var(--muted); margin-bottom: 5px; }
+  .itin-exc-price { font-size: 14px; font-weight: 700; color: var(--amber); margin-bottom: 6px; }
+  .itin-exc-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .itin-cost-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .itin-cost-row:last-child { border-bottom: none; font-weight: 600; color: var(--amber); }
+  .itin-cost-row span:first-child { color: var(--muted); }
+  .itin-cost-row span:last-child { color: var(--text); }
+
+  /* ── Checklist Tab ── */
+  #checklist-view {
+    display: none;
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+    padding: 32px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  #checklist-view::-webkit-scrollbar { width: 4px; }
+  #checklist-view::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .checklist-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .checklist-section-head {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .checklist-section-head h3 {
+    font-size: 14px;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .checklist-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  .badge-urgent { background: #7f1d1d; color: #fca5a5; }
+  .badge-soon { background: #451a03; color: #fcd34d; }
+  .badge-before { background: #1e3a5f; color: #93c5fd; }
+  .badge-gear { background: #1e1b4b; color: #a5b4fc; }
+
+  .checklist-items { padding: 8px 20px; }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .check-item:last-child { border-bottom: none; }
+  .check-item.done { opacity: 0.45; }
+  .check-item.done .check-text { text-decoration: line-through; }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .check-item.done .check-box {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .check-item.done .check-box::after {
+    content: '✓';
+    font-size: 11px;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .check-info { flex: 1; }
+
+  .check-text {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .check-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .check-link {
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 2px;
+    display: inline-block;
+  }
+
+  .check-link:hover { text-decoration: underline; }
+
+  .progress-bar-wrap {
+    height: 4px;
+    background: var(--bg3);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+
+  .checklist-progress {
+    padding: 10px 20px 14px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Budget Tab ── */
+  #budget-view {
+    display: none;
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+    padding: 32px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  #budget-view::-webkit-scrollbar { width: 4px; }
+  #budget-view::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .budget-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .budget-stat {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    text-align: center;
+  }
+
+  .budget-stat .val {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .budget-stat .lbl {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .budget-table {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .budget-table-head {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .budget-row {
+    display: flex;
+    align-items: center;
+    padding: 11px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    gap: 12px;
+  }
+
+  .budget-row:last-child { border-bottom: none; }
+
+  .budget-row.total {
+    background: var(--bg3);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--amber);
+  }
+
+  .budget-row .br-label { flex: 1; color: var(--text); }
+  .budget-row .br-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .budget-row .br-pp { color: var(--text); font-weight: 600; min-width: 70px; text-align: right; }
+  .budget-row .br-total { color: var(--muted); min-width: 80px; text-align: right; }
+
+  .fuel-table { margin-bottom: 20px; }
+
+  /* Popup */
+  .leaflet-popup-content-wrapper {
+    background: var(--bg2) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+    color: var(--text) !important;
+  }
+
+  .leaflet-popup-tip-container { display: none; }
+
+  .popup-inner { min-width: 200px; }
+  .popup-day { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  .popup-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .popup-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+
+  .popup-btn {
+    display: inline-block;
+    padding: 5px 12px;
+    background: var(--accent2);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    font-family: var(--font);
+    font-weight: 500;
+  }
+
+  .popup-btn:hover { background: #1d4ed8; }
+
+  /* Map container */
+  #map-container {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .map-legend {
+    position: absolute;
+    bottom: 24px;
+    left: 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    z-index: 400;
+    font-size: 11px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 0;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Hide map container elements when switching tabs */
+  .map-wrap {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    #detail-panel { width: 100%; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .budget-summary { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-flag">🇮🇸</span>
+    <div>
+      <div class="logo-text">Iceland Ring Road 2026</div>
+      <div class="logo-sub">Jun 30 – Jul 14 · 2 people · 4x4 + Rooftop Tent</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showTab('map')">Map</button>
+    <button class="nav-btn" onclick="showTab('itinerary')">Itinerary</button>
+    <button class="nav-btn" onclick="showTab('checklist')">Checklist</button>
+    <button class="nav-btn" onclick="showTab('budget')">Budget</button>
+  </nav>
+</header>
+
+<!-- MAP TAB -->
+<div id="map-tab" class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-head">
+      <h2>Route Display</h2>
+      <div class="route-controls">
+        <button class="ctrl-btn active" onclick="showRoute('all', this)">Full Trip</button>
+        <button class="ctrl-btn" onclick="showRoute('south', this)">South Coast</button>
+        <button class="ctrl-btn" onclick="showRoute('east', this)">East Iceland</button>
+        <button class="ctrl-btn" onclick="showRoute('north', this)">North Iceland</button>
+        <button class="ctrl-btn" onclick="showRoute('west', this)">West Iceland</button>
+      </div>
+    </div>
+    <div class="day-list" id="day-list"></div>
+  </aside>
+
+  <div class="map-wrap">
+    <div id="map-container">
+      <div id="map"></div>
+      <div class="map-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div> Camp night</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#4a9eff"></div> Hostel night</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div> Activity / hike</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> F-road / highland</div>
+      </div>
+      <div id="detail-panel">
+        <div class="detail-close">
+          <span id="detail-day-label" style="font-size:13px;font-weight:600;color:var(--muted)"></span>
+          <button onclick="closeDetail()">✕ Close</button>
+        </div>
+        <div class="detail-body" id="detail-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ITINERARY TAB -->
+<div id="itinerary-tab" style="display:none; background:var(--bg); flex:1;">
+  <div id="itinerary-view">
+    <div class="itin-header">
+      <h1>Full 15-Day Iceland Itinerary</h1>
+      <p>Jun 30 – Jul 14, 2026 · Clockwise Ring Road · 7 camp nights · 7 hostel nights</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="s-val">15</div><div class="s-lbl">Days total</div></div>
+      <div class="stat-card"><div class="s-val">~2,700km</div><div class="s-lbl">Total distance</div></div>
+      <div class="stat-card"><div class="s-val">$2,809</div><div class="s-lbl">Est. per person</div></div>
+      <div class="stat-card"><div class="s-val">8</div><div class="s-lbl">Requested hikes</div></div>
+    </div>
+    <div id="itin-days"></div>
+  </div>
+</div>
+
+<!-- CHECKLIST TAB -->
+<div id="checklist-tab" style="display:none; background:var(--bg); flex:1;">
+  <div id="checklist-view">
+    <div class="itin-header">
+      <h1>Pre-Departure Checklist</h1>
+      <p>Everything you need to do before Jun 30</p>
+    </div>
+    <div id="checklist-content"></div>
+  </div>
+</div>
+
+<!-- BUDGET TAB -->
+<div id="budget-tab" style="display:none; background:var(--bg); flex:1;">
+  <div id="budget-view">
+    <div class="itin-header">
+      <h1>Trip Budget Breakdown</h1>
+      <p>Estimated costs for 2 people · Jun 30 – Jul 14, 2026</p>
+    </div>
+    <div id="budget-content"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
