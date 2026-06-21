@@ -8,10 +8,10 @@ let editState={}, checkState={};
 // ─────────────────────────────────────────────────────────────────────────────
 function showTab(id, btn){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.tab-pane').forEach(p=>{p.classList.remove('active'); p.style.display='none';});
+  document.querySelectorAll('.tab-pane').forEach(p=>{ p.style.display='none'; });
   if(btn) btn.classList.add('active');
   const pane = document.getElementById('tab-'+id);
-  if(pane){ pane.style.display='flex'; pane.classList.add('active'); }
+  if(pane){ pane.style.display = id==='map' ? 'flex' : 'block'; }
   if(id==='map') setTimeout(()=>map&&map.invalidateSize(),80);
 }
 
@@ -621,10 +621,10 @@ function loadEditState(){
 // INIT
 // ─────────────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
-  // Show only map tab initially
-  document.querySelectorAll('.tab-pane').forEach(p=>{p.style.display='none';});
+  // Hide all tabs, show map
+  document.querySelectorAll('.tab-pane').forEach(p=>{ p.style.display='none'; });
   const mapTab=document.getElementById('tab-map');
-  if(mapTab){ mapTab.style.display='flex'; mapTab.classList.add('active'); }
+  if(mapTab) mapTab.style.display='flex';
   loadCheckState();
   loadEditState();
   initMap();
