@@ -488,7 +488,7 @@ header{
 <div id="main">
 
 <!-- MAP TAB -->
-<div id="tab-map" class="tab-pane">
+<div id="tab-map" class="tab-pane active">
   <aside class="map-sidebar">
     <div class="map-sidebar-head">
       <h2>Route</h2>
@@ -1406,7 +1406,7 @@ function initMap(){
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:18}).addTo(map);
   buildDayList();
   plotMarkers();
-  drawRoute('all');
+  showRoute('all');
 }
 
 function plotMarkers(){
@@ -1748,7 +1748,19 @@ function loadEditState(){
   }catch(e){editState={};}
 }
 
-
+// ── INIT ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.tab-pane').forEach(p=>{p.style.display='none';});
+  document.getElementById('tab-map').style.display='flex';
+  loadCheckState();
+  loadEditState();
+  initMap();
+  buildItinerary();
+  buildChecklist();
+  buildBudget();
+  buildEditTab();
+  buildFRoads();
+});
 
 </script>
 </body>
