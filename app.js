@@ -40,7 +40,7 @@ function initMap(){
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:18}).addTo(map);
   buildDayList();
   plotMarkers();
-  drawRoute('all');
+  showRoute('all');
 }
 
 function plotMarkers(){
