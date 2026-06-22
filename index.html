@@ -488,7 +488,7 @@ header{
 <div id="main">
 
 <!-- MAP TAB -->
-<div id="tab-map" class="tab-pane active">
+<div id="tab-map" class="tab-pane">
   <aside class="map-sidebar">
     <div class="map-sidebar-head">
       <h2>Route</h2>
@@ -1748,19 +1748,7 @@ function loadEditState(){
   }catch(e){editState={};}
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('.tab-pane').forEach(p=>{p.style.display='none';});
-  document.getElementById('tab-map').style.display='flex';
-  loadCheckState();
-  loadEditState();
-  initMap();
-  buildItinerary();
-  buildChecklist();
-  buildBudget();
-  buildEditTab();
-  buildFRoads();
-});
+
 
 </script>
 </body>
