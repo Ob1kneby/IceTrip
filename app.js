@@ -278,26 +278,26 @@ function btable(title,rows){
 }
 
 // ── F-ROADS ───────────────────────────────────────────────────────────────────
-function buildFRoads(){
-  const c=document.getElementById('froad-content');
-  let h=`<div class="froad-intro"><strong>How to read this:</strong> Each F-road on your route is shown with 5 years of IRCA opening dates. Average is the mid-point. Check live status the <strong>morning of your F-road day</strong>. Live conditions: <a href="https://umferdin.is/en" target="_blank">umferdin.is</a> · Emergency road info: <strong>1777</strong> (24hr)</div>`;
-  Object.entries(FROAD_DATA).forEach(([id,rd])=>{
-    const tripDay=TRIP_DATA.days.find(d=>d.froad?.id===id);
-    h+=`<div class="froad-card">
-      <div class="froad-card-head">
-        <div style="flex:1"><div class="froad-name">${rd.name}</div>${tripDay?`<div class="froad-trip">Trip day ${tripDay.num} (${tripDay.date} · ${tripDay.dow||''})</div>`:''}</div>
-        <span class="froad-risk ${rd.risk==='low'?'fr-low':'fr-med'}">${rd.risk==='low'?'Low risk':'Medium risk'}</span>
-      </div>
-      <table class="froad-table"><thead><tr><th>Year</th><th>Opened</th></tr></thead><tbody>`;
-    Object.entries(rd.historical).filter(([k])=>k!=='note').forEach(([yr,dt])=>{h+=`<tr><td>${yr}</td><td>${dt}</td></tr>`;});
-    h+=`<tr class="froad-summary-row"><td>Earliest</td><td>${rd.earliest}</td></tr>
-        <tr class="froad-summary-row"><td>Average</td><td>${rd.average}</td></tr>
-        <tr class="froad-summary-row"><td>Latest</td><td>${rd.latest}</td></tr>
-      </tbody></table>
-      <div class="froad-note"><strong>Assessment:</strong> ${rd.note}</div>
-      <a href="${rd.liveUrl}" target="_blank" class="froad-live">Check live status →</a>
-    </div>`;
-  });
+// function buildFRoads(){
+//   const c=document.getElementById('froad-content');
+//   let h=`<div class="froad-intro"><strong>How to read this:</strong> Each F-road on your route is shown with 5 years of IRCA opening dates. Average is the mid-point. Check live status the <strong>morning of your F-road day</strong>. Live conditions: <a href="https://umferdin.is/en" target="_blank">umferdin.is</a> · Emergency road info: <strong>1777</strong> (24hr)</div>`;
+//   Object.entries(FROAD_DATA).forEach(([id,rd])=>{
+//     const tripDay=TRIP_DATA.days.find(d=>d.froad?.id===id);
+//     h+=`<div class="froad-card">
+//       <div class="froad-card-head">
+//         <div style="flex:1"><div class="froad-name">${rd.name}</div>${tripDay?`<div class="froad-trip">Trip day ${tripDay.num} (${tripDay.date} · ${tripDay.dow||''})</div>`:''}</div>
+//         <span class="froad-risk ${rd.risk==='low'?'fr-low':'fr-med'}">${rd.risk==='low'?'Low risk':'Medium risk'}</span>
+//       </div>
+//       <table class="froad-table"><thead><tr><th>Year</th><th>Opened</th></tr></thead><tbody>`;
+//     Object.entries(rd.historical).filter(([k])=>k!=='note').forEach(([yr,dt])=>{h+=`<tr><td>${yr}</td><td>${dt}</td></tr>`;});
+//     h+=`<tr class="froad-summary-row"><td>Earliest</td><td>${rd.earliest}</td></tr>
+//         <tr class="froad-summary-row"><td>Average</td><td>${rd.average}</td></tr>
+//         <tr class="froad-summary-row"><td>Latest</td><td>${rd.latest}</td></tr>
+//       </tbody></table>
+//       <div class="froad-note"><strong>Assessment:</strong> ${rd.note}</div>
+//       <a href="${rd.liveUrl}" target="_blank" class="froad-live">Check live status →</a>
+//     </div>`;
+//   }); 
   c.innerHTML=h;
 }
 
