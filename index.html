@@ -1406,8 +1406,34 @@ function resetDay(num) {
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  loadChecks(); loadEdits();
-  initMap(); buildItinerary(); buildChecklist(); buildBudget(); buildEditTab(); buildFRoads();
+  const errBox = document.createElement('div');
+  errBox.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#7f1d1d;color:#fca5a5;padding:12px 16px;font-size:12px;font-family:monospace;z-index:9999;display:none;white-space:pre-wrap;max-height:40vh;overflow-y:auto';
+  document.body.appendChild(errBox);
+  function showErr(label, e) {
+    errBox.style.display = 'block';
+    errBox.textContent += label + ': ' + e.message + '\n' + (e.stack||'').split('\n').slice(0,3).join('\n') + '\n\n';
+  }
+  window.onerror = (msg,src,line,col,e) => { showErr('WINDOW ERROR', {message:msg+' (line '+line+')', stack:''}); };
+  const steps = [
+    ['loadChecks', loadChecks],
+    ['loadEdits', loadEdits],
+    ['initMap', initMap],
+    ['buildItinerary', buildItinerary],
+    ['buildChecklist', buildChecklist],
+    ['buildBudget', buildBudget],
+    ['buildEditTab', buildEditTab],
+    ['buildFRoads', buildFRoads],
+  ];
+  for (const [name, fn] of steps) {
+    try { fn(); } catch(e) { showErr(name, e); }
+  }
+  if (errBox.style.display === 'none') {
+    const ok = document.createElement('div');
+    ok.style.cssText = 'position:fixed;bottom:0;right:16px;background:#14532d;color:#86efac;padding:6px 12px;font-size:11px;border-radius:6px 6px 0 0;z-index:9999';
+    ok.textContent = '✓ All init steps OK';
+    document.body.appendChild(ok);
+    setTimeout(() => ok.remove(), 3000);
+  }
 });
 </script>
 </body>
