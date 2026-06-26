@@ -310,7 +310,6 @@ header{height:52px;flex-shrink:0;background:#191919;border-bottom:1px solid #2c2
   <div id="tab-budget" class="tab scrolltab">
     <div class="inner">
       <div class="page-hdr"><h1>Budget</h1><p>Activity costs and hostel estimates — per person</p></div>
-      <a href="checklist.html">Clickable Link Text</a>
       <div id="budget-content"></div>
     </div>
   </div>
@@ -337,8 +336,9 @@ header{height:52px;flex-shrink:0;background:#191919;border-bottom:1px solid #2c2
 <script>
 // Iceland Ring Road 2026 — Complete Trip Data
 // 16 days: Jun 30 – Jul 14 (fly home 4pm Jul 14)
-// Excursions: Glacier Xtreme, Canyoning, Sterna bus, Drangey island, Forest Lagoon
-// Removed: Katla ice cave, whale watching, both puffin tours, Earth Lagoon (closed)
+// Excursions: Glacier Xtreme, Sterna bus, Drangey island, Forest Lagoon
+// Removed: Canyoning, Katla ice cave, whale watching, puffin tours, Earth Lagoon (closed)
+// Nights 2 & 8 now camping (Hvolsvöllur + Höfn)
 // Adjusted: Days 1-5 split/expanded, Day 13 Forest Lagoon, Day 14 Drangey boat tour
 
 const FROAD_DATA = {
@@ -374,26 +374,31 @@ const TRIP_DATA = {
     {
       num:1, date:"Jun 30", dow:"Tuesday",
       title:"Arrive Reykjavík",
-      sleep:"hostel", accommodation:"Loft HI Hostel, Bankastræti 7, Reykjavík",
+      sleep:"hostel", accommodation:"Dalur HI Hostel, Sundlaugavegur 34, Laugardalur",
       tags:["hostel"], lat:64.1466, lng:-21.9426,
-      summary:"Land 10:30am KEF. Collect truck — confirm F-road insurance in writing. Big Bónus grocery shop. Reykjavík on foot: Hallgrímskirkja, Sun Voyager, Harpa, hot dogs. Perlan rooftop at midnight sun.",
+      summary:"Land 10:30am KEF. Collect truck — confirm F-road insurance in writing. Big Bónus grocery shop. Reykjavík on foot: Hallgrímskirkja, Sun Voyager, Harpa, hot dogs. Evening soak at Laugardalslaug geothermal pool — next door to the hostel.",
       distance:"~60km", drive:"45 min KEF to Reykjavík",
       schedule:[
         {time:"10:30am", desc:"Land at Keflavík International Airport (KEF)", note:"Allow 35–40 min for baggage and customs. Passport control queues are long in peak July."},
         {time:"11:15am", desc:"Pick up 4x4 truck at rental company", note:"CRITICAL: Confirm in writing that F88, F206, and F207 are covered by your F-road insurance. Insist on a full-size spare tyre — not a space-saver. Practice opening and closing the rooftop tent before leaving the lot. Note all existing damage on the collection form."},
         {time:"12:00pm", desc:"Drive to Reykjavík — stop at Bónus supermarket (Laugavegur 59) for the main trip grocery shop", note:"Buy for 3–4 days on the road: oats, eggs, pasta, rice, bread, hard cheese, cured meats, peanut butter, nuts, Skyr, instant coffee, cooking oil, salt. Budget ~$60 for 2 people. Buy camp gas canisters here — you cannot fly with them and Bónus is cheapest."},
-        {time:"1:30pm", desc:"Check in to Loft HI Hostel, Bankastræti 7", note:"Drop bags. Kitchen available. Everything in Reykjavík is walkable from here."},
+        {time:"1:30pm", desc:"Check in to Dalur HI Hostel, Sundlaugavegur 34 — Laugardalur", note:"Drop bags. Free parking on site. Kitchen and café available. Bus stop directly outside for city centre (10 min). Laugardalslaug pool is 3 min walk from the front door."},
         {time:"2:30pm", desc:"Hallgrímskirkja church — climb the tower (~$11pp)", note:"Best panorama of Reykjavík. The basalt column architecture was inspired by Svartifoss waterfall — which you'll see Day 7. Notice the Leif Erikson statue outside."},
         {time:"3:30pm", desc:"Sun Voyager sculpture → Harpa concert hall waterfront walk", note:"Free. 25 min coastal walk. Harpa's facade was designed by Olafur Eliasson — walk inside. Sun Voyager is Iceland's most photographed sculpture."},
         {time:"5:00pm", desc:"Bæjarins Beztu Pylsur — hot dog stand, Tryggvagata 1", note:"Order 'eina með öllu' — ketchup, sweet mustard, remoulade, raw and fried onions. ~$4. Bill Clinton ate here. Queue moves fast."},
         {time:"6:30pm", desc:"Laugavegur street walk + any last shopping", note:"Kronán is open late for anything missed at Bónus."},
-        {time:"8:00pm", desc:"Perlan free rooftop viewing deck — 360° city panorama", note:"Free (museum inside charges). 2km south of centre — drive or bus 18."},
-        {time:"10:00pm", desc:"Pack tomorrow's kit in truck cab. Alarm 7:00am.", note:"Waterproofs, snacks, water in cab — not truck bed. Day 2 is a proper drive + hike day."},
+        {time:"8:00pm", desc:"Laugardalslaug geothermal pool — soak after the flight", note:"~$12pp. Iceland's largest geothermal complex: two 50m pools, multiple hot tubs, water slides, steam room, sauna. Used by locals, not tourists. Open until 10pm. 3-min walk from Dalur hostel. The best jet-lag reset available anywhere in Reykjavík."},
+        {time:"10:00pm", desc:"Pack tomorrow's kit in truck cab. Alarm 7:30am.", note:"Waterproofs, snacks, water in cab — not truck bed. Day 2 is a proper drive + hike day."},
       ],
-      hikes:[], excursions:[],
+      hikes:[], excursions:[
+        {name:"Laugardalslaug Geothermal Pool", operator:"laugardalslaug.is", price:"~$12pp", duration:"1.5–2 hrs",
+        url:"https://www.laugardalslaug.is",
+        desc:"Iceland's largest and most popular geothermal pool complex, 3 minutes walk from Dalur HI Hostel. Two 50-metre outdoor pools, multiple hot tubs at varying temperatures (36–44°C), water slides, steam room, sauna, and a dedicated children's paddling area. This is where Reykjavík locals swim — not a tourist spa. Entry ~$12pp. Open until 10pm in summer. Perfect recovery after a long-haul flight. Bring a towel and swimsuit, or rent towels on site (~$4). Locker requires a 500 ISK coin deposit."},
+      ],
       tips:[
         "Iceland tap water is safe, cold, and excellent everywhere. Never buy bottled water — it's wasteful and unnecessary.",
-        "Midnight sun starts tonight. The sun barely dips below the horizon in late June. Bring a sleep mask or RTT blackout liner — you will need it.",
+        "Laugardalslaug is 3 minutes from Dalur hostel — do not skip it on Night 1. Hot tubs at 44°C reset the body clock better than anything else after a transatlantic flight.",
+        "Midnight sun starts tonight. Bring a sleep mask or RTT blackout liner — you will need it.",
         "Orkan petrol stations are cheapest in Iceland — about 5% less than N1 and Shell. Download the Orkan app for a further 3–5% discount per litre.",
         "Iceland is essentially cashless. Pay by contactless card everywhere — ATM withdrawal fees add up unnecessarily.",
       ],
@@ -403,10 +408,10 @@ const TRIP_DATA = {
     // ── DAY 2 ─────────────────────────────────────────────────────────────────
     {
       num:2, date:"Jul 1", dow:"Wednesday",
-      title:"Háifoss Gorge + Seljalandsfoss + Midgard",
-      sleep:"hostel", accommodation:"Midgard Base Camp, Hvolsvöllur",
-      tags:["hostel","hike"], lat:63.5309, lng:-20.2309,
-      summary:"Route 332 to Háifoss — 122m waterfall, gorge descent to the base. Seljalandsfoss walk-behind waterfall + hidden Gljúfrabúi cave waterfall. Relaxed arrival at Midgard Base Camp. Early night before the Landmannalaugar day.",
+      title:"Háifoss Gorge + Seljalandsfoss + Hamragarðar Camp",
+      sleep:"camp", accommodation:"Hamragarðar Campsite, Seljalandsfoss (Camping Card)",
+      tags:["camp","hike"], lat:63.5309, lng:-20.2309,
+      summary:"Route 332 to Háifoss — 122m waterfall, gorge descent to the base. Seljalandsfoss walk-behind waterfall + hidden Gljúfrabúi cave waterfall. Camp at Hamragarðar — 50m from both waterfalls, footpath from the back of the campsite.",
       distance:"~220km", drive:"~3 hrs total driving",
       schedule:[
         {time:"7:30am", desc:"Depart Reykjavík east on Ring Road (Route 1)"},
@@ -416,10 +421,10 @@ const TRIP_DATA = {
         {time:"11:30am", desc:"Drive back to Ring Road south, then east toward Seljalandsfoss"},
         {time:"1:00pm", desc:"Seljalandsfoss — walk behind the waterfall curtain", note:"Parking ~$8. The path loops behind the waterfall — get completely surrounded by falling water. Allow 20 min."},
         {time:"1:30pm", desc:"Gljúfrabúi hidden cave waterfall — 5 min north of Seljalandsfoss", note:"FREE. Follow the cliff north — a narrow gorge opens into a cave with a waterfall dropping inside. Enter by stepping across a stream. Far fewer people know about this than Seljalandsfoss. Waterproofs useful."},
-        {time:"2:30pm", desc:"Drive east to Hvolsvöllur → Midgard Base Camp (~25 min)"},
-        {time:"3:30pm", desc:"Check in. Shower. Rest. Lay out kit for tomorrow.", note:"Midgard Base Camp has excellent kitchen and knowledgeable staff. One meal out is worth it here."},
-        {time:"6:00pm", desc:"Dinner at Midgard restaurant or cook in hostel kitchen"},
-        {time:"9:00pm", desc:"Early night. Alarm 8:00am tomorrow."},
+        {time:"2:00pm", desc:"Pull into Hamragarðar Campsite — set up camp", note:"Camping Card accepted. Hot showers, kitchen area, laundry, WiFi. The footpath at the rear of the site leads directly to Seljalandsfoss and Gljúfrabúi — 50m from your tent."},
+        {time:"3:00pm", desc:"Shower. Rest. Lay out kit for tomorrow. Cook dinner on the camp stove."},,
+        {time:"10:30pm", desc:"Walk to Seljalandsfoss via the campsite footpath — midnight sun, no crowds", note:"This is one of the great moments of the trip. Walk behind the waterfall at 11pm with the sun still above the horizon and nobody else there."},
+        {time:"Late", desc:"Early night. Alarm 8:00am tomorrow — Day 3 drives to Landmannalaugar.", note:"Hamragarðar is 15 min further from Landmannalaugar than Hvolsvöllur — inconsequential on Day 3."},
       ],
       hikes:[
         {name:"Háifoss Gorge Descent", distance:"4km RT", difficulty:"Moderate", gain:"300m into canyon", time:"1.5–2 hrs",
@@ -428,10 +433,11 @@ const TRIP_DATA = {
       excursions:[],
       tips:[
         "Gljúfrabúi is one of Iceland's best-kept secrets. Enter by stepping on stones across the stream and squeezing through a narrow gorge — the waterfall drops inside a domed cave. Wear waterproofs.",
-        "Midgard Base Camp staff are Ring Road veterans. Ask them about F208 north conditions and Þórsmörk bus timing over dinner.",
+        "The midnight sun walk to Seljalandsfoss from camp is one of the best moments of the whole trip. Set an alarm for 11pm and do it.",
+        "Sterna bus stop: drive 15 min west to Hvolsvöllur N1 station on Day 4 morning — easy.",
       ],
       warnings:[],
-      costs:{accommodation:50, food:30, activities:0}
+      costs:{accommodation:14, food:25, activities:0}
     },
     // ── DAY 3 ─────────────────────────────────────────────────────────────────
     {
@@ -443,7 +449,7 @@ const TRIP_DATA = {
       summary:"Full day dedicated to Landmannalaugar. F208 north (no river crossings). Three hikes in the rainbow rhyolite mountains. Natural hot spring soak under the midnight sun.",
       distance:"~180km", drive:"~2.5 hrs total",
       schedule:[
-        {time:"8:00am", desc:"Depart Midgard Base Camp — drive east on Ring Road then north on Route 26"},
+        {time:"8:00am", desc:"Pack camp — drive east on Ring Road then north on Route 26"},
         {time:"9:30am", desc:"Enter F208 north at Hrauneyjar junction — drive 45 min to Landmannalaugar", note:"Clearly signed off Route 26. Zero river crossings on this route — safe for your rental. The F-road begins immediately after the junction."},
         {time:"10:15am", desc:"Arrive Landmannalaugar. Pay campsite fee and set up tent — pitches fill up.", note:"~$25pp. NOT on Camping Card. Confirm parking reservation at fi.is if arriving 9am–4pm (2026 rule)."},
         {time:"11:00am", desc:"Laugahraun lava field walk — easy 30 min warm-up", note:"Through the 1477 eruption lava bordering the campsite. Obsidian glass shards visible on the ground."},
@@ -488,11 +494,11 @@ const TRIP_DATA = {
         {time:"9:30am", desc:"Skógar River Trail — hike upstream", note:"HARD STOP AT 10:15am. Set an alarm. Do not let the trail absorb you — the bus cannot be missed. Push to the 5th or 6th waterfall."},
         {time:"10:15am", desc:"HARD STOP — turn around regardless of where you are on the trail."},
         {time:"10:45am", desc:"Return to parking. Drive 20 min west to Hvolsvöllur."},
-        {time:"11:15am", desc:"Leave truck at Midgard Base Camp parking (free, notify reception)"},
+        {time:"11:15am", desc:"Leave truck at Hvolsvöllur campsite or N1 station parking"},
         {time:"12:00pm", desc:"Board Sterna bus — Þórsmörk (~$44pp return)", note:"Confirm exact departure time when booking sterna.is. Bus crosses F249 river — voids rental insurance if driven. Sit right side for best river crossing views."},
         {time:"1:30pm", desc:"Arrive Þórsmörk (Volcano Huts). Begin Stakkholtsgjá canyon immediately."},
         {time:"3:30pm", desc:"Return from Stakkholtsgjá. Assess time and energy.", note:"If legs are good and time allows: start Valahnúkur summit (2.5 hrs). If not: sit in the valley and watch the glaciers — that's a perfectly full afternoon."},
-        {time:"5:30pm", desc:"RETURN STERNA BUS — HARD DEADLINE", note:"Set alarm 45 min before departure. There is no later bus. Pick up truck from Midgard."},
+        {time:"5:30pm", desc:"RETURN STERNA BUS — HARD DEADLINE", note:"Set alarm 45 min before departure. There is no later bus. Pick up truck from Hvolsvöllur campsite."},
         {time:"6:30pm", desc:"Drive east on Ring Road ~10 min, turn south on Road 214"},
         {time:"7:15pm", desc:"45-min drive up Road 214 to Þakgil", note:"NOT an F-road. Steep and unpaved but manageable. Canyon walls close in dramatically on approach."},
         {time:"8:00pm", desc:"Arrive Þakgil. Check in. Eat at cave café (Búar).", note:"Cave dining room built into the canyon cliff. Eat there tonight. Canyon walls glow gold 11pm–1am."},
@@ -508,7 +514,7 @@ const TRIP_DATA = {
       excursions:[
         {name:"Sterna Highland Bus — Þórsmörk Return", operator:"Sterna (sterna.is)", price:"~$44pp", duration:"Transport only",
         url:"https://www.sterna.is",
-        desc:"F249 river crossings into Þórsmörk void rental car insurance on almost all policies. The Sterna bus crosses safely using purpose-modified coaches. Without this bus, Þórsmörk is inaccessible on your policy. Book at least 2 weeks ahead in July. Leave truck at Midgard Base Camp, Hvolsvöllur — free, notify reception."},
+        desc:"F249 river crossings into Þórsmörk void rental car insurance on almost all policies. The Sterna bus crosses safely using purpose-modified coaches. Without this bus, Þórsmörk is inaccessible on your policy. Book at least 2 weeks ahead in July. Leave truck at Hvolsvöllur campsite or N1 station car park — free."},
       ],
       tips:[
         "The 10:15am hard stop on the Skógar river trail is the most important scheduling decision of the day. Set a phone alarm the moment you start hiking.",
@@ -525,9 +531,9 @@ const TRIP_DATA = {
     {
       num:5, date:"Jul 4", dow:"Saturday",
       title:"Þakgil Morning Hike + Dyrhólaey Puffins + Vík",
-      sleep:"hostel", accommodation:"Vík HI Hostel (hostel.is)",
+      sleep:"hostel", accommodation:"The Barn Hostel, Vík (barnhostel.is)",
       tags:["hostel","hike"], lat:63.4190, lng:-19.0055,
-      summary:"Early Remundargil canyon loop from camp with Katla glacier views. Relaxed south coast afternoon: Dyrhólaey puffin cliffs (peak July nesting), Reynisfjara black sand beach. Easy arrival at Vík HI Hostel.",
+      summary:"Early Remundargil canyon loop from camp with Katla glacier views. Relaxed south coast afternoon: Dyrhólaey puffin cliffs (peak July nesting), Reynisfjara black sand beach. Easy arrival at The Barn Hostel.",
       distance:"~80km",
       schedule:[
         {time:"7:00am", desc:"Remundargil canyon loop from Þakgil camp", note:"Trail map at campsite reception. Canyon in morning light is extraordinary. Early start while other campers sleep."},
@@ -536,8 +542,8 @@ const TRIP_DATA = {
         {time:"1:00pm", desc:"Drive to Dyrhólaey — upper lighthouse viewpoint", note:"Go to UPPER parking (lighthouse level). Look DOWN at the cliff face — puffins nest in burrows directly below, thousands of them. July = peak nesting. Parking ~$8."},
         {time:"2:00pm", desc:"Dyrhólaey sea arch — walk to the arch viewpoint"},
         {time:"3:00pm", desc:"Reynisfjara black sand beach", note:"Basalt column cave (Hálsanefshellir) accessible at low tide. See warnings."},
-        {time:"4:30pm", desc:"Vík town. Check in HI Hostel. Cook dinner.", note:"Krónan supermarket in Vík for top-up supplies. Last proper shop before Skaftafell."},
-        {time:"Evening", desc:"Walk up to Víkurkirkja (Vík church) on the hill — views over black sand and Reynisdrangar sea stacks.", note:"Free. 20 min walk from town. One of the better viewpoints in south Iceland."},
+        {time:"4:30pm", desc:"Check in The Barn Hostel — 3.4km from Vík village", note:"barnhostel.is · +354 861 7375. Modern and stylish with huge kitchen, bar, and cinnamon rolls every morning. 5-min drive to Vík for Krónan supermarket — last proper shop before Skaftafell."},
+        {time:"Evening", desc:"Walk up to Víkurkirkja (Vík church) on the hill — views over black sand and Reynisdrangar sea stacks.", note:"Free. 20 min walk from The Barn. Easily the best vantage point in the area. Bar at The Barn is open until midnight if you want a drink after."},
       ],
       hikes:[
         {name:"Remundargil Canyon Loop", distance:"12.5km", difficulty:"Moderate", gain:"250m", time:"3–4 hrs",
@@ -638,39 +644,32 @@ const TRIP_DATA = {
     // ── DAY 8 ─────────────────────────────────────────────────────────────────
     {
       num:8, date:"Jul 7", dow:"Tuesday",
-      title:"Diamond Beach + Canyoning Under Vatnajökull + Höfn",
-      sleep:"hostel", accommodation:"Höfn HI Hostel (hostel.is)",
-      tags:["hostel","excursion"], lat:64.2621, lng:-15.2124,
-      summary:"Diamond Beach ice chunks on black sand. Half-day canyoning under Vatnajökull — Iceland's only canyoning operator. Höfn hostel. Langoustine dinner.",
+      title:"Jökulsárlón Glacier Lagoon + Diamond Beach + Höfn",
+      sleep:"camp", accommodation:"Höfn Camping (Camping Card)",
+      tags:["camp"], lat:64.2621, lng:-15.2124,
+      summary:"Morning at Jökulsárlón — walk the lagoon bridge, watch icebergs calve. Diamond Beach black sand with translucent ice chunks. Relaxed drive to Höfn. Langoustine dinner. Easy day between the glacier climb and the east fjords.",
       distance:"~110km",
       schedule:[
-        {time:"8:30am", desc:"Drive east from Skaftafell to Jökulsárlón / Diamond Beach (~45 min)"},
-        {time:"9:15am", desc:"Diamond Beach (Breiðamerkursandur) — 30 min", note:"FREE. Pull off Ring Road at the Jökulsárlón signs on the east/seaward side. Walk the beach where ice chunks from the glacier lagoon wash up on black sand. Some blocks are car-sized and translucent blue. Glacier lagoon is just across the road — enormous icebergs visible from the bridge."},
-        {time:"10:00am", desc:"Continue east toward Haukafell Camp (Ice Guardians meetpoint, 35 min west of Höfn)", note:"Haukafell Campsite, Hornafjörður. Look for Ice Guardians signs. Phone: +354 898 2277."},
-        {time:"10:30am", desc:"Ice Guardians check-in — wetsuit + harness fitting + safety briefing (30–40 min)", note:"Bring: swimsuit or synthetic base layer (NO cotton), towel, dry change of clothes. Everything else provided."},
-        {time:"11:00am", desc:"Half-day canyoning under Vatnajökull — 4–5 hours"},
-        {time:"4:00pm", desc:"End of canyoning. Hot drinks included. Change and warm up."},
-        {time:"5:00pm", desc:"Drive east to Höfn (~35 min)"},
-        {time:"5:30pm", desc:"Check in Höfn HI Hostel"},
-        {time:"7:00pm", desc:"Langoustine dinner — Höfn is Iceland's langoustine capital", note:"Pakkhús at the harbour is best (~$30–35pp). Even the Nettó supermarket sells fresh langoustite tails cheaply for self-catering."},
-        {time:"Late", desc:"Vatnajökull glow from hostel terrace — ice cap turns pale gold at midnight on clear evenings."},
+        {time:"8:30am", desc:"Drive east from Skaftafell to Jökulsárlón glacier lagoon (~45 min)"},
+        {time:"9:15am", desc:"Jökulsárlón glacier lagoon — walk the bridge and lagoon shore", note:"FREE. The lagoon is vast — icebergs calve off Breiðamerkurjökull glacier and float slowly toward the sea. Seals often pop up between the bergs. Spend as long as you want here — no tour needed, just walk and watch."},
+        {time:"10:30am", desc:"Diamond Beach (Breiðamerkursandur) — 15 min walk east across the road", note:"FREE. Ice chunks from the lagoon wash up and melt on the black sand. Some are car-sized and translucent blue. Extraordinary contrast of white ice on black volcanic sand."},
+        {time:"11:30am", desc:"Drive east to Höfn (~1 hr)"},
+        {time:"12:30pm", desc:"Check in Höfn Camping. Set up RTT. Shower.", note:"Camping Card accepted. Well-equipped site with harbour views. Nettó supermarket 5 min walk."},
+        {time:"2:00pm", desc:"Explore Höfn harbour + Gamlabúð visitor centre (free)", note:"Small but good glacier exhibition. Walk the harbour pier for Vatnajökull ice cap views."},
+        {time:"4:00pm", desc:"Rest, read, recharge — deliberate easy afternoon"},
+        {time:"7:00pm", desc:"Langoustine dinner in Höfn", note:"Pakkhús at the harbour is best (~$30–35pp). Höfn is Iceland's langoustine capital — eat here properly at least once. The bisque is exceptional."},
+        {time:"Late", desc:"Vatnajökull ice cap glows pale gold on clear evenings — visible from the campsite."},
       ],
       hikes:[],
-      excursions:[
-        {name:"Half-Day Canyoning Under Vatnajökull", operator:"Ice Guardians (ice-guardians.com)", price:"~$278pp (34,900 ISK)", duration:"4–5 hours",
-        url:"https://ice-guardians.com/tour/half-day-canyoning-under-vatnajokull/",
-        desc:"Iceland's only canyoning operator — this experience exists nowhere else in the country. Glacial meltwater from Vatnajökull has carved a canyon system directly below the ice cap. Walk through birch forest before descending into the canyon where you abseil down waterfalls, jump into crystal pools, and slide down natural rock chutes. 5mm wetsuit, helmet, harness, neoprene boots provided. Guide ratio: 6:2. Minimum: swim 20m unaided, walk 5km on uneven terrain. Cancellation: 100% fee within 48 hours."},
-      ],
+      excursions:[],
       tips:[
-        "Pack dry clothes in a separate bag and leave in the truck. The moment the wetsuit comes off you want warm dry layers.",
-        "Höfn Nettó supermarket: buy supplies for the East Fjords stretch. Next good shop is Egilsstaðir.",
-        "Langoustine: even if self-catering the whole trip, eat properly here once. It's genuinely exceptional.",
+        "Jökulsárlón is free — you don't need a kayak or boat tour to have an extraordinary experience here. The lagoon walk and the seals are reward enough.",
+        "Höfn Nettó supermarket: buy supplies for the East Fjords stretch here. Next good shop is Egilsstaðir.",
+        "Langoustine: even if self-catering the whole trip, eat properly here once. The Pakkhús bisque is genuinely exceptional.",
+        "This is intentionally the easiest day between Day 7 (glacier climbing) and Day 9 (Lónsöræfi canyon). Use it.",
       ],
-      warnings:[
-        "No cotton under the wetsuit — synthetic or merino base layer only. Cotton traps cold water against skin.",
-        "Not suitable: back problems, heart conditions, pregnancy. Declare medical conditions to guides.",
-      ],
-      costs:{accommodation:45, food:50, activities:278}
+      warnings:[],
+      costs:{accommodation:0, food:55}
     },
     // ── DAY 9 ─────────────────────────────────────────────────────────────────
     {
@@ -707,7 +706,7 @@ const TRIP_DATA = {
     {
       num:10, date:"Jul 9", dow:"Thursday",
       title:"Stuðlagil Canyon + Seyðisfjörður + Egilsstaðir Resupply",
-      sleep:"hostel", accommodation:"East Guesthouse, Egilsstaðir (eastguesthouse.is)",
+      sleep:"hostel", accommodation:"Vinland Camping Pods, Fellabær, Egilsstaðir (booking.com)",
       tags:["hostel","hike"], lat:65.2590, lng:-14.3952,
       summary:"Stuðlagil basalt column canyon — turquoise river, 30m hexagonal columns, still undervisited internationally. Seyðisfjörður rainbow road and blue church. Major resupply at Egilsstaðir.",
       distance:"~200km",
@@ -719,7 +718,7 @@ const TRIP_DATA = {
         {time:"2:30pm", desc:"Drive back to Ring Road, north and east over mountain pass to Seyðisfjörður (~1.5 hrs)"},
         {time:"4:00pm", desc:"Seyðisfjörður — rainbow road, blue church, café stop", note:"45–60 min. Rainbow-painted road leads to Bláa Kirkjan blue church. Artists' village. Skaftfell Bistro has excellent food."},
         {time:"5:30pm", desc:"Drive back to Egilsstaðir (~45 min)"},
-        {time:"6:15pm", desc:"Check in East Guesthouse. MAJOR RESUPPLY.", note:"Bónus supermarket, Orkan fuel, camp gas canisters. Laundry if possible. Last proper shop until Akureyri."},
+        {time:"6:15pm", desc:"Check in Vinland Camping Pods (Fellabær — 2km from Egilsstaðir centre). MAJOR RESUPPLY.", note:"Bónus supermarket and Orkan fuel in Egilsstaðir. Laundry at pods. Last proper shop until Akureyri. Bring your own sleeping bag — bed linen not included (or rent on-site ~$15). Breakfast at Lake Hotel Egilsstaðir 1.2km away."},
       ],
       hikes:[
         {name:"Stuðlagil Canyon East Rim", distance:"4–8km RT", difficulty:"Easy–Moderate", gain:"100m", time:"2–4 hrs",
@@ -811,7 +810,7 @@ const TRIP_DATA = {
     {
       num:13, date:"Jul 12", dow:"Sunday",
       title:"Exit F88 + Akureyri Rest Day + Forest Lagoon",
-      sleep:"hostel", accommodation:"Akureyri Guesthouse",
+      sleep:"hostel", accommodation:"Hafnarstræti Hostel, Akureyri (Hafnarstræti 99-101)",
       tags:["hostel","excursion"], lat:65.6814, lng:-18.0898,
       summary:"Drive F88 back to Ring Road. Akureyri: laundry, resupply, botanical garden, reindeer burger. Evening at Forest Lagoon — infinity pools over Eyjafjörður fjord in the birch forest. Full rest day after two highland camps.",
       distance:"~240km",
@@ -819,7 +818,7 @@ const TRIP_DATA = {
         {time:"8:00am", desc:"Exit F88 — same road back, 2.5 hrs to Ring Road"},
         {time:"10:30am", desc:"Fill fuel at first Ring Road station"},
         {time:"12:00pm", desc:"Drive Ring Road west to Akureyri (~90 min)"},
-        {time:"1:30pm", desc:"Check in Akureyri Guesthouse. Laundry. Long shower."},
+        {time:"1:30pm", desc:"Check in Hafnarstræti Hostel, Hafnarstræti 99-101. Laundry. Long shower.", note:"Japanese-style capsule pods. Self check-in — confirm door code received by email before departure from Dreki. Laundry on site."},
         {time:"3:00pm", desc:"Akureyri Botanical Garden (Lystigarðurinn) — free", note:"World's most northerly botanical garden. Remarkable in full July bloom. 15 min walk from centre."},
         {time:"4:30pm", desc:"Walk Akureyri waterfront and city centre", note:"Heart-shaped traffic lights are the local quirk. Compact and charming."},
         {time:"7:00pm", desc:"Reindeer burger at Akureyri Backpackers restaurant (~$22pp)", note:"Legendary among Ring Road travellers. Large portion."},
@@ -836,7 +835,7 @@ const TRIP_DATA = {
       tips:[
         "Forest Lagoon evening slot: the midnight sun over Eyjafjörður from the infinity pool is extraordinary. Book the 8:30 or 9pm session.",
         "Akureyri is the largest town outside Reykjavík — enjoy the infrastructure. It's the last proper city until you fly home.",
-        "This is a full rest day. Don't overschedule — two highland camp nights followed by Drangey tomorrow means rest is valuable.",
+        "This is a full rest day. Don't overschedule — two highland camp nights followed by a long drive day tomorrow means rest is valuable.",
       ],
       warnings:[],
       costs:{accommodation:55, food:30, activities:48}
@@ -844,45 +843,39 @@ const TRIP_DATA = {
     // ── DAY 14 ────────────────────────────────────────────────────────────────
     {
       num:14, date:"Jul 13", dow:"Monday",
-      title:"Kolugljúfur Canyon + Drangey Island Boat Tour + Snæfellsnes",
-      sleep:"hostel", accommodation:"The Freezer Hostel, Rif (thefreezerhostel.com)",
-      tags:["hostel","hike","excursion"], lat:64.9222, lng:-23.8194,
-      summary:"Kolugljúfur hidden gorge waterfall. Drangey Island boat tour — Viking outlaw island, puffin cliffs, Grettir the Strong saga. Long drive to Snæfellsnes. Kirkjufell at midnight sun. The Freezer Hostel.",
-      distance:"~320km — long drive day",
+      title:"Kolugljúfur Canyon + Snæfellsnes — Kirkjufell midnight",
+      sleep:"hostel", accommodation:"North Star Guesthouse Snæfellsnes, Ólafsvík (+354 487 1212)",
+      tags:["hostel","hike"], lat:64.8956, lng:-23.7180,
+      summary:"Kolugljúfur hidden gorge and upward-spraying waterfall. Long drive west to Snæfellsnes. Ytri Tunga harbour seals. Kirkjufell at golden hour. North Star Guesthouse, Ólafsvík. Midnight drive back to Kirkjufell for the golden light.",
+      distance:"~260km",
       schedule:[
         {time:"8:30am", desc:"Depart Akureyri west on Ring Road"},
         {time:"10:00am", desc:"Turn south on Route 715 to Kolugljúfur canyon (free)"},
-        {time:"10:30am", desc:"Kolugljúfur canyon walk — 30–60 min", note:"No guardrails. Care near edge."},
-        {time:"11:30am", desc:"Drive south via Route 752 to Sauðárkrókur (~45 min)"},
-        {time:"12:00pm", desc:"Drangey Island boat tour departs Sauðárkrókur marina", note:"PRE-BOOK: drangey.net. 9:30am departure daily Jun–Aug 20. Given drive time from Akureyri, book the scheduled tour time — if 9:30am tour missed, arrange a private afternoon departure in advance."},
-        {time:"12:00pm", desc:"Drangey Island boat tour — 4 hours (25 min boat each way, 2.5 hrs on island)"},
-        {time:"4:00pm", desc:"Return to Sauðárkrókur marina. Drive south and west toward Snæfellsnes (~200km, ~2.5 hrs)"},
-        {time:"7:00pm", desc:"Arrive Snæfellsnes peninsula. Ytri Tunga seal colony (free, 15 min)", note:"Signs off Route 54. Short walk to rocky point. Harbour seals completely accustomed to quiet visitors."},
-        {time:"8:00pm", desc:"Kirkjufell mountain + Kirkjufellsfoss viewpoint (free)"},
-        {time:"8:30pm", desc:"Check in The Freezer Hostel, Rif", note:"thefreezerhostel.com, +354 833 8200. Converted fish-freezing plant. Art everywhere. Owner Kári plays guitar most evenings."},
-        {time:"11:30pm", desc:"Drive 10 min back to Kirkjufell for midnight golden light", note:"Mountain glows gold 11:30pm–1am. The great photographic moment of Snæfellsnes."},
+        {time:"10:30am", desc:"Kolugljúfur canyon walk — 30–60 min", note:"No guardrails. Care near edge. In strong wind the main waterfall blows upward — one of Iceland's strangest and most underrated sights."},
+        {time:"11:30am", desc:"Continue west and south on Ring Road toward Snæfellsnes (~200km, ~2.5 hrs)"},
+        {time:"2:00pm", desc:"Turn onto Route 54 west into Snæfellsnes peninsula"},
+        {time:"3:00pm", desc:"Ytri Tunga — harbour seal colony (free, 20 min)", note:"Signed off Route 54. Short walk to rocky point. Grey and harbour seals haul out here in large numbers. Move slowly and stay low."},
+        {time:"4:00pm", desc:"Grundarfjörður — Kirkjufell mountain + Kirkjufellsfoss viewpoint (free)", note:"The most photographed mountain in Iceland. Walk to the three-stream waterfall with the peak behind."},
+        {time:"5:30pm", desc:"Drive 20 min east to Ólafsvík. Check in North Star Guesthouse.", note:"+354 487 1212. All rooms with private bathroom. Bar and lounge. Confirm check-in code received in advance — self check-in after hours."},
+        {time:"7:00pm", desc:"Explore Ólafsvík harbour + Pakkhús regional museum (free)", note:"Compact fishing village with a striking triangular church. The Gufuskálar radio mast — Iceland's tallest structure at 412m — is visible to the west."},
+        {time:"9:00pm", desc:"Cook dinner or eat at local restaurant in Ólafsvík"},
+        {time:"11:30pm", desc:"Drive 20 min west to Kirkjufell for midnight golden light", note:"Mountain glows gold 11:30pm–1am. The great photographic moment of Snæfellsnes and one of the genuine highlights of the trip."},
       ],
       hikes:[
         {name:"Kolugljúfur Canyon Walk", distance:"1.5km", difficulty:"Easy", gain:"50m", time:"30–60 min",
         desc:"'Kola's Gorge' — carved into red-orange basalt by the Víðidalsá river. Multiple waterfalls in the gorge. The standout: in strong wind one waterfall is blown upward by canyon air currents, spraying skyward. Completely unknown to most international visitors. Free. No guardrails."},
-        {name:"Drangey Island Cliff Hike", distance:"~3km on island", difficulty:"Moderate (steep sections with ropes)", gain:"180m", time:"2.5 hrs on island",
-        desc:"Drangey is a flat-topped palagonite rock, 180m high, rising sheer from Skagafjörður fjord. The only path to the summit is a man-made route along the cliff face — steep in places with ropes and chains for assistance, and a ladder on the final ascent. During the climb, puffins rest on the path within metres of you. Your guide tells the saga of Grettir the Strong, the Viking outlaw who lived here for three years in exile before being slain at age 44. Thousands of seabirds: puffins, guillemots, gannets, kittiwakes, razorbills, gyrfalcons."},
       ],
-      excursions:[
-        {name:"Drangey Island Boat Tour", operator:"Drangey Tours (drangey.net)", price:"~$80pp", duration:"4 hrs (25 min boat each way)",
-        url:"https://www.drangey.net",
-        desc:"Departs Sauðárkrókur marina — 25 min boat ride to the island. Daily tours Jun 1–Aug 20 at 9:30am. Given your drive from Akureyri, contact Drangey Tours in advance (drangey.net) to confirm the scheduled departure or arrange a private afternoon time. The island is a puffin colony and sheer seabird cliff rookery, with guided hike to the 180m summit via the only accessible path (ropes + chains + ladder). Guides tell the full Grettir the Strong saga throughout. Not up for the hike? You can stay on the boat or relax in the small harbour. Coffee provided on the island."},
-      ],
+      excursions:[],
       tips:[
-        "Book Drangey Tours well in advance — drangey.net. Given the 9:30am standard departure and your drive from Akureyri, either leave Akureyri very early, or contact Drangey Tours before the trip to arrange a private afternoon time.",
-        "Kirkjufell midnight: set an alarm. 10-minute drive from The Freezer. The golden light on this mountain is one of Iceland's iconic photographic moments and requires almost no effort.",
-        "The Freezer Hostel: talk to Kári, the owner. The conversion story and the art throughout the building are genuinely interesting.",
+        "Kirkjufell midnight: set an alarm for 11:30pm. 20-minute drive from North Star. The golden light on this mountain is one of Iceland's iconic photographic moments.",
+        "Ytri Tunga seals: move slowly, stay low, don't rush — they watch calmly if you're patient.",
+        "North Star Guesthouse: confirm check-in door code by email before leaving Akureyri. Self check-in after 4pm.",
       ],
       warnings:[
         "Kolugljúfur: no guardrails on the canyon rim. Take care near the edge.",
-        "Day 14 is the longest drive day (~320km). Start early from Akureyri.",
+        "Day 14 is a long drive day (~260km). Start by 8:30am from Akureyri.",
       ],
-      costs:{accommodation:45, food:25, activities:80}
+      costs:{accommodation:70, food:25, activities:0}
     },
     // ── DAY 15 ────────────────────────────────────────────────────────────────
     {
@@ -936,38 +929,37 @@ const TRIP_DATA = {
     fixed:[
       {label:"4x4 truck rental — 15 days, F-road insurance", sub:"Confirm F88 + F206/F207 in writing. Full-size spare tyre.", pp:675, total:1350},
       {label:"Iceland Camping Card — 2 adults, 28 nights", sub:"campingcard.is — covers Skaftafell, Hlíð Mývatn, and others.", pp:94, total:187},
-      {label:"Travel insurance — must cover glacier climbing + canyoning", sub:"Confirm both activities explicitly covered in writing.", pp:60, total:120},
+      {label:"Travel insurance — must cover glacier ice climbing", sub:"Confirm Glacier Xtreme explicitly covered in writing.", pp:60, total:120},
     ],
     accommodation:[
-      {label:"Hostel nights × 8 (avg $47pp)", sub:"Loft HI · Midgard · Vík HI · Höfn HI · East GH · Akureyri GH · Freezer", pp:376, total:752},
-      {label:"Camp nights × 7 (avg $17pp)", sub:"Landmannalaugar · Þakgil · Blágil · Skaftafell · Stafafell · Hlíð · Dreki", pp:119, total:238},
+      {label:"Hostel nights × 8 (avg $47pp)", sub:"Dalur HI · Barn · Vinland Pods · Hafnarstræti · North Star", pp:284, total:752},
+      {label:"Camp nights × 7 (avg $17pp)", sub:"Hvolsvöllur · Höfn · Landmannalaugar · Þakgil · Blágil · Skaftafell · Stafafell · Hlíð · Dreki", pp:119, total:238},
     ],
     food:[
       {label:"15 days mixed self-catering — avg $22/day", sub:"Bónus shops. Cook from truck. 2 restaurant meals: Höfn langoustine + Akureyri reindeer burger.", pp:330, total:660},
     ],
     activities:[
       {label:"Glacier Xtreme ice climbing — Falljökull", sub:"adventures.is — BOOK NOW — Day 7", pp:242, total:484},
-      {label:"Canyoning under Vatnajökull — Ice Guardians", sub:"ice-guardians.com — BOOK NOW — Day 8", pp:278, total:556},
-      {label:"Drangey Island boat tour", sub:"drangey.net — Day 14", pp:80, total:160},
       {label:"Forest Lagoon — Akureyri evening", sub:"forestlagoon.is — Day 13", pp:48, total:96},
       {label:"Þórsmörk Sterna bus return", sub:"sterna.is — non-optional access — Day 4", pp:44, total:88},
+      {label:"Laugardalslaug geothermal pool", sub:"Day 1 evening · next door to Dalur HI", pp:12, total:24},
       {label:"Hallgrímskirkja tower", sub:"Day 1", pp:11, total:22},
     ],
     fuel:[
       {leg:"Day 1: KEF → Reykjavík", km:60, cost:8},
-      {leg:"Day 2: Reykjavík → Háifoss → Seljalandsfoss → Midgard", km:220, cost:27},
-      {leg:"Day 3: Midgard → Landmannalaugar F208", km:180, cost:22},
+      {leg:"Day 2: Reykjavík → Háifoss → Seljalandsfoss → Hvolsvöllur", km:220, cost:27},
+      {leg:"Day 3: Hvolsvöllur → Landmannalaugar F208", km:180, cost:22},
       {leg:"Day 4: Landmannalaugar → Skógafoss → Þórsmörk → Þakgil", km:130, cost:16},
       {leg:"Day 5: Þakgil → Dyrhólaey → Vík", km:80, cost:10},
       {leg:"Day 6: Vík → Fjáðrárgljúfur → F206/F207 Laki → Blágil", km:200, cost:35},
       {leg:"Day 7: Blágil → Skaftafell (Glacier Xtreme)", km:80, cost:10},
-      {leg:"Day 8: Skaftafell → Diamond Beach → Haukafell canyoning → Höfn", km:110, cost:14},
+      {leg:"Day 8: Skaftafell → Jökulsárlón → Diamond Beach → Höfn", km:110, cost:14},
       {leg:"Day 9: Höfn → East Fjords → Stafafell", km:180, cost:22},
       {leg:"Day 10: Stafafell → Stuðlagil → Seyðisfjörður → Egilsstaðir", km:200, cost:25},
       {leg:"Day 11: Egilsstaðir → Goðafoss → Mývatn", km:175, cost:22},
       {leg:"Day 12: Mývatn → F88 → Askja → Dreki and back", km:240, cost:49},
       {leg:"Day 13: Dreki → F88 exit → Akureyri", km:200, cost:25},
-      {leg:"Day 14: Akureyri → Kolugljúfur → Sauðárkrókur (Drangey) → Snæfellsnes", km:320, cost:40},
+      {leg:"Day 14: Akureyri → Kolugljúfur → Snæfellsnes", km:320, cost:40},
       {leg:"Day 15: Snæfellsnes → Seltún → KEF", km:210, cost:26},
     ],
     parking:[
@@ -990,45 +982,39 @@ const TRIP_DATA = {
   checklist:[
     {section:"Book immediately — do today", badge:"urgent", items:[
       {text:"Glacier Xtreme ice climbing — Falljökull / Vatnajökull", sub:"Day 7 (Jul 6) · ~$242pp · Max 6 people · July sells out within days of opening", url:"https://adventures.is/iceland/day-tours/glacier-tours/glacier-tours-on-vatnajokull/glacier-xtreme-and-ice-climbing/"},
-      {text:"Canyoning under Vatnajökull — Ice Guardians", sub:"Day 8 (Jul 7) · ~$278pp (34,900 ISK) · Only canyoning operator in Iceland", url:"https://ice-guardians.com/tour/half-day-canyoning-under-vatnajokull/"},
-      {text:"Loft HI Hostel, Reykjavík — Bankastræti 7", sub:"Night 1 (Jun 30) · hostel.is", url:"https://www.hostel.is"},
-      {text:"Midgard Base Camp, Hvolsvöllur", sub:"Night 2 (Jul 1) · midgardbasecamp.is", url:"https://www.midgardbasecamp.is"},
-      {text:"Vík HI Hostel", sub:"Night 5 (Jul 4) · fills very fast in July · hostel.is", url:"https://www.hostel.is"},
-      {text:"Höfn HI Hostel", sub:"Night 8 (Jul 7) · hostel.is", url:"https://www.hostel.is"},
+      {text:"Dalur HI Hostel, Reykjavík — Sundlaugavegur 34", sub:"Night 1 (Jun 30) · hostel.is", url:"https://www.hostel.is"},
+      
       {text:"Þakgil canyon campsite", sub:"Night 4 (Jul 3) · thakgil.is or +354 893 4889", url:"https://www.thakgil.is"},
       {text:"Sterna highland bus — Þórsmörk return", sub:"Day 4 (Jul 3) · $44pp · must pre-book · sterna.is", url:"https://www.sterna.is"},
     ]},
     {section:"Book within 1–2 weeks", badge:"soon", items:[
-      {text:"East Guesthouse, Egilsstaðir", sub:"Night 10 (Jul 9) · eastguesthouse.is", url:"https://www.eastguesthouse.is"},
-      {text:"Akureyri Guesthouse", sub:"Night 13 (Jul 12) · search Booking.com · quieter than Backpackers"},
-      {text:"The Freezer Hostel, Rif, Snæfellsnes", sub:"Night 14 (Jul 13) · thefreezerhostel.com", url:"https://www.thefreezerhostel.com"},
+      {text:"Vinland Camping Pods, Fellabær", sub:"Night 10 (Jul 9) · booking.com", url:"https://www.booking.com"},
+      {text:"Hafnarstræti Hostel, Akureyri", sub:"Night 13 (Jul 12) · Hafnarstræti 99-101 · confirm self check-in code"},
+      {text:"North Star Guesthouse, Ólafsvík", sub:"Night 14 (Jul 13) · guidetoiceland.is · +354 487 1212", url:"https://www.guidetoiceland.is · +354 487 1212"},
       {text:"Forest Lagoon, Akureyri — evening slot", sub:"Day 13 (Jul 12) evening · ~$44–52pp · forestlagoon.is", url:"https://www.forestlagoon.is"},
-      {text:"Drangey Island boat tour — Sauðárkrókur marina", sub:"Day 14 (Jul 13) · ~$80pp · Contact drangey.net to confirm departure time given drive from Akureyri", url:"https://www.drangey.net"},
       {text:"Landmannalaugar parking reservation (if arriving 9am–4pm)", sub:"Day 3 (Jul 2) · fi.is mountain huts page", url:"https://www.fi.is/en/mountain-huts/all-mountain-huts/landmannalaugar"},
     ]},
     {section:"Accommodation contacts — all 15 nights", badge:"info", items:[
-      {text:"Night 1 — Loft HI Hostel, Bankastræti 7, Reykjavík", sub:"+354 553 8140 · hostel.is · check-in 2pm"},
-      {text:"Night 2 — Midgard Base Camp, Hvolsvöllur", sub:"midgardbasecamp.is · +354 578 3370"},
+      {text:"Night 1 — Dalur HI Hostel, Sundlaugavegur 34, Laugardalur", sub:"+354 553 8110 · hostel.is · free parking · Laugardalslaug pool next door"},
+      {text:"Night 2 — Hamragarðar Campsite, Seljalandsfoss", sub:"Camping Card accepted · footpath to both waterfalls · hot showers + laundry · right by Sterna bus stop"},
       {text:"Night 3 — Landmannalaugar campsite", sub:"+354 860 3335 · fi.is · NOT on Camping Card · ~$25pp · pay at hut"},
       {text:"Night 4 — Þakgil canyon campsite", sub:"+354 893 4889 · thakgil.is · cave dining room · hot showers"},
-      {text:"Night 5 — Vík HI Hostel", sub:"hostel.is · fills fast · kitchen available"},
+      {text:"Night 5 — The Barn Hostel, Vík", sub:"barnhostel.is · fills fast · kitchen available"},
       {text:"Night 6 — Blágil hut campsite (F207 loop)", sub:"+354 487 4840 · NOT on Camping Card · ~$15pp"},
       {text:"Night 7 — Skaftafell NP campsite", sub:"Camping Card accepted · hot showers + laundry"},
-      {text:"Night 8 — Höfn HI Hostel", sub:"+354 478 1736 · hostel.is · glacier terrace views"},
+      {text:"Night 8 — Höfn Camping", sub:"Camping Card accepted · harbour views · Nettó supermarket 5 min walk"},
       {text:"Night 9 — Stafafell Nature Park", sub:"+354 699 6684 · call to confirm open · ~$14pp"},
-      {text:"Night 10 — East Guesthouse, Egilsstaðir", sub:"+354 857 0804 · eastguesthouse.is"},
+      {text:"Night 10 — Vinland Camping Pods, Fellabær", sub:"booking.com · bring own sleeping bag · bed linen rental ~$15"},
       {text:"Night 11 — Hlíð campsite, Lake Mývatn", sub:"+354 899 6203 · Camping Card · HEAD NETS ESSENTIAL"},
       {text:"Night 12 — Dreki hut campsite (F88/F910 junction)", sub:"ffa.is · NOT on Camping Card · ~$18pp · rangers on site"},
-      {text:"Night 13 — Akureyri Guesthouse", sub:"Book via Booking.com · quieter than Backpackers"},
-      {text:"Night 14 — The Freezer Hostel, Rif", sub:"+354 833 8200 · thefreezerhostel.com"},
+      {text:"Night 13 — Hafnarstræti Hostel, Akureyri", sub:"Hafnarstræti 99-101 · self check-in · confirm door code before leaving Dreki"},
+      {text:"Night 14 — North Star Guesthouse Snæfellsnes, Ólafsvík", sub:"+354 487 1212 · confirm check-in code in advance"},
     ]},
     {section:"Call / confirm before departure", badge:"before", items:[
       {text:"Rental company: F-road insurance in writing — F88, F206, F207", sub:"Full-size spare tyre (not space-saver). RTT height clears campsite barriers."},
       {text:"Stafafell campsite open Jul 8 — +354 699 6684"},
       {text:"Blágil hut campsite available Jul 5 — +354 487 4840"},
-      {text:"Travel insurance: glacier climbing + canyoning explicitly covered", sub:"Call insurer, get written confirmation before departure."},
-      {text:"Drangey Tours: confirm departure time given Akureyri drive", sub:"drangey.net — standard 9:30am may need private afternoon slot. Arrange in advance."},
-      {text:"Ice Guardians: confirm exact start time + meetpoint", sub:"+354 898 2277 · info@ice-guardians.com · Haukafell Campsite, Hornafjörður"},
+      {text:"Travel insurance: glacier ice climbing explicitly covered", sub:"Call insurer, confirm Glacier Xtreme covered in writing before departure."},
     ]},
     {section:"Purchase before departure", badge:"before", items:[
       {text:"Iceland Camping Card — 2 adults, 28 nights", sub:"€179 / ~$187 · campingcard.is", url:"https://www.campingcard.is"},
@@ -1039,8 +1025,7 @@ const TRIP_DATA = {
       {text:"Tow rope — rated to vehicle weight + 50%", sub:"Minimum 5-tonne. Buy before leaving — expensive in Iceland."},
       {text:"Tyre plug kit + portable 12V inflator", sub:"For F-road lava punctures."},
       {text:"First aid kit (adventure-rated)", sub:"Compeed blisters, bandages, antiseptic, pain relief, antihistamine."},
-      {text:"Waterproof phone case / dry bag for canyoning", sub:"Required for Ice Guardians day. Loksak dry bag works well."},
-      {text:"Trekking poles × 2 pairs", sub:"Essential for Viti crater descent (slippery), Bláhnúkur, Drangey cliff path, Lónsöræfi."},
+      {text:"Trekking poles × 2 pairs", sub:"Essential for Viti crater descent (slippery), Bláhnúkur, Lónsöræfi."},
     ]},
     {section:"Download + bookmark", badge:"before", items:[
       {text:"Parka.is — set up account + payment before landing", sub:"Camera-enforced parking at ALL major Iceland sites.", url:"https://parka.is"},
@@ -1069,7 +1054,7 @@ const TRIP_DATA = {
       {text:"Sunscreen SPF 50+ × 2 tubes", sub:"Midnight sun UV is real on glaciers and lagoons."},
       {text:"Polarised sunglasses × each", sub:"Essential on the glacier — cuts ice and water glare."},
       {text:"Reusable water bottles × 2 each (1L minimum)"},
-      {text:"Quick-dry travel towel × each", sub:"For canyoning, Viti swim, Forest Lagoon, campsite showers."},
+      {text:"Quick-dry travel towel × each", sub:"For Viti crater swim, Forest Lagoon, campsite showers."},
       {text:"Personal medications + surplus"},
       {text:"Small padlock for hostel lockers"},
     ]},
@@ -1088,7 +1073,6 @@ const TRIP_DATA = {
     {section:"Day-of reminders", badge:"urgent", items:[
       {text:"Day 4 (Jul 3): Skógar river trail HARD STOP at 10:15am", sub:"Set a phone alarm. The Sterna bus cannot be missed."},
       {text:"Day 6 (Jul 5): check umferdin.is/en/road/91381 for F206/F207 status", sub:"If CLOSED → drive direct to Skaftafell. Day 7 unaffected."},
-      {text:"Day 8 (Jul 7): bring towel + dry clothes for canyoning", sub:"Leave in truck. Ice Guardians provides wetsuit, helmet, harness."},
       {text:"Day 12 (Jul 11): fill fuel MAX + 20L jerry can at Mývatn before F88", sub:"Non-negotiable. Zero fuel on F88."},
       {text:"Day 12 (Jul 11): register F88 route at safetravel.is before entering"},
       {text:"Day 15 (Jul 14): leave Snæfellsnes glacier tip by 11:15am", sub:"Hard deadline. 4pm KEF departure."},
@@ -1099,9 +1083,7 @@ const TRIP_DATA = {
       {text:"Icelandic emergency — 112", sub:"112 Iceland app sends GPS automatically."},
       {text:"Road conditions + SAR — 1777 (24hrs)"},
       {text:"Your rental company emergency number", sub:"Save in phone AND write on paper."},
-      {text:"Ice Guardians — +354 898 2277 · info@ice-guardians.com", sub:"Day 8 canyoning operator."},
       {text:"Arctic Adventures — adventures.is", sub:"Day 7 Glacier Xtreme operator."},
-      {text:"Drangey Tours — drangey.net", sub:"Day 14 boat tour operator."},
       {text:"Forest Lagoon — forestlagoon.is · +354 xxx xxxx", sub:"Day 13 geothermal spa."},
       {text:"Travel insurance 24hr helpline", sub:"Save number in phone AND on paper."},
       {text:"KEF Airport — +354 425 6000"},
@@ -1407,34 +1389,8 @@ function resetDay(num) {
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  const errBox = document.createElement('div');
-  errBox.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#7f1d1d;color:#fca5a5;padding:12px 16px;font-size:12px;font-family:monospace;z-index:9999;display:none;white-space:pre-wrap;max-height:40vh;overflow-y:auto';
-  document.body.appendChild(errBox);
-  function showErr(label, e) {
-    errBox.style.display = 'block';
-    errBox.textContent += label + ': ' + e.message + '\n' + (e.stack||'').split('\n').slice(0,3).join('\n') + '\n\n';
-  }
-  window.onerror = (msg,src,line,col,e) => { showErr('WINDOW ERROR', {message:msg+' (line '+line+')', stack:''}); };
-  const steps = [
-    ['loadChecks', loadChecks],
-    ['loadEdits', loadEdits],
-    ['initMap', initMap],
-    ['buildItinerary', buildItinerary],
-    ['buildChecklist', buildChecklist],
-    ['buildBudget', buildBudget],
-    ['buildEditTab', buildEditTab],
-    ['buildFRoads', buildFRoads],
-  ];
-  for (const [name, fn] of steps) {
-    try { fn(); } catch(e) { showErr(name, e); }
-  }
-  if (errBox.style.display === 'none') {
-    const ok = document.createElement('div');
-    ok.style.cssText = 'position:fixed;bottom:0;right:16px;background:#14532d;color:#86efac;padding:6px 12px;font-size:11px;border-radius:6px 6px 0 0;z-index:9999';
-    ok.textContent = '✓ All init steps OK';
-    document.body.appendChild(ok);
-    setTimeout(() => ok.remove(), 3000);
-  }
+  loadChecks(); loadEdits();
+  initMap(); buildItinerary(); buildChecklist(); buildBudget(); buildEditTab(); buildFRoads();
 });
 </script>
 </body>
